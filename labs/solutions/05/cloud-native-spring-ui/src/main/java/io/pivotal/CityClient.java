@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import io.pivotal.domain.City;
 
-@FeignClient(name = "https://cloud-native-spring.apps.internal")
+@FeignClient(url = "https://cloud-native-spring.apps.internal")
 public interface CityClient {
 
   @GetMapping(value = "/cities")
