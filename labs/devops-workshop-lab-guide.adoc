@@ -1,0 +1,44 @@
+:title: DevOps Workshop Lab Guide
+:author: Christopher Phillipson, Additional enhancementsby Kobi Shamama and Oded Shopen
+:email: cphillipson@pivotal.io oshopen@pivotal.io kshamama@pivotal.io
+:revnumber: 3.0
+:revdate: {docdate}
+:revyear: 2020
+:subject: DevOps Workshop
+:keywords: DevOps, Spring Boot, Spring Cloud
+
+= DevOps Workshop Lab Guide
+
+toc::[]
+
+:leveloffset: +1
+
+<<<
+
+include::introduction.adoc[]
+
+<<<
+
+include::01-building_a_spring_boot_application.adoc[]
+
+<<<
+
+include::02-dockerizing_a_spring_boot_application.adoc[]
+
+<<<
+
+include::03-runnning_a_spring_boot_app_in_kubernetes.adoc[]
+
+<<<
+
+include::04-adding_persistence_to_boot_application.adoc[]
+
+<<<
+
+include::05-enhancing_boot_application_with_metrics.adoc[]
+
+<<<
+
+:leveloffset: -1
+
+

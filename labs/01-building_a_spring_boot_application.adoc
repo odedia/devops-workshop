@@ -1,0 +1,132 @@
+= Building a Spring Boot Application
+
+In this lab we'll build and deploy a simple https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/[Spring Boot] application to Cloud Foundry whose sole purpose is to reply with a standard greeting.
+
+== Getting started
+
+Although we will use a pre-created initial skeleton, it's important you'll learn how to use start.spring.io. Head over to the URL and enter the following details:
+
+. gradlew Project (Most developers will use Maven, but it's not critical)
+. Java
+. Latest stable version
+. group: io.pivotal
+. artifact: cloud-native-spring
+. Search for the following dependencies:
+.. Web
+.. Hateoas
+.. Rest Repositories
+.. JPA
+.. Actuator
+.. Lombok
+. Click "Generate"
+. Observe the contents of the downloaded ZIP file. This is the structure of a standard Spring Boot application. Code goes into _src/main/java_, properties or static content goes into _src/main/resources_, tests go into _src/main/test_.
+
+Now let's continue with the pre-made skeleton
+
+. Open a Terminal (e.g., _cmd_ or _bash_ shell)
+
+. Change the working directory to be _devops-workshop/labs/my_work/cloud-native-spring_
++
+  cd /devops-workshop/labs/my_work/cloud-native-spring
+
+. Open this project in your editor/IDE of choice (InteliJ is recommended).
+
+== Add an Endpoint
+
+Within your editor/IDE complete the following steps:
+
+. Create a new package _io.pivotal.controller_ underneath _src/main/java_.
+
+. Create a new class named _GreetingController_ in the aforementioned package.
+
+. Add an _@RestController_ annotation to the class _io.pivotal.controller.GreetingController_ (i.e., _/cloud-native-spring/src/main/java/io/pivotal/controller/GreetingController.java_).
++
+[source,java]
+---------------------------------------------------------------------
+package io.pivotal.controller;
+
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class GreetingController {
+
+}
+---------------------------------------------------------------------
+
+. Add the following request handler to the class _io.pivotal.controller.GreetingController_ (i.e., _/cloud-native-spring/src/main/java/io/pivotal/controller/GreetingController.java_).
++
+[source,java]
+---------------------------------------------------------------------
+@GetMapping("/hello")
+public String hello() {
+    return "Hello World!";
+}
+---------------------------------------------------------------------
++
+Completed:
++
+[source,java]
+---------------------------------------------------------------------
+package io.pivotal.controller;
+
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@RestController
+public class GreetingController {
+
+    @GetMapping("/hello")
+    public String hello() {
+        return "Hello World!";
+    }
+
+}
+---------------------------------------------------------------------
+
+
+== Build the _cloud-native-spring_ application
+
+Return to the Terminal session you opened previously and make sure your working directory is set to be _devops-workshop/labs/my_work/cloud-native-spring_
+
+We're going to use https://gradle.org[Gradle] to build and package artifacts. If you don't already have ./gradlew installed, don't worry, we have you covered. You can use the embedded gradlew Wrapper.
+
+. Find out what tasks are available to you with
++
+  ./gradlew tasks
+
+. First we'll run tests
++
+  ./gradlew test
+
+. Next we'll package the application as a libary artifact (it cannot be run on its own)
++
+  ./gradlew jar
+
+. Next we'll package the application as an executable artifact (that can be run on its own because it will include all transitive dependencies along with embedding a servlet container)
++
+  ./gradlew build
+
+. Examine the contents of the build/libs directory. You should see the final Spring Boot _jar_ file. This jar file is completly portable - it contains everything that app needs, including an embedded Web server. This is why it is so big.
+
+== Run the _cloud-native-spring_ application
+
+Now we're ready to run the application
+
+. Run the application with
++
+  ./gradlew bootRun
+
+. You should see the application start up an embedded Apache Tomcat server on port 8080 (review terminal output):
++
+[source,bash]
+---------------------------------------------------------------------
+2018-08-22 17:40:18.193  INFO 92704 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2018-08-22 17:40:18.199  INFO 92704 --- [           main] i.p.CloudNativeSpringUiApplication       : Started CloudNativeSpringUiApplication in 7.014 seconds (JVM running for 7.814)
+---------------------------------------------------------------------
+
+. Browse to http://localhost:8080/hello
+. Check the application's metrics at http://localhost:8080/actuator
+
+
+. Stop the _cloud-native-spring_ application. In the terminal window type *Ctrl + C*
+

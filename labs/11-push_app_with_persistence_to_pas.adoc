@@ -1,0 +1,101 @@
+== Deploy _cloud-native-spring_ to Pivotal Cloud Foundry
+
+We've built and run the application locally.  Now we'll deploy it to Cloud Foundry.
+
+. Create an application manifest in the root folder _devops-workshop/labs/my_work/cloud-native-spring_
++
+  touch manifest.yml
+
+. Add application metadata, using a text editor (of choice)
++
+[source,bash]
+---------------------------------------------------------------------
+---
+applications:
+- name: cloud-native-spring
+  random-route: true
+  instances: 1
+  path: ./build/libs/cloud-native-spring-1.0-SNAPSHOT.jar
+  # can be automatically detected, but it's nice to be clear about it:
+  buildpacks:
+  - java_buildpack_offline
+  env:
+    # makes Java a bit faster. Not mandatory.
+    JAVA_OPTS: -Djava.security.egd=file:///dev/urandom
+---------------------------------------------------------------------
++
+The above manifest entries will work with Java Buildpack 4.x series and JDK 8.  If you built the app with JDK 11 and want to deploy it you will need to make an additional entry in your manifest, just below `JAVA_OPTS`, add
++
+[source,bash]
+---------------------------------------------------------------------
+---
+    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+ } }'
+---------------------------------------------------------------------
+
++
+It should be noted that many of these parameters could have been implied. For example, the following works just the same:
+[source,bash]
+---------------------------------------------------------------------
+---
+applications:
+- name: cloud-native-spring
+  random-route: true
+  path: ./build/libs/cloud-native-spring-1.0-SNAPSHOT.jar
+---------------------------------------------------------------------
+
+
+
+. Push application into Cloud Foundry
++
+  cf push
++
+-> To specify an alternate manifest and buildpack, you could update the above to be e.g.,
++
+  cf push -f manifest.yml -b java_buildpack
++
+Assuming the offline buildpack was installed and available for use with your targeted foundation.  You can check for which buildpacks are available by executing
++
+  cf buildpacks
+
+. Find the URL created for your app in the health status report. Browse to your app's /hello endpoint.
+
+. Check the log output
++
+  cf logs cloud-native-spring --recent
+
+*Congratulations!* You’ve just completed your first Spring Boot application.
+
+
+
+== Deploy _cloud-native-spring_ to Pivotal Cloud Foundry
+
+. When running a Spring Boot application on Pivotal Cloud Foundry with the actuator endpoints enabled, you can visualize actuator management information on the Applications Manager app dashboard.  To enable this there are a few properties we need to add.  Add the following to */cloud-native-spring/src/main/resources/application.yml*:
++
+[source, yaml]
+---------------------------------------------------------------------
+---
+spring:
+  profiles: cloud
+
+management:
+  cloudfoundry:
+    enabled: true
+    skip-ssl-validation: true
+---------------------------------------------------------------------
+
+. Push application into Cloud Foundry
++
+  gradle build
+  cf push
+
+. Visit the route created for your app and append /actuator/health to see the health status report. See the same details in the Apps Manager UI:
++
+image::images/appsman.jpg[]
+
+. From this UI you can also dynamically change logging levels:
++
+image::images/logging.jpg[]
+
+*Congratulations!* You’ve just learned how to add health and metrics to any Spring Boot application.
+
+

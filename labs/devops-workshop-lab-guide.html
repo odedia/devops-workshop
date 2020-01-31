@@ -1,0 +1,2487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="keywords" content="DevOps, Spring Boot, Spring Cloud">
+<meta name="author" content="Christopher Phillipson, Additional enhancementsby Kobi Shamama and Oded Shopen">
+<title>DevOps Workshop Lab Guide</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+/* Uncomment @import statement to use as custom stylesheet */
+/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";*/
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section{display:block}
+audio,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
+a{background:none}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+abbr[title]{border-bottom:1px dotted}
+b,strong{font-weight:bold}
+dfn{font-style:italic}
+hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,*::before,*::after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0;direction:ltr}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:0}
+p{font-family:inherit;font-weight:400;font-size:1em;line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em;height:0}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{font-size:1em;line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0;font-size:1em}
+ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
+ul.square{list-style-type:square}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+abbr,acronym{text-transform:uppercase;font-size:90%;color:rgba(0,0,0,.8);border-bottom:1px dotted #ddd;cursor:help}
+abbr{text-transform:none}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote cite{display:block;font-size:.9375em;color:rgba(0,0,0,.6)}
+blockquote cite::before{content:"\2014 \0020"}
+blockquote cite a,blockquote cite a:visited{color:rgba(0,0,0,.6)}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt{background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed;word-wrap:break-word}
+:not(pre)>code.nobreak{word-wrap:normal}
+:not(pre)>code.nowrap{white-space:nowrap}
+pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
+pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
+pre>code{display:block}
+pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:-ms-flexbox;display:-webkit-flex;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+#toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:100%;background:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:rgba(255,255,255,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+details>summary:first-of-type{cursor:pointer;display:list-item;outline:none;margin-bottom:.75em}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+table.tableblock #preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:inherit}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6)}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border-style:solid;border-width:1px;border-color:#e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;-webkit-border-radius:4px;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
+.sidebarblock{border-style:solid;border-width:1px;border-color:#dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;-webkit-border-radius:4px;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock>.content>pre{-webkit-border-radius:4px;border-radius:4px;word-wrap:break-word;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
+.literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class="highlight"],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
+.literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;-webkit-border-radius:4px;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.prettyprint{background:#f7f7f8}
+pre.prettyprint .linenums{line-height:1.45;margin-left:2em}
+pre.prettyprint li{background:none;list-style-type:inherit;padding-left:0}
+pre.prettyprint li code[data-lang]::before{opacity:1}
+pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
+table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
+table.linenotable td.code{padding-left:.75em}
+table.linenotable td.linenos{border-right:1px solid currentColor;opacity:.35;padding-right:.5em}
+pre.pygments .lineno{border-right:1px solid currentColor;opacity:.35;display:inline-block;margin-right:.75em}
+pre.pygments .lineno::before{content:"";margin-right:-.125em}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;text-align:left;margin-right:0}
+table.tableblock{max-width:100%;border-collapse:separate}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+td.tableblock>.content>:last-child.sidebarblock{margin-bottom:0}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>thead>tr>.tableblock,table.grid-all>tbody>tr>.tableblock{border-width:0 1px 1px 0}
+table.grid-all>tfoot>tr>.tableblock{border-width:1px 1px 0 0}
+table.grid-cols>*>tr>.tableblock{border-width:0 1px 0 0}
+table.grid-rows>thead>tr>.tableblock,table.grid-rows>tbody>tr>.tableblock{border-width:0 0 1px}
+table.grid-rows>tfoot>tr>.tableblock{border-width:1px 0 0}
+table.grid-all>*>tr>.tableblock:last-child,table.grid-cols>*>tr>.tableblock:last-child{border-right-width:0}
+table.grid-all>tbody>tr:last-child>.tableblock,table.grid-all>thead:last-child>tr>.tableblock,table.grid-rows>tbody>tr:last-child>.tableblock,table.grid-rows>thead:last-child>tr>.tableblock{border-bottom-width:0}
+table.frame-all{border-width:1px}
+table.frame-sides{border-width:0 1px}
+table.frame-topbot,table.frame-ends{border-width:1px 0}
+table.stripes-all tr,table.stripes-odd tr:nth-of-type(odd),table.stripes-even tr:nth-of-type(even),table.stripes-hover tr:hover{background:#f8f8f7}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{display:table-cell;line-height:1.6;background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+ul.checklist{margin-left:.625em}
+ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist li>p:first-child>input[type="checkbox"]:first-child{margin-right:.25em}
+ul.inline{display:-ms-flexbox;display:-webkit-box;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:solid 4px #fff;-webkit-box-shadow:0 0 0 1px #ddd;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+.gist .file-data>table{border:0;background:#fff;width:100%;margin-bottom:0}
+.gist .file-data>table td.line-data{width:99%}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background:#00fafa}
+.black{color:#000}
+.black-background{background:#000}
+.blue{color:#0000bf}
+.blue-background{background:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background:#fa00fa}
+.gray{color:#606060}
+.gray-background{background:#7d7d7d}
+.green{color:#006000}
+.green-background{background:#007d00}
+.lime{color:#00bf00}
+.lime-background{background:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background:#7d0000}
+.navy{color:#000060}
+.navy-background{background:#00007d}
+.olive{color:#606000}
+.olive-background{background:#7d7d00}
+.purple{color:#600060}
+.purple-background{background:#7d007d}
+.red{color:#bf0000}
+.red-background{background:#fa0000}
+.silver{color:#909090}
+.silver-background{background:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);-webkit-border-radius:100px;border-radius:100px;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background:#fffef7;border-color:#e0e0dc;-webkit-box-shadow:0 1px 4px #e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{-webkit-box-shadow:none!important;box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media print,amzn-kf8{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+#footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+</head>
+<body class="article">
+<div id="header">
+<h1>DevOps Workshop Lab Guide</h1>
+<div class="details">
+<span id="author" class="author">Christopher Phillipson, Additional enhancementsby Kobi Shamama and Oded Shopen</span><br>
+<span id="email" class="email"><a href="mailto:cphillipson@pivotal.io">cphillipson@pivotal.io</a> <a href="mailto:oshopen@pivotal.io">oshopen@pivotal.io</a> <a href="mailto:kshamama@pivotal.io">kshamama@pivotal.io</a></span><br>
+<span id="revnumber">version 3.0,</span>
+<span id="revdate">2020-01-30</span>
+</div>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_labs">Labs</a>
+<ul class="sectlevel2">
+<li><a href="#_overview">Overview</a></li>
+<li><a href="#_pcf_environment_access">PCF Environment Access</a></li>
+<li><a href="#_apps_manager_ui">Apps Manager UI</a></li>
+</ul>
+</li>
+<li><a href="#_building_a_spring_boot_application">Building a Spring Boot Application</a>
+<ul class="sectlevel2">
+<li><a href="#_getting_started">Getting started</a></li>
+<li><a href="#_add_an_endpoint">Add an Endpoint</a></li>
+<li><a href="#_build_the_cloud_native_spring_application">Build the <em>cloud-native-spring</em> application</a></li>
+<li><a href="#_run_the_cloud_native_spring_application">Run the <em>cloud-native-spring</em> application</a></li>
+<li><a href="#_deploy_cloud_native_spring_to_pivotal_cloud_foundry">Deploy <em>cloud-native-spring</em> to Pivotal Cloud Foundry</a></li>
+</ul>
+</li>
+<li><a href="#_create_a_dockerfile">Create a Dockerfile</a></li>
+<li><a href="#_deploying_to_kubernetes">Deploying to Kubernetes</a>
+<ul class="sectlevel2">
+<li><a href="#_creating_a_namespace">Creating a namespace</a></li>
+<li><a href="#_creating_a_deployment">Creating a deployment</a></li>
+<li><a href="#_creating_a_service">Creating a service</a></li>
+<li><a href="#_exposing_a_dns_record">Exposing a DNS Record</a></li>
+<li><a href="#_scaling">Scaling</a></li>
+<li><a href="#_logging">Logging</a></li>
+<li><a href="#_monitoring">Monitoring</a></li>
+<li><a href="#_adding_a_database">Adding a database</a></li>
+<li><a href="#_installing_a_management_gui">Installing a management GUI</a></li>
+</ul>
+</li>
+<li><a href="#_the_bottom_line_if_you_got_all_of_the_requirements_above_working_well_congradulations_you_built_your_own_platform_on_top_of_kubernetes">The bottom line: If you got all of the requirements above working well, congradulations - you built your own platform on top of Kubernetes!</a></li>
+<li><a href="#_adding_persistence_to_boot_application">Adding Persistence to Boot Application</a>
+<ul class="sectlevel2">
+<li><a href="#_create_a_hypermedia_driven_restful_web_service_with_spring_data_rest_using_jpa">Create a Hypermedia-Driven RESTful Web Service with Spring Data REST (using JPA)</a></li>
+<li><a href="#_add_the_domain_object_city">Add the domain object - City</a></li>
+<li><a href="#_use_flyway_to_manage_schema">Use Flyway to manage schema</a></li>
+<li><a href="#_run_the_cloud_native_spring_application_2">Run the <em>cloud-native-spring</em> Application</a></li>
+<li><a href="#_importing_data">Importing Data</a></li>
+<li><a href="#_adding_search">Adding Search</a></li>
+<li><a href="#_pushing_to_cloud_foundry">Pushing to Cloud Foundry</a></li>
+<li><a href="#_binding_to_a_mysql_database_in_cloud_foundry">Binding to a MySQL database in Cloud Foundry</a></li>
+</ul>
+</li>
+<li><a href="#_enhancing_boot_application_with_metrics">Enhancing Boot Application with Metrics</a>
+<ul class="sectlevel2">
+<li><a href="#_set_up_the_actuator">Set up the Actuator</a></li>
+<li><a href="#_include_version_control_info">Include Version Control Info</a></li>
+<li><a href="#_include_build_info">Include Build Info</a></li>
+<li><a href="#_health_indicators">Health Indicators</a></li>
+<li><a href="#_metrics">Metrics</a></li>
+<li><a href="#_deploy_cloud_native_spring_to_pivotal_cloud_foundry_2">Deploy <em>cloud-native-spring</em> to Pivotal Cloud Foundry</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<!-- toc disabled -->
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_labs">Labs</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Welcome to the lab! Here you will find a collection of exercises and accompanying source-code.</p>
+</div>
+<div class="sect2">
+<h3 id="_overview">Overview</h3>
+<div class="paragraph">
+<p>This workshop contains a number of lab folders meant to be worked through in numerical order - as each exercise builds upon the last. There is also a <em>samples</em> directory, containing completed applications that can be pushed to Cloud Foundry at any time.</p>
+</div>
+<div class="paragraph">
+<p>Your workspace is the <strong>my_work</strong> folder. If you get stuck implementing any of the labs, <strong>solutions</strong> are available for your perusal.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_pcf_environment_access">PCF Environment Access</h3>
+<div class="paragraph">
+<p>This workshop assumes participants will be interacting with PCF One.  Depending on the client and environment, ask the instuctor for an alternate CF API endpoint and/or url for the Apps Manager UI.</p>
+</div>
+<div class="sect3">
+<h4 id="_account_set_up">Account set up</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>If you do not have an account yet, please ask the instructor for one.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_target_the_environment">Target the Environment</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>If you haven&#8217;t already, download the latest release of the Cloud Foundry CLI from <a href="https://github.com/cloudfoundry/cli/releases" class="bare">https://github.com/cloudfoundry/cli/releases</a> for your operating system and install it.</p>
+</li>
+<li>
+<p>Set the API target for the CLI (set appropriate end point for your environment) and login:</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ cf api https://api.run.pcfone.io
+$ cf login</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Enter your account username and password, then select an org and space.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_apps_manager_ui">Apps Manager UI</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>An alternative to installing the CF CLI is via your PCF Apps Manager interface.</p>
+</li>
+<li>
+<p>Navigate in a web browser to (depending on environment):</p>
+<div class="listingblock">
+<div class="content">
+<pre>https://apps.run.pcfone.io</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Login to the interface with your email and password</p>
+<div class="paragraph">
+<p>&#8594; The password will be supplied to you by the instructor</p>
+</div>
+</li>
+<li>
+<p>Click the 'Tools' link, and download the CLI matching your operating system</p>
+</li>
+</ol>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_building_a_spring_boot_application">Building a Spring Boot Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this lab we&#8217;ll build and deploy a simple <a href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/">Spring Boot</a> application to Cloud Foundry whose sole purpose is to reply with a standard greeting.</p>
+</div>
+<div class="sect2">
+<h3 id="_getting_started">Getting started</h3>
+<div class="paragraph">
+<p>Although we will use a pre-created initial skeleton, it&#8217;s important you&#8217;ll learn how to use start.spring.io. Head over to the URL and enter the following details:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>gradlew Project (Most developers will use Maven, but it&#8217;s not critical)</p>
+</li>
+<li>
+<p>Java</p>
+</li>
+<li>
+<p>Latest stable version</p>
+</li>
+<li>
+<p>group: io.pivotal</p>
+</li>
+<li>
+<p>artifact: cloud-native-spring</p>
+</li>
+<li>
+<p>Search for the following dependencies:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Web</p>
+</li>
+<li>
+<p>Hateoas</p>
+</li>
+<li>
+<p>Rest Repositories</p>
+</li>
+<li>
+<p>JPA</p>
+</li>
+<li>
+<p>Actuator</p>
+</li>
+<li>
+<p>Lombok</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Click "Generate"</p>
+</li>
+<li>
+<p>Observe the contents of the downloaded ZIP file. This is the structure of a standard Spring Boot application. Code goes into <em>src/main/java</em>, properties or static content goes into <em>src/main/resources</em>, tests go into <em>src/main/test</em>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Now let&#8217;s continue with the pre-made skeleton</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open a Terminal (e.g., <em>cmd</em> or <em>bash</em> shell)</p>
+</li>
+<li>
+<p>Change the working directory to be <em>devops-workshop/labs/my_work/cloud-native-spring</em></p>
+<div class="literalblock">
+<div class="content">
+<pre>cd /devops-workshop/labs/my_work/cloud-native-spring</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Open this project in your editor/IDE of choice (InteliJ is recommended).</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_add_an_endpoint">Add an Endpoint</h3>
+<div class="paragraph">
+<p>Within your editor/IDE complete the following steps:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a new package <em>io.pivotal.controller</em> underneath <em>src/main/java</em>.</p>
+</li>
+<li>
+<p>Create a new class named <em>GreetingController</em> in the aforementioned package.</p>
+</li>
+<li>
+<p>Add an <em>@RestController</em> annotation to the class <em>io.pivotal.controller.GreetingController</em> (i.e., <em>/cloud-native-spring/src/main/java/io/pivotal/controller/GreetingController.java</em>).</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">package io.pivotal.controller;
+
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class GreetingController {
+
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Add the following request handler to the class <em>io.pivotal.controller.GreetingController</em> (i.e., <em>/cloud-native-spring/src/main/java/io/pivotal/controller/GreetingController.java</em>).</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">@GetMapping("/hello")
+public String hello() {
+    return "Hello World!";
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Completed:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">package io.pivotal.controller;
+
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@RestController
+public class GreetingController {
+
+    @GetMapping("/hello")
+    public String hello() {
+        return "Hello World!";
+    }
+
+}</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_build_the_cloud_native_spring_application">Build the <em>cloud-native-spring</em> application</h3>
+<div class="paragraph">
+<p>Return to the Terminal session you opened previously and make sure your working directory is set to be <em>devops-workshop/labs/my_work/cloud-native-spring</em></p>
+</div>
+<div class="paragraph">
+<p>We&#8217;re going to use <a href="https://gradle.org">Gradle</a> to build and package artifacts. If you don&#8217;t already have ./gradlew installed, don&#8217;t worry, we have you covered. You can use the embedded gradlew Wrapper.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Find out what tasks are available to you with</p>
+<div class="literalblock">
+<div class="content">
+<pre>./gradlew tasks</pre>
+</div>
+</div>
+</li>
+<li>
+<p>First we&#8217;ll run tests</p>
+<div class="literalblock">
+<div class="content">
+<pre>./gradlew test</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Next we&#8217;ll package the application as a libary artifact (it cannot be run on its own)</p>
+<div class="literalblock">
+<div class="content">
+<pre>./gradlew jar</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Next we&#8217;ll package the application as an executable artifact (that can be run on its own because it will include all transitive dependencies along with embedding a servlet container)</p>
+<div class="literalblock">
+<div class="content">
+<pre>./gradlew build</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Examine the contents of the build/libs directory. You should see the final Spring Boot <em>jar</em> file. This jar file is completly portable - it contains everything that app needs, including an embedded Web server. This is why it is so big.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_run_the_cloud_native_spring_application">Run the <em>cloud-native-spring</em> application</h3>
+<div class="paragraph">
+<p>Now we&#8217;re ready to run the application</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Run the application with</p>
+<div class="literalblock">
+<div class="content">
+<pre>./gradlew bootRun</pre>
+</div>
+</div>
+</li>
+<li>
+<p>You should see the application start up an embedded Apache Tomcat server on port 8080 (review terminal output):</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">2018-08-22 17:40:18.193  INFO 92704 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2018-08-22 17:40:18.199  INFO 92704 --- [           main] i.p.CloudNativeSpringUiApplication       : Started CloudNativeSpringUiApplication in 7.014 seconds (JVM running for 7.814)</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Browse to <a href="http://localhost:8080/hello" class="bare">http://localhost:8080/hello</a></p>
+</li>
+<li>
+<p>Check the application&#8217;s metrics at <a href="http://localhost:8080/actuator" class="bare">http://localhost:8080/actuator</a></p>
+</li>
+<li>
+<p>Stop the <em>cloud-native-spring</em> application. In the terminal window type <strong>Ctrl + C</strong></p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deploy_cloud_native_spring_to_pivotal_cloud_foundry">Deploy <em>cloud-native-spring</em> to Pivotal Cloud Foundry</h3>
+<div class="paragraph">
+<p>We&#8217;ve built and run the application locally.  Now we&#8217;ll deploy it to Cloud Foundry.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create an application manifest in the root folder <em>devops-workshop/labs/my_work/cloud-native-spring</em></p>
+<div class="literalblock">
+<div class="content">
+<pre>touch manifest.yml</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Add application metadata, using a text editor (of choice)</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">---
+applications:
+- name: cloud-native-spring
+  random-route: true
+  instances: 1
+  path: ./build/libs/cloud-native-spring-1.0-SNAPSHOT.jar
+  # can be automatically detected, but it's nice to be clear about it:
+  buildpacks:
+  - java_buildpack_offline
+  env:
+    # makes Java a bit faster. Not mandatory.
+    JAVA_OPTS: -Djava.security.egd=file:///dev/urandom</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The above manifest entries will work with Java Buildpack 4.x series and JDK 8.  If you built the app with JDK 11 and want to deploy it you will need to make an additional entry in your manifest, just below <code>JAVA_OPTS</code>, add</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">---
+    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+ } }'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It should be noted that many of these parameters could have been implied. For example, the following works just the same:</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>---
+applications:
+- name: cloud-native-spring
+  random-route: true
+  path: ./build/libs/cloud-native-spring-1.0-SNAPSHOT.jar</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Push application into Cloud Foundry</p>
+<div class="literalblock">
+<div class="content">
+<pre>cf push</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>&#8594; To specify an alternate manifest and buildpack, you could update the above to be e.g.,</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>cf push -f manifest.yml -b java_buildpack</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Assuming the offline buildpack was installed and available for use with your targeted foundation.  You can check for which buildpacks are available by executing</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>cf buildpacks</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Find the URL created for your app in the health status report. Browse to your app&#8217;s /hello endpoint.</p>
+</li>
+<li>
+<p>Check the log output</p>
+<div class="literalblock">
+<div class="content">
+<pre>cf logs cloud-native-spring --recent</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Congratulations!</strong> You’ve just completed your first Spring Boot application.</p>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_create_a_dockerfile">Create a Dockerfile</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Now that we have a running application, we need to containerize it.</p>
+</div>
+<div class="paragraph">
+<p>We need to create a Dockerfile for our app.
+. What would be our base operating system? There are many choices. Ubuntu, RedHat, Suse, CentOS.
+. Who will be in charge of patching the OS?
+. What version of Java should we use? There are <em>many</em> choices. Search <a href="https://hub.docker.com/search?q=java&amp;type=image">Dockerhub</a> for Java and see the various options. Who performs CVE Patching on these images? (Hint: if you don&#8217;t know the answer, it&#8217;s probably you).
+. Select a base OS to use.
+. The jar file containing the applicaiton is under <em>build/libs/cloud-native-spring-1.0-SNAPSHOT.jar</em>.
+. The command to run the java application is</p>
+</div>
+<div class="paragraph">
+<p>+</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">java -jar &lt;file-name&gt;.jar</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Write a Dockerfile for this app.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s build the docker image:</p>
+</div>
+<div class="paragraph">
+<p>+</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">docker build -t cloud-native-spring .</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now let&#8217;s run this container locally to make sure things still work.</p>
+</div>
+<div class="paragraph">
+<p>+</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">docker run -p 8080:8080 cloud-native-spring</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Go to <a href="http://localhost:8080/hello" class="bare">http://localhost:8080/hello</a> and check the results.</p>
+</div>
+<div class="paragraph">
+<p>Tag the image and push it to docker.io.</p>
+</div>
+<div class="paragraph">
+<p>+</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">docker tag cloud-native-spring &lt;your-username&gt;/cloud-native-spring
+docker push &lt;your-username&gt;/cloud-native-spring</code></pre>
+</div>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_deploying_to_kubernetes">Deploying to Kubernetes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this lab we&#8217;ll deploy our very simple application to Kubernetes, and try to make it production ready.</p>
+</div>
+<div class="paragraph">
+<p>login to PKS cluster shared by the instructor.</p>
+</div>
+<div class="paragraph">
+<p>create a new namespace for your team:</p>
+</div>
+<div class="sect2">
+<h3 id="_creating_a_namespace">Creating a namespace</h3>
+<div class="paragraph">
+<p>+</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">kubectl create namespace &lt;my-team&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_creating_a_deployment">Creating a deployment</h3>
+<div class="paragraph">
+<p>Create a deployment manifest to run the image we just deployed. Here&#8217;s a skeleton you can use:</p>
+</div>
+<div class="paragraph">
+<p>+</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  labels:
+    run:
+  name:
+  namespace: default
+spec:
+  replicas:
+  selector:
+    matchLabels:
+      run:
+  strategy:
+    rollingUpdate:
+      maxSurge:
+      maxUnavailable:
+    type:
+  template:
+    metadata:
+      labels:
+        run:
+    spec:
+      containers:
+      - image:
+        imagePullPolicy:
+        name:
+        ports:
+        - containerPort:
+          protocol:
+      dnsPolicy:
+      restartPolicy:</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_creating_a_service">Creating a service</h3>
+<div class="paragraph">
+<p>+</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run:
+  name:
+  namespace:
+spec:
+  ports:
+  - nodePort:
+    port:
+    protocol:
+    targetPort:
+  selector:
+    run:
+  sessionAffinity: None
+  type:</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_exposing_a_dns_record">Exposing a DNS Record</h3>
+<div class="paragraph">
+<p>There are several ways to expose the service as a routable URL.
+. You can create an A record pointing to the load balancer, but then you will have to make sure the IP doesn&#8217;t change. Developers rarely have access to DNS.
+. You can create an ingress gateway that routes to the deployment, which requires installing an additional solution such as nginx.
+. You can leverage Istio/KNative</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_scaling">Scaling</h3>
+<div class="paragraph">
+<p>Change the deployment so there are 3 pods instead of 1.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_logging">Logging</h3>
+<div class="paragraph">
+<p>Check the logs of one of the pods.
+How can you get the logs from all pods in one location?
+. You can use sidecar containers to manually handle logging to a central solution
+. You can install Fluentd daemon sets (requires privilege access to <em>kube_system</em> namespace)
+. You can use commercial solutions such as Splunk, Datadog, SumoLogic, Log Insight etc. (at an added cost)
+. You can use open source solutions such as ELK, Graylog (but it is your responsibility to maintain and upgrade them)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_monitoring">Monitoring</h3>
+<div class="paragraph">
+<p>Our container provides basic metric information. We can get some of the data by running:</p>
+</div>
+<div class="paragraph">
+<p>+</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">kubectl describe pod &lt;my-pod&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>But this will only give us information on a specific pod. What about connections between pods or deployments?
+How can we find our own metrics that we expose via actuator? We can query the <em>/actuator</em> URL but this will only give a response from <em>one</em> of the pods.
+. You can use commercial solutions such as SysDig, Dynatrace, NewRelic, Wavefront (at an added cost)
+. You can use open source solutions such as Kibana, Prometheus, Grafana (but it is your responsibility to maintain and upgrade them)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_adding_a_database">Adding a database</h3>
+<div class="paragraph">
+<p>Our application now needs a database. What will we install?
+. We can install a database directly as an image.
+. We can use helm charts. Who takes care of the upgrades?
+. We can use database solutions as kubernetes operators / CRDs from a well-known vendor. The amount of production ready solutions is still low (Confluent, Greenplum, MongoDB).</p>
+</div>
+<div class="paragraph">
+<p>Regardless of the solution, we need to configure the following:
+. We need to make sure that <em>only</em> our application can access the database and no other pods. This requires Kubernetes <em>taint</em> commands using labels.
+. We need to update our application to point to the new database URL, username and password.
+. We need to do this every time we move to other environments (such as other namespaces or Kubernetes clusters).
+. We need to store password in a well-encrypted store. The default kubernetes secret management uses base64 encoding <strong>which is not an encryption solution</strong></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_installing_a_management_gui">Installing a management GUI</h3>
+<div class="paragraph">
+<p>It would be nice to install a web UI to manage our kubernetes deployments.
+. We can use the default Kubernetes dashboard.
+. We can install desktop solutions such as Lens.
+. Almost all of these solutions focus on the Kubernetes native components (pods, deployments, services) and not on the application-specific perspective (Apps, logs, metrics).</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_bottom_line_if_you_got_all_of_the_requirements_above_working_well_congradulations_you_built_your_own_platform_on_top_of_kubernetes">The bottom line: If you got all of the requirements above working well, congradulations - you built your own platform on top of Kubernetes!</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>+
+image::images/k8s1.jpg[]</p>
+</div>
+<div class="paragraph">
+<p>+
+image::images/k8s2.jpg[]</p>
+</div>
+<div class="paragraph">
+<p>+
+image::images/k8s3.jpg[]</p>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_adding_persistence_to_boot_application">Adding Persistence to Boot Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this lab we&#8217;ll utilize Spring Boot, Spring Data, and Spring Data REST to create a fully-functional hypermedia-driven RESTful web service.  We&#8217;ll then deploy it to Pivotal Cloud Foundry.  Along the way we&#8217;ll take a brief look at <a href="https://flywaydb.org">Flyway</a> which can help us manage updates to database schema and data.</p>
+</div>
+<div class="sect2">
+<h3 id="_create_a_hypermedia_driven_restful_web_service_with_spring_data_rest_using_jpa">Create a Hypermedia-Driven RESTful Web Service with Spring Data REST (using JPA)</h3>
+<div class="paragraph">
+<p>This application will allow us to create, read update and delete records in an <a href="http://www.h2database.com/html/quickstart.html">in-memory</a> relational repository. We&#8217;ll continue building upon the Spring Boot application we built out in Lab 1.  The first stereotype we will need is the domain model itself, which is <code>City</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_add_the_domain_object_city">Add the domain object - City</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create the package <code>io.pivotal.domain</code> and in that package create the class <code>City</code>. Into that file you can paste the following source code, which represents cities based on postal codes, global coordinates, etc:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">package io.pivotal.domain;
+
+@Data
+@Entity
+@Table(name="city")
+public class City implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String county;
+
+    @Column(nullable = false)
+    private String stateCode;
+
+    @Column(nullable = false)
+    private String postalCode;
+
+    @Column
+    private String latitude;
+
+    @Column
+    private String longitude;
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice that we&#8217;re using <a href="http://docs.oracle.com/javaee/6/tutorial/doc/bnbpz.html">JPA</a> annotations on the class and its fields. We&#8217;re also employing <a href="https://projectlombok.org/features/all">Lombok</a>, so we don&#8217;t have to write a bunch of boilerplate code (e.g., getter and setter methods).  You&#8217;ll need to use your IDE&#8217;s features to add the appropriate import statements.</p>
+</div>
+<div class="paragraph">
+<p>&#8594; Hint: imports should start with <code>javax.persistence</code> and <code>lombok</code></p>
+</div>
+</li>
+<li>
+<p>Create the package <code>io.pivotal.repositories</code> and in that package create the interface <code>CityRepository</code>. Paste the following code and add appropriate imports:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">package io.pivotal.repositories;
+
+@RepositoryRestResource(collectionResourceRel = "cities", path = "cities")
+public interface CityRepository extends PagingAndSortingRepository&lt;City, Long&gt; {
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You’ll need to use your IDE’s features to add the appropriate import statements.</p>
+</div>
+<div class="paragraph">
+<p>&#8594; Hint: imports should start with <code>org.springframework.data.rest.core.annotation</code> and <code>org.springframework.data.repository</code></p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_use_flyway_to_manage_schema">Use Flyway to manage schema</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Edit <em>build.gradle</em> and add the following dependencies within the <em>dependencies {}</em> block</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">implementation('org.flywaydb:flyway-core:5.2.4')
+implementation('com.zaxxer:HikariCP:3.3.0')</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Create a new file named <code>V1_0__init_database.sql</code> underneath <em>devops-workshop/labs/my_work/cloud-native-spring/src/main/resources/db/migration</em>, add the following lines and save.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">CREATE TABLE city (
+   ID INTEGER PRIMARY KEY AUTO_INCREMENT,
+   NAME VARCHAR(100) NOT NULL,
+   COUNTY VARCHAR(100) NOT NULL,
+   STATE_CODE VARCHAR(10) NOT NULL,
+   POSTAL_CODE VARCHAR(10) NOT NULL,
+   LATITUDE VARCHAR(15) NOT NULL,
+   LONGITUDE VARCHAR(15) NOT NULL
+);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Spring Boot comes with out-of-the-box <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/howto-database-initialization.html#howto-execute-flyway-database-migrations-on-startup">integration</a> support for <a href="https://flywaydb.org/documentation/plugins/springboot">Flyway</a>.  When we start the application it will execute a versioned <a href="https://flywaydb.org/documentation/migrations#sql-based-migrations">SQL migration</a> that will create a new table in the database.</p>
+</div>
+</li>
+<li>
+<p>Add the following lines to <em>devops-workshop/labs/my_work/cloud-native-spring/src/main/resources/application.yml</em></p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">spring:
+  datasource:
+    hikari:
+      connection-timeout: 60000
+      maximum-pool-size: 5</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>+ <a href="https://github.com/brettwooldridge/HikariCP/blob/dev/README.md">Hikari</a> is a database connection pool implementation. We are limiting the number of database connections an individual application instance may consume.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_run_the_cloud_native_spring_application_2">Run the <em>cloud-native-spring</em> Application</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Return to the Terminal session you opened previously</p>
+</li>
+<li>
+<p>Run the application</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">gradle clean bootRun</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Access the application using <code>curl</code> or your web browser using the newly added REST repository endpoint at <a href="http://localhost:8080/cities" class="bare">http://localhost:8080/cities</a>. You&#8217;ll see that the primary endpoint automatically exposes the ability to page, size, and sort the response JSON.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">http :8080/cities
+
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+Content-Type: application/hal+json;charset=UTF-8
+Transfer-Encoding: chunked
+Date: Thu, 28 Apr 2016 14:44:06 GMT
+
+{
+  "_embedded" : {
+    "cities" : [ ]
+  },
+  "_links" : {
+    "self" : {
+      "href" : "http://localhost:8080/cities"
+    },
+    "profile" : {
+      "href" : "http://localhost:8080/profile/cities"
+    }
+  },
+  "page" : {
+    "size" : 20,
+    "totalElements" : 0,
+    "totalPages" : 0,
+    "number" : 0
+  }
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>To exit the application, type <strong>Ctrl-C</strong>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>So what have you done? Created four small classes, modified a build file, added some configuration and SQL migration scripts, resulting in a fully-functional REST microservice. The application&#8217;s <code>DataSource</code> is created automatically by Spring Boot using the in-memory database because no other <code>DataSource</code> was detected in the project.</p>
+</div>
+<div class="paragraph">
+<p>Next we&#8217;ll import some data.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_importing_data">Importing Data</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Copy the <a href="https://raw.githubusercontent.com/Pivotal-Field-Engineering/devops-workshop/master/labs/import.sql">import.sql</a> file found in <strong>devops-workshop/labs/</strong> to <em>devops-workshop/labs/my_work/cloud-native-spring/src/main/resources/db/migration</em>. Rename the file to be <code>V1_1__seed_data.sql</code>. (This is a small subset of a larger dataset containing all of the postal codes in the United States and its territories).</p>
+</li>
+<li>
+<p>Restart the application.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">gradle clean bootRun</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Access the application again. Notice the appropriate hypermedia is included for <code>next</code>, <code>previous</code>, and <code>self</code>. You can also select pages and page size by utilizing <code>?size=n&amp;page=n</code> on the URL string. Finally, you can sort the data utilizing <code>?sort=fieldName</code> (replace fieldName with a cities attribute).</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">http :8080/cities
+
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+X-Application-Context: application
+Content-Type: application/hal+json
+Transfer-Encoding: chunked
+Date: Tue, 27 May 2014 19:59:58 GMT
+
+{
+  "_links" : {
+    "next" : {
+      "href" : "http://localhost:8080/cities?page=1&amp;size=20"
+    },
+    "self" : {
+      "href" : "http://localhost:8080/cities{?page,size,sort}",
+      "templated" : true
+    }
+  },
+  "_embedded" : {
+    "cities" : [ {
+      "name" : "HOLTSVILLE",
+      "county" : "SUFFOLK",
+      "stateCode" : "NY",
+      "postalCode" : "00501",
+      "latitude" : "+40.922326",
+      "longitude" : "-072.637078",
+      "_links" : {
+        "self" : {
+          "href" : "http://localhost:8080/cities/1"
+        }
+      }
+    },
+
+    // ...
+
+    {
+      "name" : "CASTANER",
+      "county" : "LARES",
+      "stateCode" : "PR",
+      "postalCode" : "00631",
+      "latitude" : "+18.269187",
+      "longitude" : "-066.864993",
+      "_links" : {
+        "self" : {
+          "href" : "http://localhost:8080/cities/20"
+        }
+      }
+    } ]
+  },
+  "page" : {
+    "size" : 20,
+    "totalElements" : 42741,
+    "totalPages" : 2138,
+    "number" : 0
+  }
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Try the following URL Paths with <code>curl</code> to see how the application behaves:</p>
+<div class="paragraph">
+<p><a href="http://localhost:8080/cities?size=5" class="bare">http://localhost:8080/cities?size=5</a></p>
+</div>
+<div class="paragraph">
+<p><a href="http://localhost:8080/cities?size=5&amp;page=3" class="bare">http://localhost:8080/cities?size=5&amp;page=3</a></p>
+</div>
+<div class="paragraph">
+<p><a href="http://localhost:8080/cities?sort=postalCode,desc" class="bare">http://localhost:8080/cities?sort=postalCode,desc</a></p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Next we&#8217;ll add searching capabilities.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_adding_search">Adding Search</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Let&#8217;s add some additional finder methods to <code>CityRepository</code>:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">@RestResource(path = "name", rel = "name")
+Page&lt;City&gt; findByNameIgnoreCase(@Param("q") String name, Pageable pageable);
+
+@RestResource(path = "nameContains", rel = "nameContains")
+Page&lt;City&gt; findByNameContainsIgnoreCase(@Param("q") String name, Pageable pageable);
+
+@RestResource(path = "state", rel = "state")
+Page&lt;City&gt; findByStateCodeIgnoreCase(@Param("q") String stateCode, Pageable pageable);
+
+@RestResource(path = "postalCode", rel = "postalCode")
+Page&lt;City&gt; findByPostalCode(@Param("q") String postalCode, Pageable pageable);
+
+@Query(value ="select c from City c where c.stateCode = :stateCode")
+Page&lt;City&gt; findByStateCode(@Param("stateCode") String stateCode, Pageable pageable);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>&#8594; Hint: imports should start with <code>org.springframework.data.domain</code>, <code>org.springframework.data.rest.core.annotation</code>, <code>org.springframework.data.repository.query</code>, and <code>org.springframework.data.jpa.repository</code></p>
+</div>
+</li>
+<li>
+<p>Run the application</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">gradle clean bootRun</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Access the application again. Notice that hypermedia for a new <code>search</code> endpoint has appeared.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">http :8080/cities
+
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+X-Application-Context: application
+Content-Type: application/hal+json
+Transfer-Encoding: chunked
+Date: Tue, 27 May 2014 20:33:52 GMT
+
+// prior omitted
+    },
+    "_links": {
+        "first": {
+            "href": "http://localhost:8080/cities?page=0&amp;size=20"
+        },
+        "self": {
+            "href": "http://localhost:8080/cities{?page,size,sort}",
+            "templated": true
+        },
+        "next": {
+            "href": "http://localhost:8080/cities?page=1&amp;size=20"
+        },
+        "last": {
+            "href": "http://localhost:8080/cities?page=2137&amp;size=20"
+        },
+        "profile": {
+            "href": "http://localhost:8080/profile/cities"
+        },
+        "search": {
+            "href": "http://localhost:8080/cities/search"
+        }
+    },
+    "page": {
+        "size": 20,
+        "totalElements": 42741,
+        "totalPages": 2138,
+        "number": 0
+    }
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Access the new <code>search</code> endpoint:</p>
+<div class="paragraph">
+<p><a href="http://localhost:8080/cities/search" class="bare">http://localhost:8080/cities/search</a></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">http :8080/cities/search
+
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+X-Application-Context: application
+Content-Type: application/hal+json
+Transfer-Encoding: chunked
+Date: Tue, 27 May 2014 20:38:32 GMT
+
+{
+    "_links": {
+        "postalCode": {
+            "href": "http://localhost:8080/cities/search/postalCode{?q,page,size,sort}",
+            "templated": true
+        },
+        "state": {
+            "href": "http://localhost:8080/cities/search/state{?q,page,size,sort}",
+            "templated": true
+        },
+        "nameContains": {
+            "href": "http://localhost:8080/cities/search/nameContains{?q,page,size,sort}",
+            "templated": true
+        },
+        "name": {
+            "href": "http://localhost:8080/cities/search/name{?q,page,size,sort}",
+            "templated": true
+        },
+        "findByStateCode": {
+            "href": "http://localhost:8080/cities/search/findByStateCode{?stateCode,page,size,sort}",
+            "templated": true
+        },
+        "self": {
+            "href": "http://localhost:8080/cities/search"
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that we now have new search endpoints for each of the finders that we added.</p>
+</div>
+</li>
+<li>
+<p>Try a few of these endpoints in <a href="https://www.getpostman.com">Postman</a>. Feel free to substitute your own values for the parameters.</p>
+<div class="paragraph">
+<p><a href="http://localhost:8080/cities/search/postalCode?q=01229" class="bare">http://localhost:8080/cities/search/postalCode?q=01229</a></p>
+</div>
+<div class="paragraph">
+<p><a href="http://localhost:8080/cities/search/name?q=Springfield" class="bare">http://localhost:8080/cities/search/name?q=Springfield</a></p>
+</div>
+<div class="paragraph">
+<p><a href="http://localhost:8080/cities/search/nameContains?q=West&amp;size=1" class="bare">http://localhost:8080/cities/search/nameContains?q=West&amp;size=1</a></p>
+</div>
+<div class="paragraph">
+<p>&#8594; For further details on what&#8217;s possible with Spring Data JPA, consult the <a href="https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#dependencies.spring-boot">reference documentation</a></p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_pushing_to_cloud_foundry">Pushing to Cloud Foundry</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Build the application</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">gradle build</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>You should already have an application manifest, <code>manifest.yml</code>, created in Lab 1; this can be reused.  You&#8217;ll want to add a timeout param so that our service has enough time to initialize with its data loading:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yml" data-lang="yml">---
+applications:
+- name: cloud-native-spring
+  random-route: true
+  memory: 1024M
+  instances: 1
+  path: ./build/libs/cloud-native-spring-1.0-SNAPSHOT-exec.jar
+  buildpacks:
+  - java_buildpack_offline
+  stack: cflinuxfs3
+  timeout: 180 # to give time for the data to import
+  env:
+    JAVA_OPTS: -Djava.security.egd=file:///dev/urandom</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Push to Cloud Foundry:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">cf push
+
+...
+
+Showing health and status for app cloud-native-spring in org zoo-labs / space development as cphillipson@pivotal.io...
+OK
+
+requested state: started
+instances: 1/1
+usage: 1G x 1 instances
+urls: cloud-native-spring-apodemal-hyperboloid.cfapps.io
+last uploaded: Thu Jul 28 23:29:21 UTC 2018
+stack: cflinuxfs2
+buildpack: java_buildpack_offline
+
+     state     since                    cpu      memory         disk         details
+#0   running   2018-07-28 04:30:22 PM   163.7%   395.7M of 1G   159M of 1G</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Access the application at the random route provided by CF:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">http GET https://cloud-native-spring-{random-word}.{domain}.com/cities</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>{random-word}</code> might be something like <code>loquacious-eagle</code> and <code>{domain}</code> might be <code>cfapps.io</code> if you happened to target Pivotal Web Services</p>
+</div>
+</li>
+<li>
+<p>Let&#8217;s stop the application momentarily as we prepare to swap out the database provider.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">cf stop cloud-native-spring</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_binding_to_a_mysql_database_in_cloud_foundry">Binding to a MySQL database in Cloud Foundry</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Let&#8217;s create a MySQL database instance. Hopefully, you will have <a href="https://network.pivotal.io/products/pivotal-mysql">p.mysql</a> service available in CF Marketplace.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">cf marketplace -s p.mysql</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Expected output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">Getting service plan information for service p.mysql as cphillipson@pivotal.io...
+OK
+
+service plan   description                                            free or paid
+db-small       This plan provides a small dedicated MySQL instance.   free</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Let&#8217;s create an instance of <code>p.mysql</code> with <code>db-small</code> plan, e.g.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">cf create-service p.mysql db-small mysql-database</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Expected output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">Creating service instance mysql-database in org zoo-labs / space development as cphillipson@pivotal.io...
+OK</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>So long as the name of the service contains <code>mysql</code> the <a href="https://dev.mysql.com/downloads/connector/j/">mysql-connector</a> JDBC driver will <a href="https://github.com/cloudfoundry/java-buildpack/blob/master/docs/framework-maria_db_jdbc.md#mariadb-jdbc-framework">automatically be added</a> as a runtime dependency.</p>
+</div>
+<div class="paragraph">
+<p>However, we&#8217;re going to explicitly define a runtime dependency on the MySQL JDBC driver.  Open <code>build.gradle</code> for editing and add the following to the <code>dependencies</code> section</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json" data-lang="json">runtime('mysql:mysql-connector-java:8.0.15')</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And, of course we must rebuild and repackage the application to have the application recognize the new dependency at runtime</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">gradle build</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Let&#8217;s bind the service to the application, e.g.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">cf bind-service cloud-native-spring mysql-database</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Expected output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">Binding service mysql-database to app cloud-native-spring in org zoo-labs / space development as cphillipson@pivotal.io...
+OK</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>&#8594; Tip: Use <code>cf restage cloud-native-spring</code> to ensure your env variable changes take effect</p>
+</div>
+</li>
+<li>
+<p>Now let&#8217;s push the updated application</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">cf push cloud-native-spring</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>You may wish to observe the logs and notice that the bound MySQL database is picked up by the application, e.g.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">cf logs cloud-native-spring --recent</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Sample output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">...
+INFO 20 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.0.12.Final}
+INFO 20 --- [           main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+INFO 20 --- [           main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+INFO 20 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+INFO 20 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+INFO 20 --- [           main] org.hibernate.tool.hbm2ddl.SchemaUpdate  : HHH000228: Running hbm2ddl schema update
+...</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>You could also bind to the database directly from the <code>manifest.yml</code> file, e.g.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yml" data-lang="yml">applications:
+- name: cloud-native-spring
+  random-route: true
+  memory: 1024M
+  instances: 1
+  path: ./build/libs/cloud-native-spring-1.0-SNAPSHOT-exec.jar
+  buildpacks:
+  - java_buildpack_offline
+  timeout: 180 # to give time for the data to import
+  env:
+    JAVA_OPTS: -Djava.security.egd=file:///dev/urandom
+  services:
+    - mysql-database</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Attempt to push the app again after making this update</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">cf push</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Let&#8217;s have a look at how we can interact with the database</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Visit <a href="https://github.com/pivotal-cf/PivotalMySQLWeb">Pivotal MySQL*Web</a> then follow these instructions for building the application.</p>
+</div>
+<div class="paragraph">
+<p>+</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">cd ..
+git clone https://github.com/pivotal-cf/PivotalMySQLWeb.git
+cd PivotalMySQLWeb
+./mvnw -DskipTests=true package</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>+
+Then to prepare the application for deployment we&#8217;ll create a manifest. Open an editor, create and save a file named <code>manifest.yml</code> with these contents:</p>
+</div>
+<div class="paragraph">
+<p>+</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yml" data-lang="yml">applications:
+- name: pivotal-mysqlweb
+  memory: 1024M
+  instances: 1
+  random-route: true
+  path: ./target/PivotalMySQLWeb-1.0.0-SNAPSHOT.jar
+  services:
+    - mysql-database
+  env:
+    JAVA_OPTS: -Djava.security.egd=file:///dev/urandom</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>+
+Of course, you&#8217;ll want to deploy the application</p>
+</div>
+<div class="paragraph">
+<p>+</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">cf push</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>+
+And once deployed, you can visit the appliation URL and log in with the default credentials <code>admin/cfmysqlweb</code></p>
+</div>
+<div class="paragraph">
+<p>+
+Take a few moments to explore the features and see that the administrative and diagnostic functions of Pivotal MySQL*Web provide a rather simple way to interact with and keep your database instance up-to-date via an Internet browser.</p>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_enhancing_boot_application_with_metrics">Enhancing Boot Application with Metrics</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_set_up_the_actuator">Set up the Actuator</h3>
+<div class="paragraph">
+<p>Spring Boot includes a number of additional features to help you monitor and manage your application when it’s pushed to production. These features are added by adding <em>spring-boot-starter-actuator</em> to the classpath.  Our initial project setup already included it as a dependency.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Verify the Spring Boot Actuator dependency the in following file: <strong>/cloud-native-spring/build.gradle</strong> You should see the following dependency in the list:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">dependencies {
+    implementation('org.springframework.boot:spring-boot-starter-actuator')
+    // other dependencies omitted
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By default Spring Boot does not expose these management endpoints (which is a good thing!).  Though you wouldn&#8217;t want to expose all of them in production, we&#8217;ll do so in this sample app to make demonstration a bit easier and simpler.</p>
+</div>
+</li>
+<li>
+<p>Add the following properties to <strong>cloud-native-spring/src/main/resources/application.yml</strong>.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yml" data-lang="yml">management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Run the updated application</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">gradle clean bootRun</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Try out the following endpoints with <a href="https://www.getpostman.com">Postman</a>. The output is omitted here because it can be quite large:</p>
+</div>
+<div class="paragraph">
+<p>http :8080/actuator/health</p>
+</div>
+<div class="paragraph">
+<p>&#8594; Displays Application and Datasource health information.  This can be customized based on application functionality, which we&#8217;ll do later.</p>
+</div>
+<div class="paragraph">
+<p>http :8080/actuator/beans</p>
+</div>
+<div class="paragraph">
+<p>&#8594; Dumps all of the beans in the Spring context.</p>
+</div>
+<div class="paragraph">
+<p>http :8080/actuator/autoconfig</p>
+</div>
+<div class="paragraph">
+<p>&#8594; Dumps all of the auto-configuration performed as part of application bootstrapping.</p>
+</div>
+<div class="paragraph">
+<p>http :8080/actuator/configprops</p>
+</div>
+<div class="paragraph">
+<p>&#8594; Displays a collated list of all @ConfigurationProperties.</p>
+</div>
+<div class="paragraph">
+<p>http :8080/actuator/env</p>
+</div>
+<div class="paragraph">
+<p>&#8594; Dumps the application’s shell environment as well as all Java system properties.</p>
+</div>
+<div class="paragraph">
+<p>http :8080/actuator/mappings</p>
+</div>
+<div class="paragraph">
+<p>&#8594; Dumps all URI request mappings and the controller methods to which they are mapped.</p>
+</div>
+<div class="paragraph">
+<p>http :8080/actuator/threaddump</p>
+</div>
+<div class="paragraph">
+<p>&#8594; Performs a thread dump.</p>
+</div>
+<div class="paragraph">
+<p>http :8080/actuator/httptrace</p>
+</div>
+<div class="paragraph">
+<p>&#8594; Displays trace information (by default the last few HTTP requests).</p>
+</div>
+<div class="paragraph">
+<p>http :8080/actuator/flyway</p>
+</div>
+<div class="paragraph">
+<p>&#8594; Shows any Flyway database migrations that have been applied.</p>
+</div>
+</li>
+<li>
+<p>Stop the <em>cloud-native-spring</em> application.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_include_version_control_info">Include Version Control Info</h3>
+<div class="paragraph">
+<p>Spring Boot provides an endpoint (<a href="http://localhost:8080/actuator/info" class="bare">http://localhost:8080/actuator/info</a>) that allows the exposure of arbitrary metadata. By default, it is empty.</p>
+</div>
+<div class="paragraph">
+<p>One thing that <em>actuator</em> does well is expose information about the specific build and version control coordinates for a given deployment.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Edit the following file: <strong>/cloud-native-spring/build.gradle</strong> Add the <a href="https://github.com/n0mer/gradle-git-properties">gradle-git-properties</a> plugin to your Gradle build.</p>
+<div class="paragraph">
+<p>First, you&#8217;ll need to be able to resolve the plugin so add the following to the <em>plugins{}</em> section</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">plugins {
+    id 'com.gorylenko.gradle-git-properties' version '2.0.0'
+}</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>You&#8217;ll also configure the plugin by adding a <em>gitProperties{}</em> block.</p>
+</div>
+<div class="paragraph">
+<p>+</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">gitProperties {
+    dateFormat = "yyyy-MM-dd'T'HH:mmZ"
+    dateFormatTimeZone = "UTC"
+    dotGitDirectory = "${project.rootDir}/../../.."
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>+
+&#8594; Note too that we are updating the path to the <em>.git</em> directory.</p>
+</div>
+<div class="paragraph">
+<p>+
+The effect of all this configuration is that the <em>gradle-git-properties</em> plugin adds Git branch and commit coordinates to the <strong>/actuator/info</strong> endpoint.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Run the <em>cloud-native-spring</em> application:</p>
+<div class="literalblock">
+<div class="content">
+<pre>gradle clean bootRun</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Let&#8217;s use <a href="https://httpie.org">httpie</a> to verify that Git commit information is now included</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">http :8080/actuator/info</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json" data-lang="json">{
+    "git": {
+        "commit": {
+            "time": "2017-09-07T13:52+0000",
+            "id": "3393f74"
+        },
+        "branch": "master"
+    }
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Stop the <em>cloud-native-spring</em> application</p>
+<div class="paragraph">
+<p><strong>What Just Happened?</strong></p>
+</div>
+<div class="paragraph">
+<p>By including the <em>gradle-git-properties</em> plugin, details about git commit information will be included in the <strong>/actuator/info</strong> endpoint. Git information is captured in a <em>git.properties</em> file that is generated with the build. Review the following file: <strong>/cloud-native-spring/build/resources/main/git.properties</strong></p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_include_build_info">Include Build Info</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add the following properties to <strong>cloud-native-spring/src/main/resources/application.yml</strong>.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yml" data-lang="yml">info: # add this section
+  build:
+    name: @application.name@
+    description: @application.description@
+    version: @application.version@</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note we&#8217;re defining token delimited value-placeholders for each property.  In order to have these properties replaced, we&#8217;ll need to add some further instructions to the <em>build.gradle</em> file.</p>
+</div>
+<div class="paragraph">
+<p>&#8594; if STS <a href="https://jira.spring.io/browse/STS-4201">reports a problem</a> with the application.yml due to @ character, the problem can safely be ignored.</p>
+</div>
+</li>
+<li>
+<p>Add the following directly underneath the <em>gitProperties{}</em> block within <strong>cloud-native-spring/build.gradle</strong></p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">import org.apache.tools.ant.filters.*
+
+processResources {
+    filter ReplaceTokens, tokens: [
+        "application.name": project.property("application.name"),
+        "application.description": project.property("application.description"),
+        "application.version": project.property("version")
+    ]
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Build and run the <em>cloud-native-spring</em> application:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">gradle clean bootRun</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Again we&#8217;ll use httpie to verify that the Build information is now included</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">http :8080/actuator/info</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json" data-lang="json">{
+    "build": {
+        "name": "Cloud Native Spring (Back-end)",
+        "description": "Simple Spring Boot application employing an in-memory relational data-store and which exposes a set of REST APIs",
+        "version": "1.0-SNAPSHOT"
+    },
+    "git": {
+        "commit": {
+            "time": "2017-09-07T13:52+0000",
+            "id": "3393f74"
+        },
+        "branch": "master"
+    }
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Stop the cloud-native-spring application.</p>
+<div class="paragraph">
+<p><strong>What Just Happened?</strong></p>
+</div>
+<div class="paragraph">
+<p>We have mapped Gradle properties into the /actuator/info endpoint.</p>
+</div>
+<div class="paragraph">
+<p>Read more about exposing data in the /actuator/info endpoint <a href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready">here</a></p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_health_indicators">Health Indicators</h3>
+<div class="paragraph">
+<p>Spring Boot provides an endpoint <a href="http://localhost:8080/actuator/health" class="bare">http://localhost:8080/actuator/health</a> that exposes various health indicators that describe the health of the given application.</p>
+</div>
+<div class="paragraph">
+<p>Normally, the /actuator/health endpoint will only expose an UP or DOWN value.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json" data-lang="json">{
+  "status": "UP"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>+
+We want to expose more detail about the health and well-being of the application, so we&#8217;re going to need a bit more configuration to <em>cloud-native-spring/src/main/resources/application.yml</em>, underneath the <em>management</em> prefix, add</p>
+</div>
+<div class="paragraph">
+<p>+</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yml" data-lang="yml">  endpoint:
+    health:
+      show-details: always</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Run the cloud-native-spring application:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">gradle bootRun</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Use httpie to verify the output of the health endpoint</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">http :8080/actuator/health</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Out of the box is a <em>DiskSpaceHealthIndicator</em> that monitors health in terms of available disk space. Would your Ops team like to know if the app is close to running out of disk space? DiskSpaceHealthIndicator can be customized via <em>DiskSpaceHealthIndicatorProperties</em>. For instance, setting a different threshold for when to report the status as DOWN.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json" data-lang="json">{
+    "status": "UP",
+    "details": {
+        "diskSpace": {
+            "status": "UP",
+            "details": {
+                "total": 499963170816,
+                "free": 375287070720,
+                "threshold": 10485760
+            }
+        },
+        "db": {
+            "status": "UP",
+            "details": {
+                "database": "H2",
+                "hello": 1
+            }
+        }
+    }
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Stop the cloud-native-spring application.</p>
+</li>
+<li>
+<p>Create the class <em>io.pivotal.FlappingHealthIndicator</em> (/cloud-native-spring/src/main/java/io/pivotal/FlappingHealthIndicator.java) and into it paste the following code:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">package io.pivotal;
+
+import java.util.Random;
+
+import org.springframework.boot.actuate.health.Health;
+import org.springframework.boot.actuate.health.HealthIndicator;
+import org.springframework.stereotype.Component;
+
+@Component
+public class FlappingHealthIndicator implements HealthIndicator {
+
+    private Random random = new Random(System.currentTimeMillis());
+
+    @Override
+    public Health health() {
+        int result = random.nextInt(100);
+        if (result &lt; 50) {
+            return Health.down().withDetail("flapper", "failure").withDetail("random", result).build();
+        } else {
+            return Health.up().withDetail("flapper", "ok").withDetail("random", result).build();
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This demo health indicator will randomize the health check.</p>
+</div>
+</li>
+<li>
+<p>Build and run the <em>cloud-native-spring</em> application:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ gradle clean bootRun</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Browse to <a href="http://localhost:8080/actuator/health" class="bare">http://localhost:8080/actuator/health</a> and verify that the output is similar to the following (and changes randomly!).</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json" data-lang="json">{
+    "status": "UP",
+    "details": {
+        "flapping": {
+            "status": "UP",
+            "details": {
+                "flapper": "ok",
+                "random": 63
+            }
+        },
+        "diskSpace": {
+            "status": "UP",
+            "details": {
+                "total": 499963170816,
+                "free": 375287070720,
+                "threshold": 10485760
+            }
+        },
+        "db": {
+            "status": "UP",
+            "details": {
+                "database": "H2",
+                "hello": 1
+            }
+        }
+    }
+}</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_metrics">Metrics</h3>
+<div class="paragraph">
+<p>Spring Boot provides an endpoint <a href="http://localhost:8080/actuator/metrics" class="bare">http://localhost:8080/actuator/metrics</a> that exposes several automatically collected metrics for your application. It also allows for the creation of custom metrics.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Browse to <a href="http://localhost:8080/actuator/metrics" class="bare">http://localhost:8080/actuator/metrics</a>. Review the metrics exposed.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json" data-lang="json">{
+    "names": [
+        "jvm.memory.max",
+        "http.server.requests",
+        "jdbc.connections.active",
+        "process.files.max",
+        "jvm.gc.memory.promoted",
+        "tomcat.cache.hit",
+        "system.load.average.1m",
+        "tomcat.cache.access",
+        "jvm.memory.used",
+        "jvm.gc.max.data.size",
+        "jdbc.connections.max",
+        "jdbc.connections.min",
+        "jvm.gc.pause",
+        "jvm.memory.committed",
+        "system.cpu.count",
+        "logback.events",
+        "tomcat.global.sent",
+        "jvm.buffer.memory.used",
+        "tomcat.sessions.created",
+        "jvm.threads.daemon",
+        "system.cpu.usage",
+        "jvm.gc.memory.allocated",
+        "tomcat.global.request.max",
+        "hikaricp.connections.idle",
+        "hikaricp.connections.pending",
+        "tomcat.global.request",
+        "tomcat.sessions.expired",
+        "hikaricp.connections",
+        "jvm.threads.live",
+        "jvm.threads.peak",
+        "tomcat.global.received",
+        "hikaricp.connections.active",
+        "hikaricp.connections.creation",
+        "process.uptime",
+        "tomcat.sessions.rejected",
+        "process.cpu.usage",
+        "tomcat.threads.config.max",
+        "jvm.classes.loaded",
+        "hikaricp.connections.max",
+        "hikaricp.connections.min",
+        "jvm.classes.unloaded",
+        "tomcat.global.error",
+        "tomcat.sessions.active.current",
+        "tomcat.sessions.alive.max",
+        "jvm.gc.live.data.size",
+        "tomcat.servlet.request.max",
+        "hikaricp.connections.usage",
+        "tomcat.threads.current",
+        "tomcat.servlet.request",
+        "hikaricp.connections.timeout",
+        "process.files.open",
+        "jvm.buffer.count",
+        "jvm.buffer.total.capacity",
+        "tomcat.sessions.active.max",
+        "hikaricp.connections.acquire",
+        "tomcat.threads.busy",
+        "process.start.time",
+        "tomcat.servlet.error"
+    ]
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Stop the cloud-native-spring application.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deploy_cloud_native_spring_to_pivotal_cloud_foundry_2">Deploy <em>cloud-native-spring</em> to Pivotal Cloud Foundry</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>When running a Spring Boot application on Pivotal Cloud Foundry with the actuator endpoints enabled, you can visualize actuator management information on the Applications Manager app dashboard.  To enable this there are a few properties we need to add.  Add the following to <strong>/cloud-native-spring/src/main/resources/application.yml</strong>:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">---
+spring:
+  profiles: cloud
+
+management:
+  cloudfoundry:
+    enabled: true
+    skip-ssl-validation: true</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Push application into Cloud Foundry</p>
+<div class="literalblock">
+<div class="content">
+<pre>gradle build
+cf push</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Visit the route created for your app and append /actuator/health to see the health status report. See the same details in the Apps Manager UI:</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/appsman.jpg" alt="appsman">
+</div>
+</div>
+</li>
+<li>
+<p>From this UI you can also dynamically change logging levels:</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/logging.jpg" alt="logging">
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Congratulations!</strong> You’ve just learned how to add health and metrics to any Spring Boot application.</p>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Version 3.0<br>
+Last updated 2020-01-30 12:10:15 +0200
+</div>
+</div>
+</body>
+</html>

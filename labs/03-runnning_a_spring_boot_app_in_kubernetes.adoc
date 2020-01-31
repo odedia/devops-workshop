@@ -1,0 +1,152 @@
+= Deploying to Kubernetes
+In this lab we'll deploy our very simple application to Kubernetes, and try to make it production ready.
+
+login to PKS cluster shared by the instructor.
+
+create a new namespace for your team:
+
+== Creating a namespace
+
++
+[source,bash]
+---------------------------------------------------------------------
+kubectl create namespace <my-team>
+---------------------------------------------------------------------
+
+
+== Creating a deployment
+
+Create a deployment manifest to run the image we just deployed. Here's a skeleton you can use:
+
++
+[source,bash]
+---------------------------------------------------------------------
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  labels:
+    run:
+  name:
+  namespace: default
+spec:
+  replicas:
+  selector:
+    matchLabels:
+      run:
+  strategy:
+    rollingUpdate:
+      maxSurge:
+      maxUnavailable:
+    type:
+  template:
+    metadata:
+      labels:
+        run:
+    spec:
+      containers:
+      - image:
+        imagePullPolicy:
+        name:
+        ports:
+        - containerPort:
+          protocol:
+      dnsPolicy:
+      restartPolicy:
+---------------------------------------------------------------------
+
+== Creating a service
+
++
+[source,bash]
+---------------------------------------------------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run:
+  name:
+  namespace:
+spec:
+  ports:
+  - nodePort:
+    port:
+    protocol:
+    targetPort:
+  selector:
+    run:
+  sessionAffinity: None
+  type:
+---------------------------------------------------------------------
+
+== Exposing a DNS Record
+
+There are several ways to expose the service as a routable URL.
+. You can create an A record pointing to the load balancer, but then you will have to make sure the IP doesn't change. Developers rarely have access to DNS.
+. You can create an ingress gateway that routes to the deployment, which requires installing an additional solution such as nginx.
+. You can leverage Istio/KNative
+
+== Scaling
+
+Change the deployment so there are 3 pods instead of 1.
+
+== Logging
+
+Check the logs of one of the pods.
+How can you get the logs from all pods in one location?
+. You can use sidecar containers to manually handle logging to a central solution
+. You can install Fluentd daemon sets (requires privilege access to _kube_system_ namespace)
+. You can use commercial solutions such as Splunk, Datadog, SumoLogic, Log Insight etc. (at an added cost)
+. You can use open source solutions such as ELK, Graylog (but it is your responsibility to maintain and upgrade them)
+
+== Monitoring
+
+Our container provides basic metric information. We can get some of the data by running:
+
++
+[source,bash]
+---------------------------------------------------------------------
+kubectl describe pod <my-pod>
+---------------------------------------------------------------------
+
+But this will only give us information on a specific pod. What about connections between pods or deployments?
+How can we find our own metrics that we expose via actuator? We can query the _/actuator_ URL but this will only give a response from _one_ of the pods.
+. You can use commercial solutions such as SysDig, Dynatrace, NewRelic, Wavefront (at an added cost)
+. You can use open source solutions such as Kibana, Prometheus, Grafana (but it is your responsibility to maintain and upgrade them)
+
+== Adding a database
+
+Our application now needs a database. What will we install?
+. We can install a database directly as an image.
+. We can use helm charts. Who takes care of the upgrades?
+. We can use database solutions as kubernetes operators / CRDs from a well-known vendor. The amount of production ready solutions is still low (Confluent, Greenplum, MongoDB).
+
+Regardless of the solution, we need to configure the following:
+. We need to make sure that _only_ our application can access the database and no other pods. This requires Kubernetes _taint_ commands using labels.
+. We need to update our application to point to the new database URL, username and password.
+. We need to do this every time we move to other environments (such as other namespaces or Kubernetes clusters).
+. We need to store password in a well-encrypted store. The default kubernetes secret management uses base64 encoding *which is not an encryption solution*
+
+== Installing a management GUI
+
+It would be nice to install a web UI to manage our kubernetes deployments.
+. We can use the default Kubernetes dashboard.
+. We can install desktop solutions such as Lens.
+. Almost all of these solutions focus on the Kubernetes native components (pods, deployments, services) and not on the application-specific perspective (Apps, logs, metrics).
+
+= The bottom line: If you got all of the requirements above working well, congradulations - you built your own platform on top of Kubernetes!
+
++
+image::images/k8s1.jpg[]
++
+image::images/k8s2.jpg[]
++
+image::images/k8s3.jpg[]
+
+
+
+
+
+
+
