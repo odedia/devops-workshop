@@ -1,0 +1,2 @@
+backend:
+  endpoint: http://cloud-native-spring.default.svc.cluster.local:8080
