@@ -35,7 +35,7 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-security')
     implementation('io.pivotal.spring.cloud:spring-cloud-services-starter-service-registry')
     implementation('org.springframework.cloud:spring-cloud-starter-openfeign')
-    implementation('org.springframework.cloud:spring-cloud-starter-netflix-ribbon')
+//    implementation('org.springframework.cloud:spring-cloud-starter-netflix-ribbon')
     implementation('org.hibernate:hibernate-core:5.4.1.Final')
     implementation vaadin.bom()
     implementation vaadin.platform()
