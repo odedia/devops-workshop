@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 import io.pivotal.domain.City;
 
-@EnableDiscoveryClient
 @SpringBootApplication
 public class CloudNativeSpringApplication {
 
