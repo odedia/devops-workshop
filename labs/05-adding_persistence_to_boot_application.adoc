@@ -103,7 +103,7 @@ spring:
       connection-timeout: 60000
       maximum-pool-size: 5
 ---------------------------------------------------------------------
-+ https://github.com/brettwooldridge/HikariCP/blob/dev/README.md[Hikari] is a database connection pool implementation. We are limiting the number of database connections an individual application instance may consume.
+https://github.com/brettwooldridge/HikariCP/blob/dev/README.md[Hikari] is a database connection pool implementation. We are limiting the number of database connections an individual application instance may consume.
 
 == Run the _cloud-native-spring_ Application
 
@@ -151,13 +151,13 @@ Date: Thu, 28 Apr 2016 14:44:06 GMT
 
 . To exit the application, type *Ctrl-C*.
 
-So what have you done? Created four small classes, modified a build file, added some configuration and SQL migration scripts, resulting in a fully-functional REST microservice. The application's +DataSource+ is created automatically by Spring Boot using the in-memory database because **no other +DataSource+ was detected in the project*.
+So what have you done? Created four small classes, modified a build file, added some configuration and SQL migration scripts, resulting in a fully-functional REST microservice. The application's +DataSource+ is created automatically by Spring Boot using the in-memory database because *no other +DataSource+ was detected in the project*.
 
 Next we'll import some data.
 
 == Importing Data
 
-. Copy the https://raw.githubusercontent.com/Pivotal-Field-Engineering/devops-workshop/master/labs/import.sql[import.sql] file found in *devops-workshop/labs/* to _devops-workshop/labs/my_work/cloud-native-spring/src/main/resources/db/migration_. Rename the file to be +V1_1__seed_data.sql+. (This is a small subset of a larger dataset containing all of the postal codes in the United States and its territories).
+. Copy the https://raw.githubusercontent.com/Pivotal-Field-Engineering/devops-workshop/master/labs/import.sql[import.sql] file found in `devops-workshop/labs/` to `devops-workshop/labs/my_work/cloud-native-spring/src/main/resources/db/migration`. Rename the file to be +V1_1__seed_data.sql+. (This is a small subset of a larger dataset containing all of the postal codes in the United States and its territories).
 
 . Restart the application.
 +
