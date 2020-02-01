@@ -1,0 +1,12 @@
+intro
+build spring app - rest
+add metrics
+dockerize
+deploy to k8s (show metrics as well)
+add persistence
+run as docker with persistence
+deploy to k8s with persistence
+cf cli intro
+push app with persistence to pas
+add frontend (use apps.internal)
+add config server

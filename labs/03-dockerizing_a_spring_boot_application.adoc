@@ -1,26 +1,27 @@
-= Create a Dockerfile
+= 03. Creating a Dockerfile
 
-Now that we have a running application, we need to containerize it.
+Now that we have a running application, we want to run it in Kubernetes. But before we can do it, we'll need to create a docker file (or, to be more precise: an https://www.opencontainers.org/[OCI-compliant] image).
 
-We need to create a Dockerfile for our app.
-. What would be our base operating system? There are many choices. Ubuntu, RedHat, Suse, CentOS.
+For a simple demo application in this workshop, any choice is probably fine. However, when you go to production things get a big more complicated:
+
+. What sould be our base operating system? There are many choices. Ubuntu, RedHat, Suse, CentOS.
 . Who will be in charge of patching the OS?
-. What version of Java should we use? There are _many_ choices. Search https://hub.docker.com/search?q=java&type=image[Dockerhub] for Java and see the various options. Who performs CVE Patching on these images? (Hint: if you don't know the answer, it's probably you).
-. Select a base OS to use.
-. The jar file containing the applicaiton is under _build/libs/cloud-native-spring-1.0-SNAPSHOT.jar_.
+. What version of Java should we use? There are _many_ choices. Search https://hub.docker.com/search?q=java&type=image[Docker hub] for Java and see the various options. Who performs CVE Patching on these images? (Hint: if you don't know the answer, it's probably you).
+
+Write a Dockerfile for this app. Select one of the options from https://hub.docker.com/search?q=java&type=image[Docker hub] for now.
+
+. The jar file containing the application is under _build/libs/cloud-native-spring-1.0-SNAPSHOT.jar_.
 . The command to run the java application is
 
-+
 [source,bash]
 ---------------------------------------------------------------------
 java -jar <file-name>.jar
 ---------------------------------------------------------------------
 
-Write a Dockerfile for this app.
+-> Hint: Use the `ENTRYPOINT` command at the end of your Dockerfile to run the app.
 
 Let's build the docker image:
 
-+
 [source,bash]
 ---------------------------------------------------------------------
 docker build -t cloud-native-spring .
@@ -28,7 +29,6 @@ docker build -t cloud-native-spring .
 
 Now let's run this container locally to make sure things still work.
 
-+
 [source,bash]
 ---------------------------------------------------------------------
 docker run -p 8080:8080 cloud-native-spring
@@ -38,8 +38,6 @@ Go to http://localhost:8080/hello and check the results.
 
 Tag the image and push it to docker.io.
 
-
-+
 [source,bash]
 ---------------------------------------------------------------------
 docker tag cloud-native-spring <your-username>/cloud-native-spring

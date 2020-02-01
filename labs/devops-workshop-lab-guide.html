@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
 <meta name="keywords" content="DevOps, Spring Boot, Spring Cloud">
-<meta name="author" content="Christopher Phillipson, Additional enhancementsby Kobi Shamama and Oded Shopen">
+<meta name="author" content="Christopher Phillipson, Additional enhancements by Kobi Shamama and Oded Shopen">
 <title>DevOps Workshop Lab Guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,45 +442,52 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>DevOps Workshop Lab Guide</h1>
 <div class="details">
-<span id="author" class="author">Christopher Phillipson, Additional enhancementsby Kobi Shamama and Oded Shopen</span><br>
-<span id="email" class="email"><a href="mailto:cphillipson@pivotal.io">cphillipson@pivotal.io</a> <a href="mailto:oshopen@pivotal.io">oshopen@pivotal.io</a> <a href="mailto:kshamama@pivotal.io">kshamama@pivotal.io</a></span><br>
+<span id="author" class="author">Christopher Phillipson, Additional enhancements by Kobi Shamama and Oded Shopen</span><br>
+<span id="email" class="email"><a href="mailto:cphillipson@pivotal.io">cphillipson@pivotal.io</a>, Additional enhancements by <a href="mailto:oshopen@pivotal.io">oshopen@pivotal.io</a> and <a href="mailto:kshamama@pivotal.io">kshamama@pivotal.io</a></span><br>
 <span id="revnumber">version 3.0,</span>
-<span id="revdate">2020-01-30</span>
+<span id="revdate">2020-02-01</span>
 </div>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_labs">Labs</a>
+<li><a href="#_introduction_labs_setup">Introduction: Labs Setup</a>
 <ul class="sectlevel2">
 <li><a href="#_overview">Overview</a></li>
 <li><a href="#_pcf_environment_access">PCF Environment Access</a></li>
 <li><a href="#_apps_manager_ui">Apps Manager UI</a></li>
 </ul>
 </li>
-<li><a href="#_building_a_spring_boot_application">Building a Spring Boot Application</a>
+<li><a href="#_01_building_a_spring_boot_application">01. Building a Spring Boot Application</a>
 <ul class="sectlevel2">
 <li><a href="#_getting_started">Getting started</a></li>
 <li><a href="#_add_an_endpoint">Add an Endpoint</a></li>
 <li><a href="#_build_the_cloud_native_spring_application">Build the <em>cloud-native-spring</em> application</a></li>
 <li><a href="#_run_the_cloud_native_spring_application">Run the <em>cloud-native-spring</em> application</a></li>
-<li><a href="#_deploy_cloud_native_spring_to_pivotal_cloud_foundry">Deploy <em>cloud-native-spring</em> to Pivotal Cloud Foundry</a></li>
 </ul>
 </li>
-<li><a href="#_create_a_dockerfile">Create a Dockerfile</a></li>
-<li><a href="#_deploying_to_kubernetes">Deploying to Kubernetes</a>
+<li><a href="#_02_enhancing_boot_application_with_metrics">02. Enhancing Boot Application with Metrics</a>
+<ul class="sectlevel2">
+<li><a href="#_set_up_the_actuator">Set up the Actuator</a></li>
+<li><a href="#_include_version_control_info">Include Version Control Info</a></li>
+<li><a href="#_health_indicators">Health Indicators</a></li>
+<li><a href="#_metrics">Metrics</a></li>
+</ul>
+</li>
+<li><a href="#_03_creating_a_dockerfile">03. Creating a Dockerfile</a></li>
+<li><a href="#_04_deploying_to_kubernetes">04. Deploying to Kubernetes</a>
 <ul class="sectlevel2">
 <li><a href="#_creating_a_namespace">Creating a namespace</a></li>
 <li><a href="#_creating_a_deployment">Creating a deployment</a></li>
 <li><a href="#_creating_a_service">Creating a service</a></li>
 <li><a href="#_exposing_a_dns_record">Exposing a DNS Record</a></li>
 <li><a href="#_scaling">Scaling</a></li>
+<li><a href="#_testing_our_results">Testing our results</a></li>
+<li><a href="#_making_changes">Making changes</a></li>
 <li><a href="#_logging">Logging</a></li>
 <li><a href="#_monitoring">Monitoring</a></li>
-<li><a href="#_adding_a_database">Adding a database</a></li>
-<li><a href="#_installing_a_management_gui">Installing a management GUI</a></li>
+<li><a href="#_the_bottom_line_if_you_got_all_of_the_requirements_above_working_well_congradulations_you_built_your_own_platform_on_top_of_kubernetes">The bottom line: If you got all of the requirements above working well, congradulations - you built your own platform on top of Kubernetes!</a></li>
 </ul>
 </li>
-<li><a href="#_the_bottom_line_if_you_got_all_of_the_requirements_above_working_well_congradulations_you_built_your_own_platform_on_top_of_kubernetes">The bottom line: If you got all of the requirements above working well, congradulations - you built your own platform on top of Kubernetes!</a></li>
 <li><a href="#_adding_persistence_to_boot_application">Adding Persistence to Boot Application</a>
 <ul class="sectlevel2">
 <li><a href="#_create_a_hypermedia_driven_restful_web_service_with_spring_data_rest_using_jpa">Create a Hypermedia-Driven RESTful Web Service with Spring Data REST (using JPA)</a></li>
@@ -489,18 +496,45 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_run_the_cloud_native_spring_application_2">Run the <em>cloud-native-spring</em> Application</a></li>
 <li><a href="#_importing_data">Importing Data</a></li>
 <li><a href="#_adding_search">Adding Search</a></li>
+</ul>
+</li>
+<li><a href="#_adding_persistence_to_boot_application_2">Adding Persistence to Boot Application</a>
+<ul class="sectlevel2">
+<li><a href="#_create_a_hypermedia_driven_restful_web_service_with_spring_data_rest_using_jpa_2">Create a Hypermedia-Driven RESTful Web Service with Spring Data REST (using JPA)</a></li>
+<li><a href="#_add_the_domain_object_city_2">Add the domain object - City</a></li>
+<li><a href="#_use_flyway_to_manage_schema_2">Use Flyway to manage schema</a></li>
+<li><a href="#_run_the_cloud_native_spring_application_3">Run the <em>cloud-native-spring</em> Application</a></li>
+<li><a href="#_importing_data_2">Importing Data</a></li>
+<li><a href="#_adding_search_2">Adding Search</a></li>
 <li><a href="#_pushing_to_cloud_foundry">Pushing to Cloud Foundry</a></li>
 <li><a href="#_binding_to_a_mysql_database_in_cloud_foundry">Binding to a MySQL database in Cloud Foundry</a></li>
 </ul>
 </li>
-<li><a href="#_enhancing_boot_application_with_metrics">Enhancing Boot Application with Metrics</a>
+<li><a href="#_introduction_to_cf_cli">Introduction to CF CLI</a>
 <ul class="sectlevel2">
-<li><a href="#_set_up_the_actuator">Set up the Actuator</a></li>
-<li><a href="#_include_version_control_info">Include Version Control Info</a></li>
-<li><a href="#_include_build_info">Include Build Info</a></li>
-<li><a href="#_health_indicators">Health Indicators</a></li>
-<li><a href="#_metrics">Metrics</a></li>
+<li><a href="#_how_to_target_a_foundation_and_login">How to target a foundation and login</a></li>
+<li><a href="#_how_to_deploy_an_application">How to deploy an application</a></li>
+<li><a href="#_how_to_cleanup_after_yourself">How to cleanup after yourself</a></li>
+<li><a href="#_where_to_go_for_more_help">Where to go for more help</a></li>
+<li><a href="#_deploy_cloud_native_spring_to_pivotal_cloud_foundry">Deploy <em>cloud-native-spring</em> to Pivotal Cloud Foundry</a></li>
 <li><a href="#_deploy_cloud_native_spring_to_pivotal_cloud_foundry_2">Deploy <em>cloud-native-spring</em> to Pivotal Cloud Foundry</a></li>
+</ul>
+</li>
+<li><a href="#_adding_spring_cloud_config_to_boot_application">Adding Spring Cloud Config to Boot Application</a>
+<ul class="sectlevel2">
+<li><a href="#_update_hello_rest_service">Update <em>Hello</em> REST service</a></li>
+<li><a href="#_run_the_cloud_native_spring_application_and_verify_dynamic_config_is_working">Run the <em>cloud-native-spring</em> Application and verify dynamic config is working</a></li>
+<li><a href="#_create_spring_cloud_config_server_instance">Create Spring Cloud Config Server instance</a></li>
+<li><a href="#_deploy_and_test_application">Deploy and test application</a></li>
+</ul>
+</li>
+<li><a href="#_adding_service_registration_and_discovery_with_spring_cloud">Adding Service Registration and Discovery with Spring Cloud</a>
+<ul class="sectlevel2">
+<li><a href="#_update_cloud_native_spring_boot_application_to_register_with_eureka">Update <em>Cloud-Native-Spring</em> Boot Application to Register with Eureka</a></li>
+<li><a href="#_create_spring_cloud_service_registry_instance_and_deploy_application">Create Spring Cloud Service Registry instance and deploy application</a></li>
+<li><a href="#_deploy_and_test_application_2">Deploy and test application</a></li>
+<li><a href="#_create_another_spring_boot_project_as_a_client_ui">Create another Spring Boot Project as a Client UI</a></li>
+<li><a href="#_deploy_and_test_application_3">Deploy and test application</a></li>
 </ul>
 </li>
 </ul>
@@ -514,7 +548,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="_labs">Labs</h2>
+<h2 id="_introduction_labs_setup">Introduction: Labs Setup</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Welcome to the lab! Here you will find a collection of exercises and accompanying source-code.</p>
@@ -597,32 +631,32 @@ $ cf login</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_building_a_spring_boot_application">Building a Spring Boot Application</h2>
+<h2 id="_01_building_a_spring_boot_application">01. Building a Spring Boot Application</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In this lab we&#8217;ll build and deploy a simple <a href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/">Spring Boot</a> application to Cloud Foundry whose sole purpose is to reply with a standard greeting.</p>
+<p>In this lab we&#8217;ll build a simple <a href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/">Spring Boot</a> application whose sole purpose is to reply with a standard greeting.</p>
 </div>
 <div class="sect2">
 <h3 id="_getting_started">Getting started</h3>
 <div class="paragraph">
-<p>Although we will use a pre-created initial skeleton, it&#8217;s important you&#8217;ll learn how to use start.spring.io. Head over to the URL and enter the following details:</p>
+<p>Although we will use a pre-created initial skeleton, it&#8217;s important you&#8217;ll learn how to use the <a href="https://start.spring.io">Spring Initializr</a>. Head over to the URL and enter the following details:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>gradlew Project (Most developers will use Maven, but it&#8217;s not critical)</p>
+<p>Select a Gradle Project (projects are usually built using gradle or maven)</p>
 </li>
 <li>
-<p>Java</p>
+<p>Select Java and the target langauge.</p>
 </li>
 <li>
 <p>Latest stable version</p>
 </li>
 <li>
-<p>group: io.pivotal</p>
+<p><strong>group</strong>: io.pivotal</p>
 </li>
 <li>
-<p>artifact: cloud-native-spring</p>
+<p><strong>artifact</strong>: cloud-native-spring</p>
 </li>
 <li>
 <p>Search for the following dependencies:</p>
@@ -653,12 +687,12 @@ $ cf login</pre>
 <p>Click "Generate"</p>
 </li>
 <li>
-<p>Observe the contents of the downloaded ZIP file. This is the structure of a standard Spring Boot application. Code goes into <em>src/main/java</em>, properties or static content goes into <em>src/main/resources</em>, tests go into <em>src/main/test</em>.</p>
+<p>Observe the contents of the downloaded ZIP file. This is the structure of a standard Spring Boot application. Code goes into <code>src/main/java</code>, properties or static content goes into <code>src/main/resources</code>, tests go into <code>src/test/java</code>.</p>
 </li>
 </ol>
 </div>
 <div class="paragraph">
-<p>Now let&#8217;s continue with the pre-made skeleton</p>
+<p>Now let&#8217;s continue with the pre-made skeleton.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -666,15 +700,28 @@ $ cf login</pre>
 <p>Open a Terminal (e.g., <em>cmd</em> or <em>bash</em> shell)</p>
 </li>
 <li>
-<p>Change the working directory to be <em>devops-workshop/labs/my_work/cloud-native-spring</em></p>
-<div class="literalblock">
+<p>Clone the pre-existing git repository:</p>
+<div class="listingblock">
 <div class="content">
-<pre>cd /devops-workshop/labs/my_work/cloud-native-spring</pre>
+<pre class="highlight"><code class="language-bash" data-lang="bash">git clone https://github.com/odedia/devops-workshop.git</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Change the working directory to be <code>devops-workshop/labs/my_work/cloud-native-spring</code></p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">cd devops-workshop/labs/my_work/cloud-native-spring</code></pre>
 </div>
 </div>
 </li>
 <li>
 <p>Open this project in your editor/IDE of choice (InteliJ is recommended).</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">idea .</code></pre>
+</div>
+</div>
 </li>
 </ol>
 </div>
@@ -687,13 +734,13 @@ $ cf login</pre>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Create a new package <em>io.pivotal.controller</em> underneath <em>src/main/java</em>.</p>
+<p>Create a new package <code>io.pivotal.controller</code> underneath <code>src/main/java</code>.</p>
 </li>
 <li>
-<p>Create a new class named <em>GreetingController</em> in the aforementioned package.</p>
+<p>Create a new class named <code>GreetingController</code> in the aforementioned package.</p>
 </li>
 <li>
-<p>Add an <em>@RestController</em> annotation to the class <em>io.pivotal.controller.GreetingController</em> (i.e., <em>/cloud-native-spring/src/main/java/io/pivotal/controller/GreetingController.java</em>).</p>
+<p>Add an <code>@RestController</code> annotation to the class <code>io.pivotal.controller.GreetingController</code> (i.e., <code>/cloud-native-spring/src/main/java/io/pivotal/controller/GreetingController.java</code>).</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-java" data-lang="java">package io.pivotal.controller;
@@ -708,7 +755,7 @@ public class GreetingController {
 </div>
 </li>
 <li>
-<p>Add the following request handler to the class <em>io.pivotal.controller.GreetingController</em> (i.e., <em>/cloud-native-spring/src/main/java/io/pivotal/controller/GreetingController.java</em>).</p>
+<p>Add the following request handler to the class <code>io.pivotal.controller.GreetingController</code> (i.e., <code>/cloud-native-spring/src/main/java/io/pivotal/controller/GreetingController.java</code>).</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-java" data-lang="java">@GetMapping("/hello")
@@ -745,10 +792,10 @@ public class GreetingController {
 <div class="sect2">
 <h3 id="_build_the_cloud_native_spring_application">Build the <em>cloud-native-spring</em> application</h3>
 <div class="paragraph">
-<p>Return to the Terminal session you opened previously and make sure your working directory is set to be <em>devops-workshop/labs/my_work/cloud-native-spring</em></p>
+<p>Return to the Terminal session you opened previously and make sure your working directory is set to be <code>devops-workshop/labs/my_work/cloud-native-spring</code></p>
 </div>
 <div class="paragraph">
-<p>We&#8217;re going to use <a href="https://gradle.org">Gradle</a> to build and package artifacts. If you don&#8217;t already have ./gradlew installed, don&#8217;t worry, we have you covered. You can use the embedded gradlew Wrapper.</p>
+<p>We&#8217;re going to use <a href="https://gradle.org">Gradle</a> to build and package artifacts. If you don&#8217;t already have gradle installed, don&#8217;t worry, we have you covered. You can use the embedded gradlew Wrapper.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -777,7 +824,7 @@ public class GreetingController {
 </div>
 </li>
 <li>
-<p>Next we&#8217;ll package the application as an executable artifact (that can be run on its own because it will include all transitive dependencies along with embedding a servlet container)</p>
+<p>Next we&#8217;ll package the application as an executable artifact (that can be run on its own because it will include all transitive dependencies along with embedding a web server and a servlet container)</p>
 <div class="literalblock">
 <div class="content">
 <pre>./gradlew build</pre>
@@ -785,7 +832,7 @@ public class GreetingController {
 </div>
 </li>
 <li>
-<p>Examine the contents of the build/libs directory. You should see the final Spring Boot <em>jar</em> file. This jar file is completly portable - it contains everything that app needs, including an embedded Web server. This is why it is so big.</p>
+<p>Examine the contents of the <code>build/libs</code> directory. You should see the final Spring Boot <em>jar</em> file. This jar file is completly portable - it contains everything that app needs, including an embedded Web server. This is why it is so big.</p>
 </li>
 </ol>
 </div>
@@ -818,134 +865,412 @@ public class GreetingController {
 <p>Browse to <a href="http://localhost:8080/hello" class="bare">http://localhost:8080/hello</a></p>
 </li>
 <li>
-<p>Check the application&#8217;s metrics at <a href="http://localhost:8080/actuator" class="bare">http://localhost:8080/actuator</a></p>
-</li>
-<li>
 <p>Stop the <em>cloud-native-spring</em> application. In the terminal window type <strong>Ctrl + C</strong></p>
 </li>
 </ol>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_deploy_cloud_native_spring_to_pivotal_cloud_foundry">Deploy <em>cloud-native-spring</em> to Pivotal Cloud Foundry</h3>
-<div class="paragraph">
-<p>We&#8217;ve built and run the application locally.  Now we&#8217;ll deploy it to Cloud Foundry.</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Create an application manifest in the root folder <em>devops-workshop/labs/my_work/cloud-native-spring</em></p>
-<div class="literalblock">
-<div class="content">
-<pre>touch manifest.yml</pre>
-</div>
-</div>
-</li>
-<li>
-<p>Add application metadata, using a text editor (of choice)</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">---
-applications:
-- name: cloud-native-spring
-  random-route: true
-  instances: 1
-  path: ./build/libs/cloud-native-spring-1.0-SNAPSHOT.jar
-  # can be automatically detected, but it's nice to be clear about it:
-  buildpacks:
-  - java_buildpack_offline
-  env:
-    # makes Java a bit faster. Not mandatory.
-    JAVA_OPTS: -Djava.security.egd=file:///dev/urandom</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The above manifest entries will work with Java Buildpack 4.x series and JDK 8.  If you built the app with JDK 11 and want to deploy it you will need to make an additional entry in your manifest, just below <code>JAVA_OPTS</code>, add</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">---
-    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+ } }'</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>It should be noted that many of these parameters could have been implied. For example, the following works just the same:</p>
-</div>
-</li>
-</ol>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>---
-applications:
-- name: cloud-native-spring
-  random-route: true
-  path: ./build/libs/cloud-native-spring-1.0-SNAPSHOT.jar</pre>
-</div>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Push application into Cloud Foundry</p>
-<div class="literalblock">
-<div class="content">
-<pre>cf push</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>&#8594; To specify an alternate manifest and buildpack, you could update the above to be e.g.,</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>cf push -f manifest.yml -b java_buildpack</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Assuming the offline buildpack was installed and available for use with your targeted foundation.  You can check for which buildpacks are available by executing</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>cf buildpacks</pre>
-</div>
-</div>
-</li>
-<li>
-<p>Find the URL created for your app in the health status report. Browse to your app&#8217;s /hello endpoint.</p>
-</li>
-<li>
-<p>Check the log output</p>
-<div class="literalblock">
-<div class="content">
-<pre>cf logs cloud-native-spring --recent</pre>
-</div>
-</div>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p><strong>Congratulations!</strong> You’ve just completed your first Spring Boot application.</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_create_a_dockerfile">Create a Dockerfile</h2>
+<h2 id="_02_enhancing_boot_application_with_metrics">02. Enhancing Boot Application with Metrics</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_set_up_the_actuator">Set up the Actuator</h3>
 <div class="paragraph">
-<p>Now that we have a running application, we need to containerize it.</p>
+<p>Spring Boot includes a number of additional features to help you monitor and manage your application when it’s pushed to production. These features are added by adding <em>spring-boot-starter-actuator</em> to the classpath.  Our initial project setup already included it as a dependency.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Verify the Spring Boot Actuator dependency the in following file: <strong>cloud-native-spring/build.gradle</strong> You should see the following dependency in the list:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">dependencies {
+    implementation('org.springframework.boot:spring-boot-starter-actuator')
+    // other dependencies omitted
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Run the application again using <code>./gradlew bootRun</code> and then check the application&#8217;s metrics at <a href="http://localhost:8080/actuator" class="bare">http://localhost:8080/actuator</a>.</p>
+</li>
+<li>
+<p>Stop the application by typing <strong>Ctrl+C</strong>.</p>
+<div class="paragraph">
+<p>By default Spring Boot does not expose all the management endpoints (which is a good thing!).  Though you wouldn&#8217;t want to expose all of them in production, we&#8217;ll do so in this sample app to make demonstration a bit easier and simpler.</p>
+</div>
+</li>
+<li>
+<p>Add the following properties to <strong>cloud-native-spring/src/main/resources/application.yml</strong>.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yml" data-lang="yml">management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Run the updated application</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">gradle clean bootRun</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>We need to create a Dockerfile for our app.
-. What would be our base operating system? There are many choices. Ubuntu, RedHat, Suse, CentOS.
-. Who will be in charge of patching the OS?
-. What version of Java should we use? There are <em>many</em> choices. Search <a href="https://hub.docker.com/search?q=java&amp;type=image">Dockerhub</a> for Java and see the various options. Who performs CVE Patching on these images? (Hint: if you don&#8217;t know the answer, it&#8217;s probably you).
-. Select a base OS to use.
-. The jar file containing the applicaiton is under <em>build/libs/cloud-native-spring-1.0-SNAPSHOT.jar</em>.
-. The command to run the java application is</p>
+<p>Try out the following endpoints. The output is omitted here because it can be quite large:</p>
+</div>
+<div class="paragraph">
+<p>curl <a href="http://localhost:8080/actuator/health" class="bare">http://localhost:8080/actuator/health</a></p>
+</div>
+<div class="paragraph">
+<p>&#8594; Displays Application and Datasource health information.  This can be customized based on application functionality, which we&#8217;ll do later.</p>
+</div>
+<div class="paragraph">
+<p>curl <a href="http://localhost:8080/actuator/beans" class="bare">http://localhost:8080/actuator/beans</a></p>
+</div>
+<div class="paragraph">
+<p>&#8594; Displays all of the beans in the Spring context.</p>
+</div>
+<div class="paragraph">
+<p>curl <a href="http://localhost:8080/actuator/configprops" class="bare">http://localhost:8080/actuator/configprops</a></p>
+</div>
+<div class="paragraph">
+<p>&#8594; Displays a collated list of all @ConfigurationProperties.</p>
+</div>
+<div class="paragraph">
+<p>curl <a href="http://localhost:8080/actuator/env" class="bare">http://localhost:8080/actuator/env</a></p>
+</div>
+<div class="paragraph">
+<p>&#8594; Displays the application’s shell environment as well as all Java system properties.</p>
+</div>
+<div class="paragraph">
+<p>curl <a href="http://localhost:8080/actuator/mappings" class="bare">http://localhost:8080/actuator/mappings</a></p>
+</div>
+<div class="paragraph">
+<p>&#8594; Displays all URI request mappings and the controller methods to which they are mapped.</p>
+</div>
+<div class="paragraph">
+<p>curl <a href="http://localhost:8080/actuator/threaddump" class="bare">http://localhost:8080/actuator/threaddump</a></p>
+</div>
+<div class="paragraph">
+<p>&#8594; Displays a thread dump of the currently running application in JSON format.</p>
+</div>
+<div class="paragraph">
+<p>curl <a href="http://localhost:8080/actuator/heapdump" class="bare">http://localhost:8080/actuator/heapdump</a></p>
+</div>
+<div class="paragraph">
+<p>&#8594; Downloads a heap dump that you can import into a JVM profiler such as JProfiler.</p>
+</div>
+<div class="paragraph">
+<p>curl <a href="http://localhost:8080/actuator/httptrace" class="bare">http://localhost:8080/actuator/httptrace</a></p>
+</div>
+<div class="paragraph">
+<p>&#8594; Displays trace information (by default the last few HTTP requests).</p>
+</div>
+</li>
+<li>
+<p>Stop the <em>cloud-native-spring</em> application.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_include_version_control_info">Include Version Control Info</h3>
+<div class="paragraph">
+<p>Spring Boot provides an endpoint (<a href="http://localhost:8080/actuator/info" class="bare">http://localhost:8080/actuator/info</a>) that allows the exposure of arbitrary metadata. By default, it is empty.</p>
+</div>
+<div class="paragraph">
+<p>One thing that <em>actuator</em> does well is expose information about the specific build and version control coordinates for a given deployment.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Edit the following file: <strong>cloud-native-spring/build.gradle</strong> Add the <a href="https://github.com/n0mer/gradle-git-properties">gradle-git-properties</a> plugin to your Gradle build.</p>
+<div class="paragraph">
+<p>First, you&#8217;ll need to be able to resolve the plugin so add the following to the <em>plugins{}</em> section</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">plugins {
+    id 'com.gorylenko.gradle-git-properties' version '2.2.0'
+}</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>You&#8217;ll also configure the plugin by adding a <em>gitProperties{}</em> block.</p>
 </div>
 <div class="paragraph">
 <p>+</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">gitProperties {
+    dateFormat = "yyyy-MM-dd'T'HH:mmZ"
+    dateFormatTimeZone = "UTC"
+    dotGitDirectory = "${project.rootDir}/../../.."
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>&#8594; Note too that we are updating the path to the <em>.git</em> directory.</p>
+</div>
+<div class="paragraph">
+<p>+
+The effect of all this configuration is that the <em>gradle-git-properties</em> plugin adds Git branch and commit coordinates to the <strong>/actuator/info</strong> endpoint.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Run the <em>cloud-native-spring</em> application:</p>
+<div class="literalblock">
+<div class="content">
+<pre>gradle clean bootRun</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Let&#8217;s verify that Git commit information is now included</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">curl http://localhost:8080/actuator/info</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json" data-lang="json">{
+    "git": {
+        "commit": {
+            "time": "2017-09-07T13:52+0000",
+            "id": "3393f74"
+        },
+        "branch": "master"
+    }
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Stop the <em>cloud-native-spring</em> application</p>
+<div class="paragraph">
+<p><strong>What Just Happened?</strong></p>
+</div>
+<div class="paragraph">
+<p>We have mapped Gradle properties into the <code>/actuator/info</code> endpoint.</p>
+</div>
+<div class="paragraph">
+<p>Read more about exposing data in the <code>/actuator/info</code> endpoint <a href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready">here</a></p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_health_indicators">Health Indicators</h3>
+<div class="paragraph">
+<p>Spring Boot provides an endpoint <a href="http://localhost:8080/actuator/health" class="bare">http://localhost:8080/actuator/health</a> that exposes various health indicators that describe the health of the given application.</p>
+</div>
+<div class="paragraph">
+<p>Normally, the <code>/actuator/health</code> endpoint will only expose an UP or DOWN value.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json" data-lang="json">{
+  "status": "UP"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We want to expose more detail about the health and well-being of the application, so we&#8217;re going to need a bit more configuration to <code>cloud-native-spring/src/main/resources/application.yml</code>, underneath the <code>management</code> prefix, add:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yml" data-lang="yml">  endpoint:
+    health:
+      show-details: always</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Run the cloud-native-spring application:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">gradle bootRun</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Use curl to verify the output of the health endpoint</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">curl http://localhost:8080/actuator/health</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Out of the box is a <em>DiskSpaceHealthIndicator</em> that monitors health in terms of available disk space. Would your Ops team like to know if the app is close to running out of disk space? DiskSpaceHealthIndicator can be customized via <em>DiskSpaceHealthIndicatorProperties</em>. For instance, setting a different threshold for when to report the status as DOWN.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json" data-lang="json">{
+    "status": "UP",
+    "details": {
+        "diskSpace": {
+            "status": "UP",
+            "details": {
+                "total": 499963170816,
+                "free": 375287070720,
+                "threshold": 10485760
+            }
+        },
+        "db": {
+            "status": "UP",
+            "details": {
+                "database": "H2",
+                "hello": 1
+            }
+        }
+    }
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Stop the cloud-native-spring application.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_metrics">Metrics</h3>
+<div class="paragraph">
+<p>Spring Boot provides an endpoint <a href="http://localhost:8080/actuator/metrics" class="bare">http://localhost:8080/actuator/metrics</a> that exposes several automatically collected metrics for your application. It also allows for the creation of custom metrics.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Browse to <a href="http://localhost:8080/actuator/metrics" class="bare">http://localhost:8080/actuator/metrics</a>. Review the metrics exposed.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json" data-lang="json">{
+    "names": [
+        "jvm.memory.max",
+        "http.server.requests",
+        "jdbc.connections.active",
+        "process.files.max",
+        "jvm.gc.memory.promoted",
+        "tomcat.cache.hit",
+        "system.load.average.1m",
+        "tomcat.cache.access",
+        "jvm.memory.used",
+        "jvm.gc.max.data.size",
+        "jdbc.connections.max",
+        "jdbc.connections.min",
+        "jvm.gc.pause",
+        "jvm.memory.committed",
+        "system.cpu.count",
+        "logback.events",
+        "tomcat.global.sent",
+        "jvm.buffer.memory.used",
+        "tomcat.sessions.created",
+        "jvm.threads.daemon",
+        "system.cpu.usage",
+        "jvm.gc.memory.allocated",
+        "tomcat.global.request.max",
+        "hikaricp.connections.idle",
+        "hikaricp.connections.pending",
+        "tomcat.global.request",
+        "tomcat.sessions.expired",
+        "hikaricp.connections",
+        "jvm.threads.live",
+        "jvm.threads.peak",
+        "tomcat.global.received",
+        "hikaricp.connections.active",
+        "hikaricp.connections.creation",
+        "process.uptime",
+        "tomcat.sessions.rejected",
+        "process.cpu.usage",
+        "tomcat.threads.config.max",
+        "jvm.classes.loaded",
+        "hikaricp.connections.max",
+        "hikaricp.connections.min",
+        "jvm.classes.unloaded",
+        "tomcat.global.error",
+        "tomcat.sessions.active.current",
+        "tomcat.sessions.alive.max",
+        "jvm.gc.live.data.size",
+        "tomcat.servlet.request.max",
+        "hikaricp.connections.usage",
+        "tomcat.threads.current",
+        "tomcat.servlet.request",
+        "hikaricp.connections.timeout",
+        "process.files.open",
+        "jvm.buffer.count",
+        "jvm.buffer.total.capacity",
+        "tomcat.sessions.active.max",
+        "hikaricp.connections.acquire",
+        "tomcat.threads.busy",
+        "process.start.time",
+        "tomcat.servlet.error"
+    ]
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Browse to <a href="http://localhost:8080/actuator/metrics/jvm.memory.used" class="bare">http://localhost:8080/actuator/metrics/jvm.memory.used</a> to see how much memory is currently being used.</p>
+</li>
+<li>
+<p>Stop the cloud-native-spring application.</p>
+</li>
+</ol>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_03_creating_a_dockerfile">03. Creating a Dockerfile</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Now that we have a running application, we want to run it in Kubernetes. But before we can do it, we&#8217;ll need to create a docker file (or, to be more precise: an <a href="https://www.opencontainers.org/">OCI-compliant</a> image).</p>
+</div>
+<div class="paragraph">
+<p>For a simple demo application in this workshop, any choice is probably fine. However, when you go to production things get a big more complicated:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>What sould be our base operating system? There are many choices. Ubuntu, RedHat, Suse, CentOS.</p>
+</li>
+<li>
+<p>Who will be in charge of patching the OS?</p>
+</li>
+<li>
+<p>What version of Java should we use? There are <em>many</em> choices. Search <a href="https://hub.docker.com/search?q=java&amp;type=image">Docker hub</a> for Java and see the various options. Who performs CVE Patching on these images? (Hint: if you don&#8217;t know the answer, it&#8217;s probably you).</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Write a Dockerfile for this app. Select one of the options from <a href="https://hub.docker.com/search?q=java&amp;type=image">Docker hub</a> for now.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The jar file containing the application is under <em>build/libs/cloud-native-spring-1.0-SNAPSHOT.jar</em>.</p>
+</li>
+<li>
+<p>The command to run the java application is</p>
+</li>
+</ol>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -953,13 +1278,10 @@ applications:
 </div>
 </div>
 <div class="paragraph">
-<p>Write a Dockerfile for this app.</p>
+<p>&#8594; Hint: Use the <code>ENTRYPOINT</code> command at the end of your Dockerfile to run the app.</p>
 </div>
 <div class="paragraph">
 <p>Let&#8217;s build the docker image:</p>
-</div>
-<div class="paragraph">
-<p>+</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -968,9 +1290,6 @@ applications:
 </div>
 <div class="paragraph">
 <p>Now let&#8217;s run this container locally to make sure things still work.</p>
-</div>
-<div class="paragraph">
-<p>+</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -983,9 +1302,6 @@ applications:
 <div class="paragraph">
 <p>Tag the image and push it to docker.io.</p>
 </div>
-<div class="paragraph">
-<p>+</p>
-</div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-bash" data-lang="bash">docker tag cloud-native-spring &lt;your-username&gt;/cloud-native-spring
@@ -996,21 +1312,18 @@ docker push &lt;your-username&gt;/cloud-native-spring</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_deploying_to_kubernetes">Deploying to Kubernetes</h2>
+<h2 id="_04_deploying_to_kubernetes">04. Deploying to Kubernetes</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>In this lab we&#8217;ll deploy our very simple application to Kubernetes, and try to make it production ready.</p>
 </div>
 <div class="paragraph">
-<p>login to PKS cluster shared by the instructor.</p>
-</div>
-<div class="paragraph">
-<p>create a new namespace for your team:</p>
+<p>Login to PKS cluster shared by the instructor.</p>
 </div>
 <div class="sect2">
 <h3 id="_creating_a_namespace">Creating a namespace</h3>
 <div class="paragraph">
-<p>+</p>
+<p>Create a new namespace for your team:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1021,14 +1334,11 @@ docker push &lt;your-username&gt;/cloud-native-spring</code></pre>
 <div class="sect2">
 <h3 id="_creating_a_deployment">Creating a deployment</h3>
 <div class="paragraph">
-<p>Create a deployment manifest to run the image we just deployed. Here&#8217;s a skeleton you can use:</p>
-</div>
-<div class="paragraph">
-<p>+</p>
+<p>Create a deployment manifest to run the image we just deployed. Here&#8217;s a skeleton you can use (or write your own):</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">apiVersion: extensions/v1beta1
+<pre class="highlight"><code class="language-yml" data-lang="yml">apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   annotations:
@@ -1067,11 +1377,12 @@ spec:
 <div class="sect2">
 <h3 id="_creating_a_service">Creating a service</h3>
 <div class="paragraph">
-<p>+</p>
+<p>Since we&#8217;re using PKS, we&#8217;re lucky - we can use a <code>LoadBalancer</code>. If we were to use another solution we might have to revert to a <code>NodePort</code> or to implement other solutions.
+Complete the skeleton yaml below, or write your own:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">apiVersion: v1
+<pre class="highlight"><code class="language-yml" data-lang="yml">apiVersion: v1
 kind: Service
 metadata:
   labels:
@@ -1094,27 +1405,89 @@ spec:
 <div class="sect2">
 <h3 id="_exposing_a_dns_record">Exposing a DNS Record</h3>
 <div class="paragraph">
-<p>There are several ways to expose the service as a routable URL.
-. You can create an A record pointing to the load balancer, but then you will have to make sure the IP doesn&#8217;t change. Developers rarely have access to DNS.
-. You can create an ingress gateway that routes to the deployment, which requires installing an additional solution such as nginx.
-. You can leverage Istio/KNative</p>
+<p>There are several ways to expose the service as a routable URL:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>You can create an A record pointing to the load balancer. You will have to make sure the IP doesn&#8217;t change.</p>
+<div class="paragraph">
+<p>&#8594; Problem: Developers rarely have access to DNS, which means waiting for tickets between development and IT.</p>
+</div>
+</li>
+<li>
+<p>You can create an ingress gateway that routes to the deployment, which requires installing an additional ingress service to the cluster such as nginx.</p>
+</li>
+<li>
+<p>You can leverage Istio/KNative</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>For now, let&#8217;s just use the External IP we got.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_scaling">Scaling</h3>
 <div class="paragraph">
-<p>Change the deployment so there are 3 pods instead of 1.</p>
+<p>Edit the deployment yaml so that there are 3 pods instead of 1.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_testing_our_results">Testing our results</h3>
+<div class="paragraph">
+<p>Check your external IP by running:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">kubectl get svc -n &lt;my-team-namespace&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Open <a href="http://&lt;my-external-ip&gt;/hello" class="bare">http://&lt;my-external-ip&gt;/hello</a> and make sure you got a response.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_making_changes">Making changes</h3>
+<div class="paragraph">
+<p>One of the main advantages of going cloud-native is to have a fast feedback loop.
+What would happen if you were to make a single change in the code right now?</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Change the greeting message from "Hello World!" to "Hello VMware!".</p>
+</li>
+<li>
+<p>Get your new code to a running state in Kubernetes.</p>
+</li>
+</ol>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_logging">Logging</h3>
 <div class="paragraph">
-<p>Check the logs of one of the pods.
-How can you get the logs from all pods in one location?
-. You can use sidecar containers to manually handle logging to a central solution
-. You can install Fluentd daemon sets (requires privilege access to <em>kube_system</em> namespace)
-. You can use commercial solutions such as Splunk, Datadog, SumoLogic, Log Insight etc. (at an added cost)
-. You can use open source solutions such as ELK, Graylog (but it is your responsibility to maintain and upgrade them)</p>
+<p>Check the logs of one of the pods by running <code>kubectl logs &lt;pod-name&gt; -n &lt;my-team-namespace&gt;</code>.</p>
+</div>
+<div class="paragraph">
+<p>Logs from one pod is nice, but your application is being served from multiple pods.
+How can you get the logs from all pods of your app?</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>You can use sidecar containers to manually handle logging to a central solution</p>
+</li>
+<li>
+<p>You can install Fluentd daemon sets (requires privilege access to <code>kube_system</code> namespace)</p>
+</li>
+<li>
+<p>You can use commercial solutions such as Splunk, Datadog, SumoLogic, Log Insight etc. (at an added cost)</p>
+</li>
+<li>
+<p>You can use open source solutions such as ELK, Graylog (but it is now your responsibility to maintain and upgrade this solution)</p>
+</li>
+</ol>
 </div>
 </div>
 <div class="sect2">
@@ -1122,71 +1495,52 @@ How can you get the logs from all pods in one location?
 <div class="paragraph">
 <p>Our container provides basic metric information. We can get some of the data by running:</p>
 </div>
-<div class="paragraph">
-<p>+</p>
-</div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">kubectl describe pod &lt;my-pod&gt;</code></pre>
+<pre class="highlight"><code class="language-bash" data-lang="bash">kubectl describe pod &lt;my-pod&gt; -n &lt;my-team-namespace&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>But this will only give us information on a specific pod. What about connections between pods or deployments?
-How can we find our own metrics that we expose via actuator? We can query the <em>/actuator</em> URL but this will only give a response from <em>one</em> of the pods.
-. You can use commercial solutions such as SysDig, Dynatrace, NewRelic, Wavefront (at an added cost)
-. You can use open source solutions such as Kibana, Prometheus, Grafana (but it is your responsibility to maintain and upgrade them)</p>
+How can we find our own metrics that we expose via actuator? We can query the <em>/actuator</em> URL but this will only give a response from <em>one</em> of the pods.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>You can use commercial solutions such as SysDig, Dynatrace, NewRelic, Wavefront (at an added cost)</p>
+</li>
+<li>
+<p>You can use open source solutions such as Kibana, Prometheus, Grafana (but it is your responsibility to maintain and upgrade them)</p>
+</li>
+</ol>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_adding_a_database">Adding a database</h3>
-<div class="paragraph">
-<p>Our application now needs a database. What will we install?
-. We can install a database directly as an image.
-. We can use helm charts. Who takes care of the upgrades?
-. We can use database solutions as kubernetes operators / CRDs from a well-known vendor. The amount of production ready solutions is still low (Confluent, Greenplum, MongoDB).</p>
-</div>
-<div class="paragraph">
-<p>Regardless of the solution, we need to configure the following:
-. We need to make sure that <em>only</em> our application can access the database and no other pods. This requires Kubernetes <em>taint</em> commands using labels.
-. We need to update our application to point to the new database URL, username and password.
-. We need to do this every time we move to other environments (such as other namespaces or Kubernetes clusters).
-. We need to store password in a well-encrypted store. The default kubernetes secret management uses base64 encoding <strong>which is not an encryption solution</strong></p>
+<h3 id="_the_bottom_line_if_you_got_all_of_the_requirements_above_working_well_congradulations_you_built_your_own_platform_on_top_of_kubernetes">The bottom line: If you got all of the requirements above working well, congradulations - you built your own platform on top of Kubernetes!</h3>
+<div class="imageblock">
+<div class="content">
+<img src="images/k8s1.jpg" alt="k8s1">
 </div>
 </div>
-<div class="sect2">
-<h3 id="_installing_a_management_gui">Installing a management GUI</h3>
-<div class="paragraph">
-<p>It would be nice to install a web UI to manage our kubernetes deployments.
-. We can use the default Kubernetes dashboard.
-. We can install desktop solutions such as Lens.
-. Almost all of these solutions focus on the Kubernetes native components (pods, deployments, services) and not on the application-specific perspective (Apps, logs, metrics).</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/k8s2.jpg" alt="k8s2">
 </div>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="images/k8s3.jpg" alt="k8s3">
 </div>
-</div>
-<div class="sect1">
-<h2 id="_the_bottom_line_if_you_got_all_of_the_requirements_above_working_well_congradulations_you_built_your_own_platform_on_top_of_kubernetes">The bottom line: If you got all of the requirements above working well, congradulations - you built your own platform on top of Kubernetes!</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>+
-image::images/k8s1.jpg[]</p>
-</div>
-<div class="paragraph">
-<p>+
-image::images/k8s2.jpg[]</p>
-</div>
-<div class="paragraph">
-<p>+
-image::images/k8s3.jpg[]</p>
 </div>
 <div style="page-break-after: always;"></div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_adding_persistence_to_boot_application">Adding Persistence to Boot Application</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In this lab we&#8217;ll utilize Spring Boot, Spring Data, and Spring Data REST to create a fully-functional hypermedia-driven RESTful web service.  We&#8217;ll then deploy it to Pivotal Cloud Foundry.  Along the way we&#8217;ll take a brief look at <a href="https://flywaydb.org">Flyway</a> which can help us manage updates to database schema and data.</p>
+<p>In this lab we&#8217;ll utilize Spring Boot, Spring Data, and Spring Data REST to create a fully-functional hypermedia-driven RESTful web service. Along the way we&#8217;ll take a brief look at <a href="https://flywaydb.org">Flyway</a> which can help us manage updates to database schema and data.</p>
 </div>
 <div class="sect2">
 <h3 id="_create_a_hypermedia_driven_restful_web_service_with_spring_data_rest_using_jpa">Create a Hypermedia-Driven RESTful Web Service with Spring Data REST (using JPA)</h3>
@@ -1332,7 +1686,7 @@ implementation('com.zaxxer:HikariCP:3.3.0')</code></pre>
 <p>Access the application using <code>curl</code> or your web browser using the newly added REST repository endpoint at <a href="http://localhost:8080/cities" class="bare">http://localhost:8080/cities</a>. You&#8217;ll see that the primary endpoint automatically exposes the ability to page, size, and sort the response JSON.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">http :8080/cities
+<pre class="highlight"><code class="language-bash" data-lang="bash">curl http://localhost:8080/cities
 
 HTTP/1.1 200 OK
 Server: Apache-Coyote/1.1
@@ -1368,7 +1722,7 @@ Date: Thu, 28 Apr 2016 14:44:06 GMT
 </ol>
 </div>
 <div class="paragraph">
-<p>So what have you done? Created four small classes, modified a build file, added some configuration and SQL migration scripts, resulting in a fully-functional REST microservice. The application&#8217;s <code>DataSource</code> is created automatically by Spring Boot using the in-memory database because no other <code>DataSource</code> was detected in the project.</p>
+<p>So what have you done? Created four small classes, modified a build file, added some configuration and SQL migration scripts, resulting in a fully-functional REST microservice. The application&#8217;s <code>DataSource</code> is created automatically by Spring Boot using the in-memory database because <strong>*no other <code>DataSource</code> was detected in the project</strong>.</p>
 </div>
 <div class="paragraph">
 <p>Next we&#8217;ll import some data.</p>
@@ -1393,7 +1747,7 @@ Date: Thu, 28 Apr 2016 14:44:06 GMT
 <p>Access the application again. Notice the appropriate hypermedia is included for <code>next</code>, <code>previous</code>, and <code>self</code>. You can also select pages and page size by utilizing <code>?size=n&amp;page=n</code> on the URL string. Finally, you can sort the data utilizing <code>?sort=fieldName</code> (replace fieldName with a cities attribute).</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">http :8080/cities
+<pre class="highlight"><code class="language-bash" data-lang="bash">curl http://localhost:8080/cities
 
 HTTP/1.1 200 OK
 Server: Apache-Coyote/1.1
@@ -1511,7 +1865,7 @@ Page&lt;City&gt; findByStateCode(@Param("stateCode") String stateCode, Pageable 
 <p>Access the application again. Notice that hypermedia for a new <code>search</code> endpoint has appeared.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">http :8080/cities
+<pre class="highlight"><code class="language-bash" data-lang="bash">curl http://localhost:8080/cities
 
 HTTP/1.1 200 OK
 Server: Apache-Coyote/1.1
@@ -1560,7 +1914,7 @@ Date: Tue, 27 May 2014 20:33:52 GMT
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">http :8080/cities/search
+<pre class="highlight"><code class="language-bash" data-lang="bash">curl http://localhost:8080/cities/search
 
 HTTP/1.1 200 OK
 Server: Apache-Coyote/1.1
@@ -1619,6 +1973,448 @@ Date: Tue, 27 May 2014 20:38:32 GMT
 </li>
 </ol>
 </div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_adding_persistence_to_boot_application_2">Adding Persistence to Boot Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this lab we&#8217;ll utilize Spring Boot, Spring Data, and Spring Data REST to create a fully-functional hypermedia-driven RESTful web service. Along the way we&#8217;ll take a brief look at <a href="https://flywaydb.org">Flyway</a> which can help us manage updates to database schema and data.</p>
+</div>
+<div class="sect2">
+<h3 id="_create_a_hypermedia_driven_restful_web_service_with_spring_data_rest_using_jpa_2">Create a Hypermedia-Driven RESTful Web Service with Spring Data REST (using JPA)</h3>
+<div class="paragraph">
+<p>This application will allow us to create, read update and delete records in an <a href="http://www.h2database.com/html/quickstart.html">in-memory</a> relational repository. We&#8217;ll continue building upon the Spring Boot application we built out in Lab 1.  The first stereotype we will need is the domain model itself, which is <code>City</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_add_the_domain_object_city_2">Add the domain object - City</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create the package <code>io.pivotal.domain</code> and in that package create the class <code>City</code>. Into that file you can paste the following source code, which represents cities based on postal codes, global coordinates, etc:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">package io.pivotal.domain;
+
+@Data
+@Entity
+@Table(name="city")
+public class City implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String county;
+
+    @Column(nullable = false)
+    private String stateCode;
+
+    @Column(nullable = false)
+    private String postalCode;
+
+    @Column
+    private String latitude;
+
+    @Column
+    private String longitude;
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice that we&#8217;re using <a href="http://docs.oracle.com/javaee/6/tutorial/doc/bnbpz.html">JPA</a> annotations on the class and its fields. We&#8217;re also employing <a href="https://projectlombok.org/features/all">Lombok</a>, so we don&#8217;t have to write a bunch of boilerplate code (e.g., getter and setter methods).  You&#8217;ll need to use your IDE&#8217;s features to add the appropriate import statements.</p>
+</div>
+<div class="paragraph">
+<p>&#8594; Hint: imports should start with <code>javax.persistence</code> and <code>lombok</code></p>
+</div>
+</li>
+<li>
+<p>Create the package <code>io.pivotal.repositories</code> and in that package create the interface <code>CityRepository</code>. Paste the following code and add appropriate imports:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">package io.pivotal.repositories;
+
+@RepositoryRestResource(collectionResourceRel = "cities", path = "cities")
+public interface CityRepository extends PagingAndSortingRepository&lt;City, Long&gt; {
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You’ll need to use your IDE’s features to add the appropriate import statements.</p>
+</div>
+<div class="paragraph">
+<p>&#8594; Hint: imports should start with <code>org.springframework.data.rest.core.annotation</code> and <code>org.springframework.data.repository</code></p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_use_flyway_to_manage_schema_2">Use Flyway to manage schema</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Edit <em>build.gradle</em> and add the following dependencies within the <em>dependencies {}</em> block</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">implementation('org.flywaydb:flyway-core:5.2.4')
+implementation('com.zaxxer:HikariCP:3.3.0')</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Create a new file named <code>V1_0__init_database.sql</code> underneath <em>devops-workshop/labs/my_work/cloud-native-spring/src/main/resources/db/migration</em>, add the following lines and save.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">CREATE TABLE city (
+   ID INTEGER PRIMARY KEY AUTO_INCREMENT,
+   NAME VARCHAR(100) NOT NULL,
+   COUNTY VARCHAR(100) NOT NULL,
+   STATE_CODE VARCHAR(10) NOT NULL,
+   POSTAL_CODE VARCHAR(10) NOT NULL,
+   LATITUDE VARCHAR(15) NOT NULL,
+   LONGITUDE VARCHAR(15) NOT NULL
+);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Spring Boot comes with out-of-the-box <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/howto-database-initialization.html#howto-execute-flyway-database-migrations-on-startup">integration</a> support for <a href="https://flywaydb.org/documentation/plugins/springboot">Flyway</a>.  When we start the application it will execute a versioned <a href="https://flywaydb.org/documentation/migrations#sql-based-migrations">SQL migration</a> that will create a new table in the database.</p>
+</div>
+</li>
+<li>
+<p>Add the following lines to <em>devops-workshop/labs/my_work/cloud-native-spring/src/main/resources/application.yml</em></p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">spring:
+  datasource:
+    hikari:
+      connection-timeout: 60000
+      maximum-pool-size: 5</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>+ <a href="https://github.com/brettwooldridge/HikariCP/blob/dev/README.md">Hikari</a> is a database connection pool implementation. We are limiting the number of database connections an individual application instance may consume.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_run_the_cloud_native_spring_application_3">Run the <em>cloud-native-spring</em> Application</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Return to the Terminal session you opened previously</p>
+</li>
+<li>
+<p>Run the application</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">gradle clean bootRun</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Access the application using <code>curl</code> or your web browser using the newly added REST repository endpoint at <a href="http://localhost:8080/cities" class="bare">http://localhost:8080/cities</a>. You&#8217;ll see that the primary endpoint automatically exposes the ability to page, size, and sort the response JSON.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">curl http://localhost:8080/cities
+
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+Content-Type: application/hal+json;charset=UTF-8
+Transfer-Encoding: chunked
+Date: Thu, 28 Apr 2016 14:44:06 GMT
+
+{
+  "_embedded" : {
+    "cities" : [ ]
+  },
+  "_links" : {
+    "self" : {
+      "href" : "http://localhost:8080/cities"
+    },
+    "profile" : {
+      "href" : "http://localhost:8080/profile/cities"
+    }
+  },
+  "page" : {
+    "size" : 20,
+    "totalElements" : 0,
+    "totalPages" : 0,
+    "number" : 0
+  }
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>To exit the application, type <strong>Ctrl-C</strong>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>So what have you done? Created four small classes, modified a build file, added some configuration and SQL migration scripts, resulting in a fully-functional REST microservice. The application&#8217;s <code>DataSource</code> is created automatically by Spring Boot using the in-memory database because <strong>*no other <code>DataSource</code> was detected in the project</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Next we&#8217;ll import some data.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_importing_data_2">Importing Data</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Copy the <a href="https://raw.githubusercontent.com/Pivotal-Field-Engineering/devops-workshop/master/labs/import.sql">import.sql</a> file found in <strong>devops-workshop/labs/</strong> to <em>devops-workshop/labs/my_work/cloud-native-spring/src/main/resources/db/migration</em>. Rename the file to be <code>V1_1__seed_data.sql</code>. (This is a small subset of a larger dataset containing all of the postal codes in the United States and its territories).</p>
+</li>
+<li>
+<p>Restart the application.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">gradle clean bootRun</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Access the application again. Notice the appropriate hypermedia is included for <code>next</code>, <code>previous</code>, and <code>self</code>. You can also select pages and page size by utilizing <code>?size=n&amp;page=n</code> on the URL string. Finally, you can sort the data utilizing <code>?sort=fieldName</code> (replace fieldName with a cities attribute).</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">curl http://localhost:8080/cities
+
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+X-Application-Context: application
+Content-Type: application/hal+json
+Transfer-Encoding: chunked
+Date: Tue, 27 May 2014 19:59:58 GMT
+
+{
+  "_links" : {
+    "next" : {
+      "href" : "http://localhost:8080/cities?page=1&amp;size=20"
+    },
+    "self" : {
+      "href" : "http://localhost:8080/cities{?page,size,sort}",
+      "templated" : true
+    }
+  },
+  "_embedded" : {
+    "cities" : [ {
+      "name" : "HOLTSVILLE",
+      "county" : "SUFFOLK",
+      "stateCode" : "NY",
+      "postalCode" : "00501",
+      "latitude" : "+40.922326",
+      "longitude" : "-072.637078",
+      "_links" : {
+        "self" : {
+          "href" : "http://localhost:8080/cities/1"
+        }
+      }
+    },
+
+    // ...
+
+    {
+      "name" : "CASTANER",
+      "county" : "LARES",
+      "stateCode" : "PR",
+      "postalCode" : "00631",
+      "latitude" : "+18.269187",
+      "longitude" : "-066.864993",
+      "_links" : {
+        "self" : {
+          "href" : "http://localhost:8080/cities/20"
+        }
+      }
+    } ]
+  },
+  "page" : {
+    "size" : 20,
+    "totalElements" : 42741,
+    "totalPages" : 2138,
+    "number" : 0
+  }
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Try the following URL Paths with <code>curl</code> to see how the application behaves:</p>
+<div class="paragraph">
+<p><a href="http://localhost:8080/cities?size=5" class="bare">http://localhost:8080/cities?size=5</a></p>
+</div>
+<div class="paragraph">
+<p><a href="http://localhost:8080/cities?size=5&amp;page=3" class="bare">http://localhost:8080/cities?size=5&amp;page=3</a></p>
+</div>
+<div class="paragraph">
+<p><a href="http://localhost:8080/cities?sort=postalCode,desc" class="bare">http://localhost:8080/cities?sort=postalCode,desc</a></p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Next we&#8217;ll add searching capabilities.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_adding_search_2">Adding Search</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Let&#8217;s add some additional finder methods to <code>CityRepository</code>:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">@RestResource(path = "name", rel = "name")
+Page&lt;City&gt; findByNameIgnoreCase(@Param("q") String name, Pageable pageable);
+
+@RestResource(path = "nameContains", rel = "nameContains")
+Page&lt;City&gt; findByNameContainsIgnoreCase(@Param("q") String name, Pageable pageable);
+
+@RestResource(path = "state", rel = "state")
+Page&lt;City&gt; findByStateCodeIgnoreCase(@Param("q") String stateCode, Pageable pageable);
+
+@RestResource(path = "postalCode", rel = "postalCode")
+Page&lt;City&gt; findByPostalCode(@Param("q") String postalCode, Pageable pageable);
+
+@Query(value ="select c from City c where c.stateCode = :stateCode")
+Page&lt;City&gt; findByStateCode(@Param("stateCode") String stateCode, Pageable pageable);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>&#8594; Hint: imports should start with <code>org.springframework.data.domain</code>, <code>org.springframework.data.rest.core.annotation</code>, <code>org.springframework.data.repository.query</code>, and <code>org.springframework.data.jpa.repository</code></p>
+</div>
+</li>
+<li>
+<p>Run the application</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">gradle clean bootRun</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Access the application again. Notice that hypermedia for a new <code>search</code> endpoint has appeared.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">curl http://localhost:8080/cities
+
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+X-Application-Context: application
+Content-Type: application/hal+json
+Transfer-Encoding: chunked
+Date: Tue, 27 May 2014 20:33:52 GMT
+
+// prior omitted
+    },
+    "_links": {
+        "first": {
+            "href": "http://localhost:8080/cities?page=0&amp;size=20"
+        },
+        "self": {
+            "href": "http://localhost:8080/cities{?page,size,sort}",
+            "templated": true
+        },
+        "next": {
+            "href": "http://localhost:8080/cities?page=1&amp;size=20"
+        },
+        "last": {
+            "href": "http://localhost:8080/cities?page=2137&amp;size=20"
+        },
+        "profile": {
+            "href": "http://localhost:8080/profile/cities"
+        },
+        "search": {
+            "href": "http://localhost:8080/cities/search"
+        }
+    },
+    "page": {
+        "size": 20,
+        "totalElements": 42741,
+        "totalPages": 2138,
+        "number": 0
+    }
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Access the new <code>search</code> endpoint:</p>
+<div class="paragraph">
+<p><a href="http://localhost:8080/cities/search" class="bare">http://localhost:8080/cities/search</a></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">curl http://localhost:8080/cities/search
+
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+X-Application-Context: application
+Content-Type: application/hal+json
+Transfer-Encoding: chunked
+Date: Tue, 27 May 2014 20:38:32 GMT
+
+{
+    "_links": {
+        "postalCode": {
+            "href": "http://localhost:8080/cities/search/postalCode{?q,page,size,sort}",
+            "templated": true
+        },
+        "state": {
+            "href": "http://localhost:8080/cities/search/state{?q,page,size,sort}",
+            "templated": true
+        },
+        "nameContains": {
+            "href": "http://localhost:8080/cities/search/nameContains{?q,page,size,sort}",
+            "templated": true
+        },
+        "name": {
+            "href": "http://localhost:8080/cities/search/name{?q,page,size,sort}",
+            "templated": true
+        },
+        "findByStateCode": {
+            "href": "http://localhost:8080/cities/search/findByStateCode{?stateCode,page,size,sort}",
+            "templated": true
+        },
+        "self": {
+            "href": "http://localhost:8080/cities/search"
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that we now have new search endpoints for each of the finders that we added.</p>
+</div>
+</li>
+<li>
+<p>Try a few of these endpoints in <a href="https://www.getpostman.com">Postman</a>. Feel free to substitute your own values for the parameters.</p>
+<div class="paragraph">
+<p><a href="http://localhost:8080/cities/search/postalCode?q=01229" class="bare">http://localhost:8080/cities/search/postalCode?q=01229</a></p>
+</div>
+<div class="paragraph">
+<p><a href="http://localhost:8080/cities/search/name?q=Springfield" class="bare">http://localhost:8080/cities/search/name?q=Springfield</a></p>
+</div>
+<div class="paragraph">
+<p><a href="http://localhost:8080/cities/search/nameContains?q=West&amp;size=1" class="bare">http://localhost:8080/cities/search/nameContains?q=West&amp;size=1</a></p>
+</div>
+<div class="paragraph">
+<p>&#8594; For further details on what&#8217;s possible with Spring Data JPA, consult the <a href="https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#dependencies.spring-boot">reference documentation</a></p>
+</div>
+</li>
+</ol>
+</div>
+<div style="page-break-after: always;"></div>
 </div>
 <div class="sect2">
 <h3 id="_pushing_to_cloud_foundry">Pushing to Cloud Foundry</h3>
@@ -1902,439 +2698,173 @@ Take a few moments to explore the features and see that the administrative and d
 </div>
 </div>
 <div class="sect1">
-<h2 id="_enhancing_boot_application_with_metrics">Enhancing Boot Application with Metrics</h2>
+<h2 id="_introduction_to_cf_cli">Introduction to CF CLI</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_set_up_the_actuator">Set up the Actuator</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Change the working directory to be <em>devops-workshop/labs/samples</em></p>
 <div class="paragraph">
-<p>Spring Boot includes a number of additional features to help you monitor and manage your application when it’s pushed to production. These features are added by adding <em>spring-boot-starter-actuator</em> to the classpath.  Our initial project setup already included it as a dependency.</p>
+<p>Note the sub-directories present..</p>
 </div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">samples
+├── dotnet-core-sample
+├── go-sample
+├── nodejs-sample
+├── python-sample</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>&#8594; If you want to be able to deploy these samples you must have <em>Go</em>, <em>Node</em>, <em>.Net Core</em>, and <em>Python</em> installed.</p>
+</div>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_how_to_target_a_foundation_and_login">How to target a foundation and login</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Verify the Spring Boot Actuator dependency the in following file: <strong>/cloud-native-spring/build.gradle</strong> You should see the following dependency in the list:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-groovy" data-lang="groovy">dependencies {
-    implementation('org.springframework.boot:spring-boot-starter-actuator')
-    // other dependencies omitted
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>By default Spring Boot does not expose these management endpoints (which is a good thing!).  Though you wouldn&#8217;t want to expose all of them in production, we&#8217;ll do so in this sample app to make demonstration a bit easier and simpler.</p>
-</div>
+<p>Open a Terminal (e.g., <em>cmd</em> or <em>bash</em> shell)</p>
 </li>
 <li>
-<p>Add the following properties to <strong>cloud-native-spring/src/main/resources/application.yml</strong>.</p>
+<p>Target a foundation and login</p>
+<div class="paragraph">
+<p><strong>PCFOne</strong></p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-yml" data-lang="yml">management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Run the updated application</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">gradle clean bootRun</code></pre>
+<pre>$ cf login -a https://api.run.pcfone.io</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Try out the following endpoints with <a href="https://www.getpostman.com">Postman</a>. The output is omitted here because it can be quite large:</p>
+<p>Enter your account username and password, then select an org and space.</p>
 </div>
-<div class="paragraph">
-<p>http :8080/actuator/health</p>
-</div>
-<div class="paragraph">
-<p>&#8594; Displays Application and Datasource health information.  This can be customized based on application functionality, which we&#8217;ll do later.</p>
-</div>
-<div class="paragraph">
-<p>http :8080/actuator/beans</p>
-</div>
-<div class="paragraph">
-<p>&#8594; Dumps all of the beans in the Spring context.</p>
-</div>
-<div class="paragraph">
-<p>http :8080/actuator/autoconfig</p>
-</div>
-<div class="paragraph">
-<p>&#8594; Dumps all of the auto-configuration performed as part of application bootstrapping.</p>
-</div>
-<div class="paragraph">
-<p>http :8080/actuator/configprops</p>
-</div>
-<div class="paragraph">
-<p>&#8594; Displays a collated list of all @ConfigurationProperties.</p>
-</div>
-<div class="paragraph">
-<p>http :8080/actuator/env</p>
-</div>
-<div class="paragraph">
-<p>&#8594; Dumps the application’s shell environment as well as all Java system properties.</p>
-</div>
-<div class="paragraph">
-<p>http :8080/actuator/mappings</p>
-</div>
-<div class="paragraph">
-<p>&#8594; Dumps all URI request mappings and the controller methods to which they are mapped.</p>
-</div>
-<div class="paragraph">
-<p>http :8080/actuator/threaddump</p>
-</div>
-<div class="paragraph">
-<p>&#8594; Performs a thread dump.</p>
-</div>
-<div class="paragraph">
-<p>http :8080/actuator/httptrace</p>
-</div>
-<div class="paragraph">
-<p>&#8594; Displays trace information (by default the last few HTTP requests).</p>
-</div>
-<div class="paragraph">
-<p>http :8080/actuator/flyway</p>
-</div>
-<div class="paragraph">
-<p>&#8594; Shows any Flyway database migrations that have been applied.</p>
-</div>
-</li>
-<li>
-<p>Stop the <em>cloud-native-spring</em> application.</p>
 </li>
 </ol>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_include_version_control_info">Include Version Control Info</h3>
-<div class="paragraph">
-<p>Spring Boot provides an endpoint (<a href="http://localhost:8080/actuator/info" class="bare">http://localhost:8080/actuator/info</a>) that allows the exposure of arbitrary metadata. By default, it is empty.</p>
-</div>
-<div class="paragraph">
-<p>One thing that <em>actuator</em> does well is expose information about the specific build and version control coordinates for a given deployment.</p>
-</div>
+<h3 id="_how_to_deploy_an_application">How to deploy an application</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Edit the following file: <strong>/cloud-native-spring/build.gradle</strong> Add the <a href="https://github.com/n0mer/gradle-git-properties">gradle-git-properties</a> plugin to your Gradle build.</p>
-<div class="paragraph">
-<p>First, you&#8217;ll need to be able to resolve the plugin so add the following to the <em>plugins{}</em> section</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-groovy" data-lang="groovy">plugins {
-    id 'com.gorylenko.gradle-git-properties' version '2.0.0'
-}</code></pre>
-</div>
-</div>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>You&#8217;ll also configure the plugin by adding a <em>gitProperties{}</em> block.</p>
-</div>
-<div class="paragraph">
-<p>+</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-groovy" data-lang="groovy">gitProperties {
-    dateFormat = "yyyy-MM-dd'T'HH:mmZ"
-    dateFormatTimeZone = "UTC"
-    dotGitDirectory = "${project.rootDir}/../../.."
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>+
-&#8594; Note too that we are updating the path to the <em>.git</em> directory.</p>
-</div>
-<div class="paragraph">
-<p>+
-The effect of all this configuration is that the <em>gradle-git-properties</em> plugin adds Git branch and commit coordinates to the <strong>/actuator/info</strong> endpoint.</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Run the <em>cloud-native-spring</em> application:</p>
+<p>Let&#8217;s take a look at the CF CLI options</p>
 <div class="literalblock">
 <div class="content">
-<pre>gradle clean bootRun</pre>
+<pre>cf help -a</pre>
 </div>
 </div>
 </li>
 <li>
-<p>Let&#8217;s use <a href="https://httpie.org">httpie</a> to verify that Git commit information is now included</p>
-<div class="listingblock">
+<p>Let&#8217;s see what buildpacks are available to us</p>
+<div class="literalblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">http :8080/actuator/info</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-json" data-lang="json">{
-    "git": {
-        "commit": {
-            "time": "2017-09-07T13:52+0000",
-            "id": "3393f74"
-        },
-        "branch": "master"
-    }
-}</code></pre>
+<pre>cf buildpacks</pre>
 </div>
 </div>
 </li>
 <li>
-<p>Stop the <em>cloud-native-spring</em> application</p>
-<div class="paragraph">
-<p><strong>What Just Happened?</strong></p>
-</div>
-<div class="paragraph">
-<p>By including the <em>gradle-git-properties</em> plugin, details about git commit information will be included in the <strong>/actuator/info</strong> endpoint. Git information is captured in a <em>git.properties</em> file that is generated with the build. Review the following file: <strong>/cloud-native-spring/build/resources/main/git.properties</strong></p>
-</div>
-</li>
-</ol>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_include_build_info">Include Build Info</h3>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Add the following properties to <strong>cloud-native-spring/src/main/resources/application.yml</strong>.</p>
-<div class="listingblock">
+<p>Peruse the services you can provision and bind your applications to</p>
+<div class="literalblock">
 <div class="content">
-<pre class="highlight"><code class="language-yml" data-lang="yml">info: # add this section
-  build:
-    name: @application.name@
-    description: @application.description@
-    version: @application.version@</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Note we&#8217;re defining token delimited value-placeholders for each property.  In order to have these properties replaced, we&#8217;ll need to add some further instructions to the <em>build.gradle</em> file.</p>
-</div>
-<div class="paragraph">
-<p>&#8594; if STS <a href="https://jira.spring.io/browse/STS-4201">reports a problem</a> with the application.yml due to @ character, the problem can safely be ignored.</p>
-</div>
-</li>
-<li>
-<p>Add the following directly underneath the <em>gitProperties{}</em> block within <strong>cloud-native-spring/build.gradle</strong></p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-groovy" data-lang="groovy">import org.apache.tools.ant.filters.*
-
-processResources {
-    filter ReplaceTokens, tokens: [
-        "application.name": project.property("application.name"),
-        "application.description": project.property("application.description"),
-        "application.version": project.property("version")
-    ]
-}</code></pre>
+<pre>cf marketplace</pre>
 </div>
 </div>
 </li>
 <li>
-<p>Build and run the <em>cloud-native-spring</em> application:</p>
-<div class="listingblock">
+<p>Time to deploy an app. How about Node.js? Before running <em>cf push</em>, always inspect the <em>manifest.yml</em> file in each directory.</p>
+<div class="literalblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">gradle clean bootRun</code></pre>
+<pre>cd nodejs-sample
+cf push -c "node server.js"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice that PCF also <em>built</em> the application for you before creating the container and running the app. You can also build your application locally and just provide the final artifact to PCF:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>yarn config set yarn-offline-mirror ./npm-packages-offline-cache
+cp ~/.yarnrc .
+rm -rf node_modules/ yarn.lock
+yarn install</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>cf push -c "node server.js"</pre>
 </div>
 </div>
 </li>
 <li>
-<p>Again we&#8217;ll use httpie to verify that the Build information is now included</p>
-<div class="listingblock">
+<p>Next, let&#8217;s try deploying a Python app. Note that again, PCF builds the application for you:</p>
+<div class="literalblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">http :8080/actuator/info</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-json" data-lang="json">{
-    "build": {
-        "name": "Cloud Native Spring (Back-end)",
-        "description": "Simple Spring Boot application employing an in-memory relational data-store and which exposes a set of REST APIs",
-        "version": "1.0-SNAPSHOT"
-    },
-    "git": {
-        "commit": {
-            "time": "2017-09-07T13:52+0000",
-            "id": "3393f74"
-        },
-        "branch": "master"
-    }
-}</code></pre>
+<pre>cd ../python-sample
+cf push my_pyapp</pre>
 </div>
 </div>
 </li>
 <li>
-<p>Stop the cloud-native-spring application.</p>
-<div class="paragraph">
-<p><strong>What Just Happened?</strong></p>
+<p>Rinse and repeat for .Net Core (again, built during deployment):</p>
+<div class="literalblock">
+<div class="content">
+<pre>cd ../dotnet-core-sample
+cf push</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Now let&#8217;s push a Go app. Notice there&#8217;s no <em>manifest.yml</em> in this directory. How did PCF know it&#8217;s a Go app?</p>
+<div class="literalblock">
+<div class="content">
+<pre>cd ../go-sample
+cf push awesome-go-app -m 64M --random-route</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Check what applications have been deployed so far</p>
+<div class="literalblock">
+<div class="content">
+<pre>cf apps</pre>
+</div>
 </div>
 <div class="paragraph">
-<p>We have mapped Gradle properties into the /actuator/info endpoint.</p>
-</div>
-<div class="paragraph">
-<p>Read more about exposing data in the /actuator/info endpoint <a href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready">here</a></p>
+<p>&#8594; Take some time to visit each of the applications you&#8217;ve just deployed.</p>
 </div>
 </li>
 </ol>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_health_indicators">Health Indicators</h3>
 <div class="paragraph">
-<p>Spring Boot provides an endpoint <a href="http://localhost:8080/actuator/health" class="bare">http://localhost:8080/actuator/health</a> that exposes various health indicators that describe the health of the given application.</p>
+<p>Open Apps Manager and review your applications from the UI:</p>
 </div>
 <div class="paragraph">
-<p>Normally, the /actuator/health endpoint will only expose an UP or DOWN value.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-json" data-lang="json">{
-  "status": "UP"
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>+
-We want to expose more detail about the health and well-being of the application, so we&#8217;re going to need a bit more configuration to <em>cloud-native-spring/src/main/resources/application.yml</em>, underneath the <em>management</em> prefix, add</p>
-</div>
-<div class="paragraph">
-<p>+</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-yml" data-lang="yml">  endpoint:
-    health:
-      show-details: always</code></pre>
-</div>
+<p><a href="https://apps.run.pcfone.io" class="bare">https://apps.run.pcfone.io</a></p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Run the cloud-native-spring application:</p>
-<div class="listingblock">
+<p>Let&#8217;s scale an app</p>
+<div class="literalblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">gradle bootRun</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Use httpie to verify the output of the health endpoint</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">http :8080/actuator/health</code></pre>
+<pre>cf scale cf-nodejs -i 3
+cf apps</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Out of the box is a <em>DiskSpaceHealthIndicator</em> that monitors health in terms of available disk space. Would your Ops team like to know if the app is close to running out of disk space? DiskSpaceHealthIndicator can be customized via <em>DiskSpaceHealthIndicatorProperties</em>. For instance, setting a different threshold for when to report the status as DOWN.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-json" data-lang="json">{
-    "status": "UP",
-    "details": {
-        "diskSpace": {
-            "status": "UP",
-            "details": {
-                "total": 499963170816,
-                "free": 375287070720,
-                "threshold": 10485760
-            }
-        },
-        "db": {
-            "status": "UP",
-            "details": {
-                "database": "H2",
-                "hello": 1
-            }
-        }
-    }
-}</code></pre>
-</div>
+<p>Refresh the App&#8217;s URL and see how <em>INSTANCE INDEX</em> changes with each refresh.</p>
 </div>
 </li>
 <li>
-<p>Stop the cloud-native-spring application.</p>
-</li>
-<li>
-<p>Create the class <em>io.pivotal.FlappingHealthIndicator</em> (/cloud-native-spring/src/main/java/io/pivotal/FlappingHealthIndicator.java) and into it paste the following code:</p>
-<div class="listingblock">
+<p>Let&#8217;s stop an app, then check that it has indeed been stopped</p>
+<div class="literalblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">package io.pivotal;
-
-import java.util.Random;
-
-import org.springframework.boot.actuate.health.Health;
-import org.springframework.boot.actuate.health.HealthIndicator;
-import org.springframework.stereotype.Component;
-
-@Component
-public class FlappingHealthIndicator implements HealthIndicator {
-
-    private Random random = new Random(System.currentTimeMillis());
-
-    @Override
-    public Health health() {
-        int result = random.nextInt(100);
-        if (result &lt; 50) {
-            return Health.down().withDetail("flapper", "failure").withDetail("random", result).build();
-        } else {
-            return Health.up().withDetail("flapper", "ok").withDetail("random", result).build();
-        }
-    }
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>This demo health indicator will randomize the health check.</p>
-</div>
-</li>
-<li>
-<p>Build and run the <em>cloud-native-spring</em> application:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ gradle clean bootRun</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Browse to <a href="http://localhost:8080/actuator/health" class="bare">http://localhost:8080/actuator/health</a> and verify that the output is similar to the following (and changes randomly!).</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-json" data-lang="json">{
-    "status": "UP",
-    "details": {
-        "flapping": {
-            "status": "UP",
-            "details": {
-                "flapper": "ok",
-                "random": 63
-            }
-        },
-        "diskSpace": {
-            "status": "UP",
-            "details": {
-                "total": 499963170816,
-                "free": 375287070720,
-                "threshold": 10485760
-            }
-        },
-        "db": {
-            "status": "UP",
-            "details": {
-                "database": "H2",
-                "hello": 1
-            }
-        }
-    }
-}</code></pre>
+<pre>cf stop cf-nodejs
+cf apps</pre>
 </div>
 </div>
 </li>
@@ -2342,85 +2872,131 @@ public class FlappingHealthIndicator implements HealthIndicator {
 </div>
 </div>
 <div class="sect2">
-<h3 id="_metrics">Metrics</h3>
+<h3 id="_how_to_cleanup_after_yourself">How to cleanup after yourself</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Finally, let&#8217;s delete an app</p>
+<div class="literalblock">
+<div class="content">
+<pre>cf delete cf-nodejs</pre>
+</div>
+</div>
 <div class="paragraph">
-<p>Spring Boot provides an endpoint <a href="http://localhost:8080/actuator/metrics" class="bare">http://localhost:8080/actuator/metrics</a> that exposes several automatically collected metrics for your application. It also allows for the creation of custom metrics.</p>
+<p>&#8594; Repeat <code>cf delete</code> for each app you deployed.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_where_to_go_for_more_help">Where to go for more help</h3>
+<div class="paragraph">
+<p>&#8594; <a href="https://docs.cloudfoundry.org/cf-cli/getting-started.html">Getting Started with the CF CLI</a></p>
+</div>
+<div class="paragraph">
+<p>&#8594; <a href="http://www.appservgrid.com/refcards/refcards/dzonerefcards/rc207-010d-cloud-foundry.pdf">Cloud Foundry Cheat Sheet</a></p>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+<div class="sect2">
+<h3 id="_deploy_cloud_native_spring_to_pivotal_cloud_foundry">Deploy <em>cloud-native-spring</em> to Pivotal Cloud Foundry</h3>
+<div class="paragraph">
+<p>We&#8217;ve built and run the application locally.  Now we&#8217;ll deploy it to Cloud Foundry.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Browse to <a href="http://localhost:8080/actuator/metrics" class="bare">http://localhost:8080/actuator/metrics</a>. Review the metrics exposed.</p>
-<div class="listingblock">
+<p>Create an application manifest in the root folder <em>devops-workshop/labs/my_work/cloud-native-spring</em></p>
+<div class="literalblock">
 <div class="content">
-<pre class="highlight"><code class="language-json" data-lang="json">{
-    "names": [
-        "jvm.memory.max",
-        "http.server.requests",
-        "jdbc.connections.active",
-        "process.files.max",
-        "jvm.gc.memory.promoted",
-        "tomcat.cache.hit",
-        "system.load.average.1m",
-        "tomcat.cache.access",
-        "jvm.memory.used",
-        "jvm.gc.max.data.size",
-        "jdbc.connections.max",
-        "jdbc.connections.min",
-        "jvm.gc.pause",
-        "jvm.memory.committed",
-        "system.cpu.count",
-        "logback.events",
-        "tomcat.global.sent",
-        "jvm.buffer.memory.used",
-        "tomcat.sessions.created",
-        "jvm.threads.daemon",
-        "system.cpu.usage",
-        "jvm.gc.memory.allocated",
-        "tomcat.global.request.max",
-        "hikaricp.connections.idle",
-        "hikaricp.connections.pending",
-        "tomcat.global.request",
-        "tomcat.sessions.expired",
-        "hikaricp.connections",
-        "jvm.threads.live",
-        "jvm.threads.peak",
-        "tomcat.global.received",
-        "hikaricp.connections.active",
-        "hikaricp.connections.creation",
-        "process.uptime",
-        "tomcat.sessions.rejected",
-        "process.cpu.usage",
-        "tomcat.threads.config.max",
-        "jvm.classes.loaded",
-        "hikaricp.connections.max",
-        "hikaricp.connections.min",
-        "jvm.classes.unloaded",
-        "tomcat.global.error",
-        "tomcat.sessions.active.current",
-        "tomcat.sessions.alive.max",
-        "jvm.gc.live.data.size",
-        "tomcat.servlet.request.max",
-        "hikaricp.connections.usage",
-        "tomcat.threads.current",
-        "tomcat.servlet.request",
-        "hikaricp.connections.timeout",
-        "process.files.open",
-        "jvm.buffer.count",
-        "jvm.buffer.total.capacity",
-        "tomcat.sessions.active.max",
-        "hikaricp.connections.acquire",
-        "tomcat.threads.busy",
-        "process.start.time",
-        "tomcat.servlet.error"
-    ]
-}</code></pre>
+<pre>touch manifest.yml</pre>
 </div>
 </div>
 </li>
 <li>
-<p>Stop the cloud-native-spring application.</p>
+<p>Add application metadata, using a text editor (of choice)</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">---
+applications:
+- name: cloud-native-spring
+  random-route: true
+  instances: 1
+  path: ./build/libs/cloud-native-spring-1.0-SNAPSHOT.jar
+  # can be automatically detected, but it's nice to be clear about it:
+  buildpacks:
+  - java_buildpack_offline
+  env:
+    # makes Java a bit faster. Not mandatory.
+    JAVA_OPTS: -Djava.security.egd=file:///dev/urandom</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The above manifest entries will work with Java Buildpack 4.x series and JDK 8.  If you built the app with JDK 11 and want to deploy it you will need to make an additional entry in your manifest, just below <code>JAVA_OPTS</code>, add</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">---
+    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+ } }'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It should be noted that many of these parameters could have been implied. For example, the following works just the same:</p>
+</div>
 </li>
 </ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>---
+applications:
+- name: cloud-native-spring
+  random-route: true
+  path: ./build/libs/cloud-native-spring-1.0-SNAPSHOT.jar</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Push application into Cloud Foundry</p>
+<div class="literalblock">
+<div class="content">
+<pre>cf push</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>&#8594; To specify an alternate manifest and buildpack, you could update the above to be e.g.,</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>cf push -f manifest.yml -b java_buildpack</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Assuming the offline buildpack was installed and available for use with your targeted foundation.  You can check for which buildpacks are available by executing</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>cf buildpacks</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Find the URL created for your app in the health status report. Browse to your app&#8217;s /hello endpoint.</p>
+</li>
+<li>
+<p>Check the log output</p>
+<div class="literalblock">
+<div class="content">
+<pre>cf logs cloud-native-spring --recent</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Congratulations!</strong> You’ve just completed your first Spring Boot application.</p>
 </div>
 </div>
 <div class="sect2">
@@ -2476,11 +3052,802 @@ cf push</pre>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_adding_spring_cloud_config_to_boot_application">Adding Spring Cloud Config to Boot Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this lab we&#8217;ll utilize Spring Boot and Spring Cloud to configure our application from a configuration dynamically retrieved from a Git repository. We&#8217;ll then deploy it to Pivotal Cloud Foundry and auto-provision an instance of a configuration server using Pivotal Spring Cloud Services.</p>
+</div>
+<div class="sect2">
+<h3 id="_update_hello_rest_service">Update <em>Hello</em> REST service</h3>
+<div class="paragraph">
+<p>These features are added by adding <em>spring-cloud-services-starter-config-client</em> to the classpath.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Delete your exisiting Gradle build file, found here: <strong>/cloud-native-spring/build.gradle</strong>.  We&#8217;re going to make a few changes. Create a new <strong>/cloud-native-spring/build.gradle</strong> then cut-and-paste the content below into it and save.</p>
+<div class="paragraph">
+<p>Adding a dependency management plugin and other miscellaneous configuration.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">plugins {
+    id 'com.gorylenko.gradle-git-properties' version '2.0.0'
+    id 'org.springframework.boot' version '2.0.9.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.7.RELEASE'
+    id 'java'
+}
+
+gitProperties {
+    dateFormat = "yyyy-MM-dd'T'HH:mmZ"
+    dateFormatTimeZone = "UTC"
+    dotGitDirectory = "${project.rootDir}/../../.."
+}
+
+import org.apache.tools.ant.filters.*
+
+processResources {
+    filter ReplaceTokens, tokens: [
+	    "application.name": project.property("application.name"),
+	    "application.description": project.property("application.description"),
+        "application.version": project.property("version")
+    ]
+}
+
+dependencyManagement {
+    imports {
+        mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Finchley.SR3"
+        mavenBom "io.pivotal.spring.cloud:spring-cloud-services-dependencies:2.0.3.RELEASE"
+    }
+}
+
+dependencies {
+    implementation('org.glassfish.jaxb:jaxb-runtime:2.4.0-b180830.0438')
+    if (JavaVersion.current() != JavaVersion.VERSION_1_8) {
+        implementation('org.javassist:javassist:3.23.0-GA')
+    } else {
+        implementation('org.javassist:javassist:3.22.0-GA')
+    }
+    annotationProcessor('org.projectlombok:lombok:1.18.6')
+    implementation('org.projectlombok:lombok:1.18.6')
+    implementation('org.springframework.boot:spring-boot-starter-actuator')
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+    implementation('org.springframework.boot:spring-boot-starter-data-rest')
+    implementation('org.springframework.boot:spring-boot-starter-hateoas')
+    implementation('org.springframework.data:spring-data-rest-hal-browser')
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation('org.springframework.boot:spring-boot-starter-security')
+    implementation('io.pivotal.spring.cloud:spring-cloud-services-starter-config-client')
+    implementation('org.flywaydb:flyway-core:5.2.4')
+    implementation('com.zaxxer:HikariCP:3.3.0')
+    runtime('com.h2database:h2')
+    runtime('mysql:mysql-connector-java:8.0.15')
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+}
+
+repositories {
+    maven { url "https://repo.spring.io/plugins-release" }
+    mavenCentral()
+}
+
+bootRun {
+    // support passing -Dsystem.property=value to bootRun task
+    systemProperties = System.properties
+}
+
+tasks.withType(Test) {
+    if (JavaVersion.current() != JavaVersion.VERSION_1_8) {
+        jvmArgs += ["--add-opens", "java.base/java.lang=ALL-UNNAMED"]
+    }
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Add an <em>@Value</em> annotation, private field, and update the existing <em>@GetMapping</em> annotated method to employ it in <em>io.pivotal.controller.GreetingController</em> (/cloud-native-spring/src/main/java/io/pivotal/controller/GreetingController.java):</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    @Value("${greeting:Hola}")
+    private String greeting;
+
+    @GetMapping("/hello")
+    public String hello() {
+        return String.join(" ", greeting, "World!");
+    }</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Add a <a href="https://cloud.spring.io/spring-cloud-static/spring-cloud-commons/2.1.0.RELEASE/single/spring-cloud-commons.html#refresh-scope">@RefreshScope</a> annotation to the top of the <em>GreetingController</em> class declaration</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">@RefreshScope
+@RestController
+public class GreetingController {</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Completed:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">package io.pivotal.controller;
+
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+
+@RefreshScope
+@RestController
+public class GreetingController {
+
+    @Value("${greeting:Hola}")
+    private String greeting;
+
+    @GetMapping("/hello")
+    public String hello() {
+        return String.join(" ", greeting, "World!");
+    }
+
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>When we introduced the Spring Cloud Services Starter Config Client dependency Spring Security will also be included at runtime (Config servers will be protected by OAuth2).  However, this will also enable basic authentication to all our service endpoints.  We will need to add the following to conditionally open security (to ease local workstation deployment).</p>
+<div class="paragraph">
+<p>In <strong>build.gradle</strong>, we&#8217;ll need to add an <em>implementation</em> dependency</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">implementation('org.springframework.security:spring-security-config')</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In <strong>/cloud-native-spring/src/main/java/io/pivotal/CloudNativeSpringApplication.java</strong> right underneath the <code>public static void main</code> method implementation, add</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    @Configuration
+	static class ApplicationSecurityOverride extends WebSecurityConfigurerAdapter {
+
+    	@Override
+    	public void configure(HttpSecurity http) throws Exception {
+			http.csrf().disable();
+            http.authorizeRequests().antMatchers("/**").permitAll();
+    	}
+	}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Examine this <a href="https://docs.spring.io/spring-boot/docs/2.1.3.RELEASE/reference/htmlsingle/#boot-features-security-mvc">Spring Boot reference</a> for further details. We&#8217;re going to disable cross-site request forgery.  We are also explicitly deactivating security, allowing unauthorized requests to all endpoints.</p>
+</div>
+</li>
+<li>
+<p>We&#8217;ll also want to give our Spring Boot App a name so that it can lookup application-specific configuration from the config server later.  Add the following configuration to <strong>/cloud-native-spring/src/main/resources/bootstrap.yml</strong>. (You&#8217;ll need to create this file.)</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yml" data-lang="yml">spring:
+  application:
+    name: cloud-native-spring</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_run_the_cloud_native_spring_application_and_verify_dynamic_config_is_working">Run the <em>cloud-native-spring</em> Application and verify dynamic config is working</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Run the application</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">gradle clean bootRun</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Browse to <a href="http://localhost:8080/hello" class="bare">http://localhost:8080/hello</a> and verify you now see your new greeting.</p>
+</li>
+<li>
+<p>Stop the <em>cloud-native-spring</em> application</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_create_spring_cloud_config_server_instance">Create Spring Cloud Config Server instance</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Now that our application is ready to read its config from a Cloud Config server, we need to deploy one!  This can be done through Cloud Foundry using the services Marketplace.  Browse to the Marketplace in Pivotal Cloud Foundry Apps Manager, navigate to the Space you have been using to push your app, and select Config Server:</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/config-scs.jpg" alt="config scs">
+</div>
+</div>
+</li>
+<li>
+<p>In the resulting details page, select the <em>trial</em>, single tenant plan.  Name the instance <strong>config-server</strong>, select the Space that you&#8217;ve been using to push all your applications.  At this time you don&#8217;t need to select an application to bind to the service:</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/config-scs1.jpg" alt="config scs1">
+</div>
+</div>
+</li>
+<li>
+<p>After we create the service instance you&#8217;ll be redirected to your <em>Space</em> landing page that lists your apps and services.  The config server is deployed on-demand and will take a few moments to deploy.  Once the messsage <em>The Service Instance is Initializing</em> disappears click on the service you provisioned.  Select the Manage link towards the top of the resulting screen to view the instance id and a JSON document with a single element, count, which validates that the instance provisioned correctly:</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/config-scs2.jpg" alt="config scs2">
+</div>
+</div>
+</li>
+<li>
+<p>We now need to update the service instance with our GIT repository information.</p>
+<div class="paragraph">
+<p>Create a file named <code>config-server.json</code> and update its contents to be</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-json" data-lang="json">{
+  "git": {
+    "uri": "https://github.com/pacphi/config-repo"
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note: If you choose to replace the value of <code>"uri"</code> above with another Git repository that you have commit privileges to, you should make a copy of the <code>cloud-native-spring.yml</code> file. Then, as you update configuration in that file, you can test a POST request to the <code>cloud-native-spring</code> application&#8217;s <code>/refresh</code> end-point to see the new configuration take effect without restarting the application!</p>
+</div>
+<div class="paragraph">
+<p>Using the Cloud Foundry CLI execute the following update service command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">cf update-service config-server -c config-server.json</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Refresh you Config Server management page and you will see the following message.  Wait until the screen refreshes and the service is reintialized:</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/config-scs3.jpg" alt="config scs3">
+</div>
+</div>
+</li>
+<li>
+<p>We will now bind our application to our config-server within our Cloud Foundry deployment manifest.  Add these entries to the bottom of <strong>/cloud-native-spring/manifest.yml</strong></p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yml" data-lang="yml">  services:
+  - config-server</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Complete:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yml" data-lang="yml">---
+applications:
+- name: cloud-native-spring
+  host: cloud-native-spring-${random-word}
+  memory: 1024M
+  instances: 1
+  path: ./target/cloud-native-spring-1.0-SNAPSHOT.jar
+  buildpacks:
+  - java_buildpack_offline
+  stack: cflinuxfs3
+  timeout: 180
+  env:
+    JAVA_OPTS: -Djava.security.egd=file:///dev/urandom
+  services:
+  - config-server</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deploy_and_test_application">Deploy and test application</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Build the application</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">gradle clean build</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Push application into Cloud Foundry</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">cf push</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Test your application by navigating to the /hello endpoint of the application.  You should now see a greeting that is read from the Cloud Config Server!</p>
+<div class="paragraph">
+<p>Ohai World!</p>
+</div>
+<div class="paragraph">
+<p><strong>What just happened??</strong></p>
+</div>
+<div class="paragraph">
+<p>&#8594; A Spring component within the Spring Cloud Starter Config Client module called a <em>service connector</em> automatically detected that there was a Cloud Config service bound into the application.  The service connector configured the application automatically to connect to the Cloud Config Server and downloaded the configuration and wired it into the application</p>
+</div>
+</li>
+<li>
+<p>If you navigate to the Git repo we specified for our configuration, <a href="https://github.com/pacphi/config-repo" class="bare">https://github.com/pacphi/config-repo</a>, you&#8217;ll see a file named <em>cloud-native-spring.yml</em>.  This filename is the same as our <em>spring.application.name</em> value for our Boot application.  The configuration is read from this file, in our case the following property:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yml" data-lang="yml">greeting: Ohai</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Next we&#8217;ll learn how to register our service with a Service Registry and load balance requests using Spring Cloud components.</p>
+</li>
+</ol>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_adding_service_registration_and_discovery_with_spring_cloud">Adding Service Registration and Discovery with Spring Cloud</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this lab we&#8217;ll utilize Spring Boot and Spring Cloud to configure our application register itself with a Service Registry.  To do this we&#8217;ll also need to provision an instance of a Eureka service registry using Pivotal Cloud Foundry Spring Cloud Services.  We&#8217;ll also add a simple client application that looks up our application from the service registry and makes requests to our Cities service.</p>
+</div>
+<div class="sect2">
+<h3 id="_update_cloud_native_spring_boot_application_to_register_with_eureka">Update <em>Cloud-Native-Spring</em> Boot Application to Register with Eureka</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>These features are added by adding <em>spring-cloud-services-starter-service-registry</em> to the classpath. Open your Gradle build file, found here: <strong>/cloud-native-spring/build.gradle</strong>. Add the following spring cloud services dependency:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">dependencies {
+	// add this dependency
+	implementation('io.pivotal.spring.cloud:spring-cloud-services-starter-service-registry')
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Thanks to Spring Cloud instructing your application to register with Eureka is as simple as adding a single annotation to your app! Add an <em>@EnableDiscoveryClient</em> annotation to the class <em>io.pivotal.CloudNativeSpringApplication</em> (/cloud-native-spring/src/main/java/io/pivotal/CloudNativeApplication.java):</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">@SpringBootApplication
+@EnableDiscoveryClient
+public class CloudNativeSpringApplication {</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_create_spring_cloud_service_registry_instance_and_deploy_application">Create Spring Cloud Service Registry instance and deploy application</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Now that our application is ready to registr with an Eureka instance, we need to deploy one!  This can be done through Cloud Foundry using the services Marketplace.  Previously we did this through the Marketplace UI. This time around we will use the Cloud Foundry CLI:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ cf create-service p-service-registry trial service-registry</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>After you create the service registry instance navigate to your Cloud Foundry space in the Apps Manager UI and refresh the page.  You should now see the newly create Service Registry intance.  Select the Manage link to view the registry dashboard.  Note that there are not any registered applications at the moment:</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/registry1.jpg" alt="registry1">
+</div>
+</div>
+</li>
+<li>
+<p>We will now bind our application to our service-registry within our Cloud Foundry deployment manifest.  Add an additional reference to the service at the bottom of <strong>/cloud-native-spring/manifest.yml</strong> in the services list:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yml" data-lang="yml">  services:
+  - config-server
+  - service-registry</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deploy_and_test_application_2">Deploy and test application</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Build the application</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">gradle build</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Push application into Cloud Foundry</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">cf push</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>If we now test our application URLs we will notice no significatnt changes.  However, if we view the Service Registry dashboard (accessible from the <em>Manage</em> link in Apps Manager) you will see that a service named cloud-native-spring has registered:</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/registry2.jpg" alt="registry2">
+</div>
+</div>
+</li>
+<li>
+<p>Next we&#8217;ll create a simple UI application that will read from the Service Registry to discover the location of our cities REST service and connect.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_create_another_spring_boot_project_as_a_client_ui">Create another Spring Boot Project as a Client UI</h3>
+<div class="paragraph">
+<p>As in Lab 1 we will start with a project that has most of what we need to get going.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open a Terminal (e.g., <em>cmd</em> or <em>bash</em> shell)</p>
+</li>
+<li>
+<p>Change the working directory to be <em>devops-workshop/labs/my_work/cloud-native-spring-ui</em></p>
+<div class="literalblock">
+<div class="content">
+<pre>cd /devops-workshop/labs/my_work/cloud-native-spring-ui</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Open this project in your editor/IDE of choice.</p>
+<div class="paragraph">
+<p><strong><em>STS Import Help</em></strong></p>
+</div>
+<div class="paragraph">
+<p>Select <em>File &gt; Import…</em>. In the susequent dialog choose <em>Gradle &gt; Existing Gradle Project</em> then click the <em>Next</em> button. In the <em>Import Gradle Project</em> dialog browse to the <em>cloud-native-spring</em> directory (e.g. <em>devops-workshop/labs/my_work/cloud-native-spring-ui</em>) then click the <em>Open</em> button, then click the <em>Finish</em> button.</p>
+</div>
+</li>
+<li>
+<p>As before, we need to add <em>spring-cloud-services-starter-service-registry</em> and some collaborating dependencies to the classpath.  Add this to your <em>build.gradle</em>:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">dependencies {
+	 // add these dependencies
+	 implementation('io.pivotal.spring.cloud:spring-cloud-services-starter-service-registry')
+   implementation('org.springframework.cloud:spring-cloud-starter-openfeign')
+   implementation('org.springframework.cloud:spring-cloud-starter-netflix-ribbon')
+   implementation('org.hibernate:hibernate-core:5.4.1.Final')
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Next, we&#8217;re going to add some annotations to enable service discovery and hypermedia support.  In addition, we&#8217;re going to embed configuration and implementation for handling marshalling/unmarshalling of <a href="http://stateless.co/hal_specification.html">hal+json</a>.
+Finally, we&#8217;ll override security behavior just as we did in  <code>cloud-native-spring</code>, adding exceptions for static resources provided by Vaadin.</p>
+</div>
+<div class="paragraph">
+<p>Open <strong>cloud-native-spring-ui/src/main/java/io/pivotal/CloudNativeSpringUiApplication.java</strong> for editing and make sure the contents look like so</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">@SpringBootApplication
+@EnableDiscoveryClient
+@EnableFeignClients
+@EnableHypermediaSupport(type = EnableHypermediaSupport.HypermediaType.HAL)
+public class CloudNativeSpringUiApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(CloudNativeSpringUiApplication.class, args);
+    }
+
+    @Configuration
+    static class ClientConfig implements WebMvcConfigurer {
+
+        @Autowired
+        private HalHttpMessageConverter halHttpMessageConverter;
+
+        @Override
+        public void configureMessageConverters(List&lt;HttpMessageConverter&lt;?&gt;&gt; converters) {
+            converters.add(halHttpMessageConverter);
+        }
+    }
+
+	@Configuration
+	static class ApplicationSecurityOverride extends WebSecurityConfigurerAdapter {
+
+    @Override
+    public void configure(HttpSecurity web) throws Exception {
+      web.csrf().disable();
+      web.authorizeRequests().antMatchers("/**").permitAll();
+    }
+
+		@Override
+    	public void configure(WebSecurity web) throws Exception {
+			  web.ignoring().antMatchers(
+          // Vaadin Flow static resources
+          "/VAADIN/**",
+
+          // the standard favicon URI
+          "/favicon.ico",
+
+          // the robots exclusion standard
+          "/robots.txt",
+
+          // web application manifest
+          "/manifest.webmanifest",
+          "/sw.js",
+          "/offline-page.html",
+
+          // (development mode) static resources
+          "/frontend/**",
+
+          // (development mode) webjars
+          "/webjars/**",
+
+          // (production mode) static resources
+          "/frontend-es5/**", "/frontend-es6/**");
+    	}
+	}
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Don&#8217;t forget to adjust the imports!</p>
+</div>
+</li>
+<li>
+<p>Since this UI is going to consume REST services it&#8217;s an awesome opportunity to use Feign.  Feign will handle <strong>ALL</strong> the work of invoking our services and marshalling/unmarshalling JSON into domain objects.  We&#8217;ll add a Feign Client interface into our app.  Take note of how Feign references the downstream service; it&#8217;s only the name of the service it will lookup from Eureka Service Registry.  Create a new interface that resides in the same package as <em>CloudNativeSpringUiApplication</em>:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">package io.pivotal;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.hateoas.Resources;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import io.pivotal.domain.City;
+
+@FeignClient(name = "https://cloud-native-spring")
+public interface CityClient {
+
+  @GetMapping(value = "/cities")
+  Resources&lt;City&gt; findAll(@RequestParam("page") int page, @RequestParam("size") int limit);
+
+  @PostMapping(value = "/cities")
+  City add(@RequestBody City company);
+
+  @PutMapping(value = "/cities/{id}")
+  City update(@PathVariable("id") Long id, @RequestBody City city);
+
+  @DeleteMapping(value = "/cities/{id}")
+  void delete(@PathVariable("id") Long id);
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Next we&#8217;ll create a <a href="https://vaadin.com/docs/flow/Overview.html">Vaadin Flow</a> UI for rendering our data.  The point of this workshop isn&#8217;t to go into detail on creating UIs; for now suffice to say that Vaadin is a great tool for quickly creating User Interfaces.  Our UI will consume our Feign client we just created.  Create the class <em>io.pivotal.AppUi</em> (/cloud-native-spring-ui/src/main/java/io/pivotal/AppUi.java) and into it paste the following code:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">package io.pivotal;
+
+import java.util.Collection;
+import java.util.Collections;
+
+import javax.annotation.PostConstruct;
+
+import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.PWA;
+import com.vaadin.flow.theme.Theme;
+import com.vaadin.flow.theme.material.Material;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Resources;
+import org.vaadin.crudui.crud.impl.GridCrud;
+
+import io.pivotal.domain.City;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Route(value = "")
+@Theme(Material.class)
+@PWA(name = "Cities UI, Vaadin Flow with Spring", shortName = "Cities UI")
+public class CitiesUI extends VerticalLayout {
+
+    private static final long serialVersionUID = 1L;
+
+    private final CityClient client;
+    private final GridCrud&lt;City&gt; crud;
+
+    @Autowired
+    public CitiesUI(CityClient client) {
+        this.client = client;
+        this.crud = new GridCrud&lt;&gt;(City.class);
+    }
+
+    @PostConstruct
+    protected void init() {
+        H2 title = new H2("Cities");
+        crud.getGrid().setColumns("id", "name", "county", "stateCode", "postalCode", "latitude", "longitude");
+        crud.getCrudFormFactory().setVisibleProperties("name", "county", "stateCode", "postalCode", "latitude", "longitude");
+        crud.getCrudFormFactory().setUseBeanValidation(true);
+        crud.setFindAllOperation(this::getCities);
+        crud.setAddOperation(this::addCity);
+        crud.setUpdateOperation(this::updateCity);
+        crud.setDeleteOperation(this::deleteCity);
+        add(title, crud);
+        setSizeFull();
+    }
+
+    private Collection&lt;City&gt; getCities() {
+        Resources&lt;City&gt; resources = client.findAll(0, 500);
+        Collection&lt;City&gt; cities = Collections.emptyList();
+        if (resources != null) {
+            log.trace(resources.toString());
+            cities = resources.getContent();
+            log.debug("Fetched {} cities.", cities.size());
+            if (!cities.isEmpty()) {
+                crud.getGrid().setHeightByRows(true);
+            }
+        }
+        return cities;
+    }
+
+    private City addCity(City city) {
+        log.trace("City to be added is {}", city.toString());
+        return client.add(city);
+    }
+
+    private City updateCity(City city) {
+        log.trace("City to be updated is {}", city.toString());
+        return client.update(city.getId(), city);
+    }
+
+    private void deleteCity(City city) {
+        log.trace("City to be deleted", city.toString());
+        client.delete(city.getId());
+    }
+}</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>We&#8217;ll also want to give our UI App a name so that it can register properly with Eureka and potentially use cloud config in the future.  Add the following configuration to <strong>/cloud-native-spring-ui/src/main/resources/bootstrap.yml</strong>:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yml" data-lang="yml">spring:
+  application:
+    name: cloud-native-spring-ui</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deploy_and_test_application_3">Deploy and test application</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Build the application.  We have to skip the tests otherwise we may fail because of having 2 spring boot apps on the classpath</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">gradle build -x test</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>&#8594; Note that we&#8217;re skipping tests here (because we now have a dependency on a running instance of <em>cloud-native-spring</em>).</p>
+</div>
+</li>
+<li>
+<p>Create an application manifest in the root folder /cloud-native-spring-ui</p>
+<div class="paragraph">
+<p>$ touch manifest.yml</p>
+</div>
+</li>
+<li>
+<p>Add application metadata</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">---
+applications:
+- name: cloud-native-spring-ui
+  memory: 1024M
+  random-route: true
+  instances: 1
+  path: ./build/libs/cloud-native-spring-ui-1.0-SNAPSHOT.jar
+  buildpacks:
+  - java_buildpack_offline
+  stack: cflinuxfs3
+  timeout: 180 # to give time for the data to import
+  env:
+    JAVA_OPTS: -Djava.security.egd=file:///dev/urandom
+  services:
+  - service-registry</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Push application into Cloud Foundry</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">cf push</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Test your application by navigating to the <code>/</code> endpoint, which will invoke the Vaadin UI.  You should now see a table listing the first set of rows returned from the cities microservice:</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/ui.jpg" alt="ui">
+</div>
+</div>
+</li>
+<li>
+<p>From a commandline stop the cloud-native-spring microservice (the original City service, not the new UI)</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">cf stop cloud-native-spring</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Refresh the UI app.</p>
+<div class="paragraph">
+<p><strong>What happens?</strong></p>
+</div>
+<div class="paragraph">
+<p>Now you get a nasty error that is not very user friendly!</p>
+</div>
+<div class="paragraph">
+<p>&#8594; Next we&#8217;ll learn how to make our UI Application more resilient in the case that our downstream services are unavailable.</p>
+</div>
+</li>
+</ol>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 3.0<br>
-Last updated 2020-01-30 12:10:15 +0200
+Last updated 2020-02-01 14:28:55 +0200
 </div>
 </div>
 </body>

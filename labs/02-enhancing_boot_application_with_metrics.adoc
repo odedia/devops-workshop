@@ -1,10 +1,10 @@
-= Enhancing Boot Application with Metrics
+= 02. Enhancing Boot Application with Metrics
 
 == Set up the Actuator
 
 Spring Boot includes a number of additional features to help you monitor and manage your application when it’s pushed to production. These features are added by adding _spring-boot-starter-actuator_ to the classpath.  Our initial project setup already included it as a dependency.
 
-. Verify the Spring Boot Actuator dependency the in following file: */cloud-native-spring/build.gradle* You should see the following dependency in the list:
+. Verify the Spring Boot Actuator dependency the in following file: *cloud-native-spring/build.gradle* You should see the following dependency in the list:
 +
 [source,groovy]
 ---------------------------------------------------------------------
@@ -14,8 +14,11 @@ dependencies {
 }
 
 ---------------------------------------------------------------------
+. Run the application again using `./gradlew bootRun` and then check the application's metrics at http://localhost:8080/actuator.
+. Stop the application by typing *Ctrl+C*.
+
 +
-By default Spring Boot does not expose these management endpoints (which is a good thing!).  Though you wouldn't want to expose all of them in production, we'll do so in this sample app to make demonstration a bit easier and simpler.
+By default Spring Boot does not expose all the management endpoints (which is a good thing!).  Though you wouldn't want to expose all of them in production, we'll do so in this sample app to make demonstration a bit easier and simpler.
 
 . Add the following properties to *cloud-native-spring/src/main/resources/application.yml*.
 +
@@ -45,10 +48,6 @@ curl http://localhost:8080/actuator/beans
 +
 -> Displays all of the beans in the Spring context.
 +
-curl http://localhost:8080/actuator/autoconfig
-+
--> Displays all of the auto-configuration performed as part of application bootstrapping.
-+
 curl http://localhost:8080/actuator/configprops
 +
 -> Displays a collated list of all @ConfigurationProperties.
@@ -63,15 +62,16 @@ curl http://localhost:8080/actuator/mappings
 +
 curl http://localhost:8080/actuator/threaddump
 +
--> Performs a thread dump. You can import this file into a JVM profiler such as JProfiler.
+-> Displays a thread dump of the currently running application in JSON format.
++
+curl http://localhost:8080/actuator/heapdump
++
+-> Downloads a heap dump that you can import into a JVM profiler such as JProfiler.
 +
 curl http://localhost:8080/actuator/httptrace
 +
 -> Displays trace information (by default the last few HTTP requests).
 +
-curl http://localhost:8080/actuator/flyway
-+
--> Shows any Flyway database migrations that have been applied.
 
 . Stop the _cloud-native-spring_ application.
 
@@ -81,14 +81,14 @@ Spring Boot provides an endpoint (http://localhost:8080/actuator/info) that allo
 
 One thing that _actuator_ does well is expose information about the specific build and version control coordinates for a given deployment.
 
-. Edit the following file: */cloud-native-spring/build.gradle* Add the https://github.com/n0mer/gradle-git-properties[gradle-git-properties] plugin to your Gradle build.
+. Edit the following file: *cloud-native-spring/build.gradle* Add the https://github.com/n0mer/gradle-git-properties[gradle-git-properties] plugin to your Gradle build.
 +
 First, you'll need to be able to resolve the plugin so add the following to the _plugins{}_ section
 +
 [source,groovy]
 ---------------------------------------------------------------------
 plugins {
-    id 'com.gorylenko.gradle-git-properties' version '2.0.0'
+    id 'com.gorylenko.gradle-git-properties' version '2.2.0'
 }
 ---------------------------------------------------------------------
 
@@ -102,7 +102,6 @@ gitProperties {
     dotGitDirectory = "${project.rootDir}/../../.."
 }
 ---------------------------------------------------------------------
-+
 -> Note too that we are updating the path to the _.git_ directory.
 +
 The effect of all this configuration is that the _gradle-git-properties_ plugin adds Git branch and commit coordinates to the */actuator/info* endpoint.
@@ -135,15 +134,15 @@ curl http://localhost:8080/actuator/info
 +
 *What Just Happened?*
 +
-We have mapped Gradle properties into the /actuator/info endpoint.
+We have mapped Gradle properties into the `/actuator/info` endpoint.
 +
-Read more about exposing data in the /actuator/info endpoint link:https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready[here]
+Read more about exposing data in the `/actuator/info` endpoint link:https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready[here]
 
 == Health Indicators
 
 Spring Boot provides an endpoint http://localhost:8080/actuator/health that exposes various health indicators that describe the health of the given application.
 
-Normally, the /actuator/health endpoint will only expose an UP or DOWN value.
+Normally, the `/actuator/health` endpoint will only expose an UP or DOWN value.
 
 [source,json]
 ---------------------------------------------------------------------
@@ -151,9 +150,9 @@ Normally, the /actuator/health endpoint will only expose an UP or DOWN value.
   "status": "UP"
 }
 ---------------------------------------------------------------------
-+
-We want to expose more detail about the health and well-being of the application, so we're going to need a bit more configuration to _cloud-native-spring/src/main/resources/application.yml_, underneath the _management_ prefix, add
-+
+
+We want to expose more detail about the health and well-being of the application, so we're going to need a bit more configuration to `cloud-native-spring/src/main/resources/application.yml`, underneath the `management` prefix, add:
+
 [source,yml]
 ---------------------------------------------------------------------
   endpoint:

@@ -1,6 +1,6 @@
 :title: DevOps Workshop Lab Guide
-:author: Christopher Phillipson, Additional enhancementsby Kobi Shamama and Oded Shopen
-:email: cphillipson@pivotal.io oshopen@pivotal.io kshamama@pivotal.io
+:author: Christopher Phillipson, Additional enhancements by Kobi Shamama and Oded Shopen
+:email: cphillipson@pivotal.io, Additional enhancements by oshopen@pivotal.io and kshamama@pivotal.io
 :revnumber: 3.0
 :revdate: {docdate}
 :revyear: 2020
@@ -15,7 +15,7 @@ toc::[]
 
 <<<
 
-include::introduction.adoc[]
+include::00-introduction.adoc[]
 
 <<<
 
@@ -23,19 +23,43 @@ include::01-building_a_spring_boot_application.adoc[]
 
 <<<
 
-include::02-dockerizing_a_spring_boot_application.adoc[]
+include::02-enhancing_boot_application_with_metrics.adoc[]
 
 <<<
 
-include::03-runnning_a_spring_boot_app_in_kubernetes.adoc[]
+include::03-dockerizing_a_spring_boot_application.adoc[]
 
 <<<
 
-include::04-adding_persistence_to_boot_application.adoc[]
+include::04-runnning_a_spring_boot_app_in_kubernetes.adoc[]
 
 <<<
 
-include::05-enhancing_boot_application_with_metrics.adoc[]
+include::05-adding_persistence_to_boot_application.adoc[]
+
+<<<
+
+include::06-running_with_persistence_in_docker.adoc[]
+
+<<<
+
+include::07-deploying_app_with_persistence_to_kubernetes.adoc[]
+
+<<<
+
+include::08-introduction_to_cf_cli.adoc[]
+
+<<<
+
+include::09-push_app_with_persistence_to_pas.adoc[]
+
+<<<
+
+include::10-adding_spring_cloud_config_to_boot_application.adoc[]
+
+<<<
+
+include::11-add_frontend_to_spring_cloud.adoc[]
 
 <<<
 

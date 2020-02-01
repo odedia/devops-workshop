@@ -1,16 +1,16 @@
-= Building a Spring Boot Application
+= 01. Building a Spring Boot Application
 
-In this lab we'll build and deploy a simple https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/[Spring Boot] application to Cloud Foundry whose sole purpose is to reply with a standard greeting.
+In this lab we'll build a simple https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/[Spring Boot] application whose sole purpose is to reply with a standard greeting.
 
 == Getting started
 
-Although we will use a pre-created initial skeleton, it's important you'll learn how to use start.spring.io. Head over to the URL and enter the following details:
+Although we will use a pre-created initial skeleton, it's important you'll learn how to use the https://start.spring.io[Spring Initializr]. Head over to the URL and enter the following details:
 
-. gradlew Project (Most developers will use Maven, but it's not critical)
-. Java
+. Select a Gradle Project (projects are usually built using gradle or maven)
+. Select Java and the target langauge.
 . Latest stable version
-. group: io.pivotal
-. artifact: cloud-native-spring
+. *group*: io.pivotal
+. *artifact*: cloud-native-spring
 . Search for the following dependencies:
 .. Web
 .. Hateoas
@@ -19,27 +19,42 @@ Although we will use a pre-created initial skeleton, it's important you'll learn
 .. Actuator
 .. Lombok
 . Click "Generate"
-. Observe the contents of the downloaded ZIP file. This is the structure of a standard Spring Boot application. Code goes into _src/main/java_, properties or static content goes into _src/main/resources_, tests go into _src/main/test_.
+. Observe the contents of the downloaded ZIP file. This is the structure of a standard Spring Boot application. Code goes into `src/main/java`, properties or static content goes into `src/main/resources`, tests go into `src/test/java`.
 
-Now let's continue with the pre-made skeleton
+Now let's continue with the pre-made skeleton.
 
 . Open a Terminal (e.g., _cmd_ or _bash_ shell)
 
-. Change the working directory to be _devops-workshop/labs/my_work/cloud-native-spring_
+. Clone the pre-existing git repository:
 +
-  cd /devops-workshop/labs/my_work/cloud-native-spring
+[source,bash]
+---------------------------------------------------------------------
+git clone https://github.com/odedia/devops-workshop.git
+---------------------------------------------------------------------
+
+. Change the working directory to be `devops-workshop/labs/my_work/cloud-native-spring`
++
+[source,bash]
+---------------------------------------------------------------------
+cd devops-workshop/labs/my_work/cloud-native-spring
+---------------------------------------------------------------------
 
 . Open this project in your editor/IDE of choice (InteliJ is recommended).
++
+[source,bash]
+---------------------------------------------------------------------
+idea .
+---------------------------------------------------------------------
 
 == Add an Endpoint
 
 Within your editor/IDE complete the following steps:
 
-. Create a new package _io.pivotal.controller_ underneath _src/main/java_.
+. Create a new package `io.pivotal.controller` underneath `src/main/java`.
 
-. Create a new class named _GreetingController_ in the aforementioned package.
+. Create a new class named `GreetingController` in the aforementioned package.
 
-. Add an _@RestController_ annotation to the class _io.pivotal.controller.GreetingController_ (i.e., _/cloud-native-spring/src/main/java/io/pivotal/controller/GreetingController.java_).
+. Add an `@RestController` annotation to the class `io.pivotal.controller.GreetingController` (i.e., `/cloud-native-spring/src/main/java/io/pivotal/controller/GreetingController.java`).
 +
 [source,java]
 ---------------------------------------------------------------------
@@ -53,7 +68,7 @@ public class GreetingController {
 }
 ---------------------------------------------------------------------
 
-. Add the following request handler to the class _io.pivotal.controller.GreetingController_ (i.e., _/cloud-native-spring/src/main/java/io/pivotal/controller/GreetingController.java_).
+. Add the following request handler to the class `io.pivotal.controller.GreetingController` (i.e., `/cloud-native-spring/src/main/java/io/pivotal/controller/GreetingController.java`).
 +
 [source,java]
 ---------------------------------------------------------------------
@@ -86,9 +101,9 @@ public class GreetingController {
 
 == Build the _cloud-native-spring_ application
 
-Return to the Terminal session you opened previously and make sure your working directory is set to be _devops-workshop/labs/my_work/cloud-native-spring_
+Return to the Terminal session you opened previously and make sure your working directory is set to be `devops-workshop/labs/my_work/cloud-native-spring`
 
-We're going to use https://gradle.org[Gradle] to build and package artifacts. If you don't already have ./gradlew installed, don't worry, we have you covered. You can use the embedded gradlew Wrapper.
+We're going to use https://gradle.org[Gradle] to build and package artifacts. If you don't already have gradle installed, don't worry, we have you covered. You can use the embedded gradlew Wrapper.
 
 . Find out what tasks are available to you with
 +
@@ -102,11 +117,11 @@ We're going to use https://gradle.org[Gradle] to build and package artifacts. If
 +
   ./gradlew jar
 
-. Next we'll package the application as an executable artifact (that can be run on its own because it will include all transitive dependencies along with embedding a servlet container)
+. Next we'll package the application as an executable artifact (that can be run on its own because it will include all transitive dependencies along with embedding a web server and a servlet container)
 +
   ./gradlew build
 
-. Examine the contents of the build/libs directory. You should see the final Spring Boot _jar_ file. This jar file is completly portable - it contains everything that app needs, including an embedded Web server. This is why it is so big.
+. Examine the contents of the `build/libs` directory. You should see the final Spring Boot _jar_ file. This jar file is completly portable - it contains everything that app needs, including an embedded Web server. This is why it is so big.
 
 == Run the _cloud-native-spring_ application
 
@@ -125,8 +140,6 @@ Now we're ready to run the application
 ---------------------------------------------------------------------
 
 . Browse to http://localhost:8080/hello
-. Check the application's metrics at http://localhost:8080/actuator
-
 
 . Stop the _cloud-native-spring_ application. In the terminal window type *Ctrl + C*
 

@@ -1,4 +1,4 @@
-= Labs
+= Introduction: Labs Setup
 
 Welcome to the lab! Here you will find a collection of exercises and accompanying source-code.
 
