@@ -8,7 +8,7 @@ public class GreetingController {
 
     @GetMapping("/hello")
     public String hello() {
-        return "Hello VMware!";
+        return "Hello VMware on PCF!";
     }
 
 }

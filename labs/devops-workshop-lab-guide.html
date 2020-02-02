@@ -2426,28 +2426,60 @@ cf apps</code></pre>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Create an application manifest in the root folder <em>devops-workshop/labs/my_work/cloud-native-spring</em></p>
-<div class="literalblock">
-<div class="content">
-<pre>touch manifest.yml</pre>
+<p>Our application needs to use a MySQL database. How will we deploy one to PCF? Simple, we&#8217;ll use the marketplace:</p>
+</li>
+<li>
+<p>Run the following command to review the various services availble in the marketplace:
+<code>cf marketplace</code></p>
+</li>
+<li>
+<p>Review the various plans that are available for the <code>mysql</code> service:
+<code>cf marketplace -s p.mysql</code></p>
+</li>
+<li>
+<p>Let&#8217;s create a small MySQL Database:
+<code>cf create-service p.mysql db-small my-database</code></p>
+</li>
+<li>
+<p>Our database is being created. You can check its status by running:
+<code>cf service my-database</code></p>
+</li>
+</ol>
 </div>
+<div class="paragraph">
+<p>&#8594; All of these can also be done directly from the Apps Manager GUI. Go to the Marketplace link on the left-hand side.
+&#8594; Who was responsible for creating this database? It was the IT Department, and they probably added the service from the Pivotal Marketplace. The MySQL service in this case is a supported service from Pivotal. It also handles upgrades, backups, self-healing, monitoring with Healthwatch, auditing, and many other tasks that are not immediatly obvious.</p>
 </div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create an application manifest in the root folder <em>devops-workshop/labs/my_work/cloud-native-spring</em>
+<code>touch manifest.yml</code></p>
 </li>
 <li>
 <p>Add application metadata, using a text editor (of choice)</p>
+</li>
+</ol>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">---
+<pre>---
 applications:
 - name: cloud-native-spring
   random-route: true
   path: ./build/libs/cloud-native-spring-1.0-SNAPSHOT.jar
   buildpacks:
-  - java_buildpack_offline   #(This can be automatically detected, but faster if provided)</code></pre>
+  - java_buildpack_offline   #(This can be automatically detected, but faster if provided)
+  services:
+  - my-database</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The above manifest entries will work with Java Buildpack 4.x series and JDK 8.  If you built the app with JDK 11 and want to deploy it you will need to make an additional entry in your manifest, just under <code>buildpacks</code>, addand environment variable:</p>
+<p>+
+The above manifest entries will work with Java Buildpack 4.x series and JDK 8.  If you built the app with JDK 11 and want to deploy it you will need to make an additional entry in your manifest, just under <code>buildpacks</code>, addand environment variable:</p>
+</div>
+<div class="paragraph">
+<p>+</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2455,7 +2487,11 @@ applications:
     JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+ } }'</code></pre>
 </div>
 </div>
-</li>
+<div class="paragraph">
+<p>&#8594; Notice the service in the <code>manifest.yml</code>? It&#8217;s the service we just created. <strong>That&#8217;s all you need to do to make the connection between the application and the service</strong>. Remember how much work that required in Kubernetes?</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
 <p>Push application into Cloud Foundry</p>
 <div class="listingblock">
@@ -2484,25 +2520,42 @@ applications:
 </div>
 </li>
 <li>
-<p>How fast would it be to change one line in our code and have it running in production?</p>
+<p>Check the <code>/cities</code> endpoint by going to <code>https://&lt;your-specific-route&gt;/cities</code>.</p>
 </li>
 </ol>
+</div>
+<div class="paragraph">
+<p>&#8594; Wait a minute! How did this even work?! We didn&#8217;t update the properties under <code>src/main/resources/application.yml</code>, yet somehow we were able to create the <code>city</code> table and populate it on startup. More so - we didn&#8217;t even need to create a schema manually! How is that possible? That&#8217;s the power of the Open Service Broker API (OSBAPI).</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>To fully understand this magic, run the following command:
+<code>cf env cloud-native-spring</code></p>
+</li>
+<li>
+<p>Notice the <code>p.mysql</code> entry under <code>VCAP_SERVICES</code>? That was injected when we told our application that we&#8217;d like to <code>bind</code> our app to the <code>my-database</code> service. It provides all the environment variables needed to connect to the database. Even more impressive - Spring (and .NET with Steeltoe) knows how to autoconfigure itself and bind to this new database auto-magically. The parameters injected by the platform will override the settings in your <code>application.yml</code>, so your code will always remain portable. Tomorrow you would move to a production environment and bind to a different database instance called <code>my-database</code>, but that&#8217;s ok - all the parameters would be injected again, no code changes required.</p>
+</li>
+<li>
+<p>Perhaps even more important - you no longer have passwords all over your code and your environment. <strong>only</strong> users that are authoried to access this particular space and app will have the option to view the parameters of the database that includes the password. You can also leverage a PCF service called <em>Credhub</em>, which is an encrypted database for properties. If you were to use Credhub, you wouldn&#8217;t even see the parameters when running <code>cf env</code>. <strong>Only</strong> the application&#8217;s PID process would be able to automatically fetch the parameters on container startup.</p>
+</li>
+<li>
+<p>How fast would it be to change one line in our code and have it running with a routable URL? Let&#8217;s change <code>GreetingController.java</code> to greet us with <code>Hello VMware on PCF!</code>. All that&#8217;s left to do is:</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><code>./gradlew build &amp;&amp; cf push</code></p>
+</div>
+<div class="paragraph">
+<p>Check the updated results under <code>https://&lt;your-specific-route&gt;/hello</code></p>
 </div>
 <div class="sect2">
 <h3 id="_exploring_actuator_in_apps_manager">Exploring actuator in Apps Manager</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>When running a Spring Boot application on Pivotal Cloud Foundry with the actuator endpoints enabled, you can visualize actuator management information on the Applications Manager app dashboard.  To enable this there are a few properties we need to add.  Add the following to <strong>/cloud-native-spring/src/main/resources/application.yml</strong>:</p>
-</li>
-<li>
-<p>Push application into Cloud Foundry</p>
-<div class="literalblock">
-<div class="content">
-<pre>gradle build
-cf push</pre>
-</div>
-</div>
+<p>When running a Spring Boot application on Pivotal Cloud Foundry with the actuator endpoints enabled, you can visualize actuator management information on the Applications Manager app dashboard.</p>
 </li>
 <li>
 <p>Visit the route created for your app and append /actuator/health to see the health status report. See the same details in the Apps Manager UI:</p>
@@ -2512,15 +2565,39 @@ cf push</pre>
 </div>
 </div>
 </li>
-<li>
-<p>From this UI you can also dynamically change logging levels:</p>
+</ol>
+</div>
+<div class="paragraph">
+<p>The Logs tab provides an <strong>*aggregated</strong> view of all logs from all instances on our application. You can also change the logging level per class/package at runtime without having to restart:</p>
+</div>
 <div class="imageblock">
 <div class="content">
-<img src="images/logging.jpg" alt="logging">
+<img src="images/logging.png" alt="logging">
 </div>
 </div>
-</li>
-</ol>
+<div class="paragraph">
+<p>The Trace tab shows you the recent REST API calls made to your application:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/trace.png" alt="trace">
+</div>
+</div>
+<div class="paragraph">
+<p>The Threads tab provides visibility into all threads currently running in your JVM. You can also download a heap dump for offline investigation:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/threads.png" alt="threads">
+</div>
+</div>
+<div class="paragraph">
+<p>From the overview screen, clicking on PCF Metrics takes you to a full-blown monitoring dashboard where you can correlate system events along with the logs that happened at that time. Excellent for troubleshooting.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/pcf-metrics.png" alt="pcf metrics">
+</div>
 </div>
 <div class="paragraph">
 <p><strong>Congratulations!</strong> You’ve just learned how to add health and metrics to any Spring Boot application.</p>
