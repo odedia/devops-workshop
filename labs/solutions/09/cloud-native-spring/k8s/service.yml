@@ -4,7 +4,7 @@ metadata:
   labels:
     run: cloud-native-spring
   name: cloud-native-spring
-  namespace: instructor
+#  namespace: instructor
 spec:
   ports:
   - port: 80

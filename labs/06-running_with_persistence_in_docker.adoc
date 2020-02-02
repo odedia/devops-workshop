@@ -5,9 +5,15 @@ So far we use the in-memory H2 database which is good for unit testing, but it's
 
 == Setting up the database docker container
 
-First, we'll need to run a database. We'll use MySQL in our example. Searching Dockerhub, it seems that the default _mysql_ image is the best option. Let's run the database in docker:
+First, we'll need to run a database. We'll use MySQL in our example. Searching Dockerhub, it seems that the default _mysql_ image is the best option.
 
-`docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw -d --net mynet mysql`
+Before running the image, we need to setup a new docker network, so that our app container and our db container can talk to each other:
+
+`docker network create mynet`
+
+Now let's run the database in docker:
+
+`docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw -d --net mynet mysql:5.7`
 
 The default user for this image is `root`. This is the first sign that the defaults are not production ready, because you'd rarely run your database as root. Also, the image would run the container but does not take into account responsibilities such as upgrading, backups, auditing etc. These are your responsiblity.
 
@@ -18,6 +24,8 @@ Also, the image doesn't create any schemas other than the internal `sys` schema 
 Once in the container, we need to run the mysql cli (it would default to _localhost:3306_ which is what we want):
 
 `mysql -p`
+
+Enter the password frmo above (`my-secret-pw`)
 
 Now that we are in the cli, we can create our schema:
 
@@ -46,7 +54,7 @@ Like everything else in Spring, it uses _convention over configuration_ and comm
 
 Let's now define the connection parameters for our MySQL database. Update the `spring:database` section in `application.yml` so it would look like this:
 
-[source,bash]
+[source,yml]
 ---------------------------------------------------------------------
 spring:
   datasource:
@@ -64,18 +72,38 @@ We can immediatly see another issue - our password is written in clear text in o
 . Using environment variables when starting the server
 . Managing secrets when runing on Kubernetes (although remember - the default secret plugin is not encypted so it makes no difference!)
 
-Compilethe updated application:
+Compile the updated application:
 
-`./gradlew bootRun`
+`./gradlew build`
+
+We can see another problem: our unit tests now use our "production" database, which is not desirable. Also, if our MySQL database is not running, our tests will fail. run `docker stop mysql` and try builing the application again - the tests would fail.
+
+We'd like to keep using our H2 database for tests. We can do that by adding a different `application.yml` under `src/test/resources`. Anything that we'll put in this file will _override_ the default configuration onyl when tests are running.
+
+Create the file `src/test/resources/application.yml` and populate the following for H2 Database:
+
+[source,yml]
+---------------------------------------------------------------------
+spring:
+  datasource:
+    hikari:
+      connection-timeout: 60000
+      maximum-pool-size: 5
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1
+    username: sa
+    password: sa
+---------------------------------------------------------------------
+
 
 
 Build the Docker image for our app again:
 
-`docker build -t cloud-native-spring .`
+`docker build -t <my-id>/cloud-native-spring .`
 
 And run it (notice the use of `--net` to allow us to communicate between two containers):
 
-`docker run -p 8080:8080 --net mynet -e MYSQL_HOST=mysql cloud-native-spring`
+`docker run -p 8080:8080 --net mynet -e MYSQL_HOST=mysql <my-id>/cloud-native-spring`
 
 -> Interesting point: If you used a base OS called `openjdk`, its going to use Java 11. If your local machine's JDK for compilation is JDK 8, the startup would fail. Make sure you have the correct pipeline of Java versions (or any other language for that matter).
 

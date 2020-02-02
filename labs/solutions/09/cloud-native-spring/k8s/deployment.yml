@@ -3,8 +3,9 @@ kind: Deployment
 metadata:
   labels:
     run: cloud-native-spring
+    type: backend-app
   name: cloud-native-spring
-  namespace: instructor
+  #namespace: instructor
 spec:
   replicas: 1
   selector:
@@ -17,6 +18,7 @@ spec:
     metadata:
       labels:
         run: cloud-native-spring
+        type: backend-app
     spec:
       containers:
       - image: odedia/cloud-native-spring
