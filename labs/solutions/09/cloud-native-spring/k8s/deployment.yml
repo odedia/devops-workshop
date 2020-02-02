@@ -22,6 +22,11 @@ spec:
     spec:
       containers:
       - image: odedia/cloud-native-spring
+        env:
+          # Use secret in real usage
+        - name: MYSQL_HOST
+          value: mysql.default.svc.cluster.local
+
         imagePullPolicy: Always
         name: cloud-native-spring
         ports:

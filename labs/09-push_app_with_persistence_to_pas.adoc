@@ -1,4 +1,4 @@
-== Deploy _cloud-native-spring_ to Pivotal Cloud Foundry
+= Deploy _cloud-native-spring_ to Pivotal Cloud Foundry
 
 We've built and run the application locally.  Now we'll deploy it to Cloud Foundry.
 

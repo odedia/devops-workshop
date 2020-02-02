@@ -514,7 +514,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_how_to_deploy_an_application">How to deploy an application</a></li>
 <li><a href="#_how_to_cleanup_after_yourself">How to cleanup after yourself</a></li>
 <li><a href="#_where_to_go_for_more_help">Where to go for more help</a></li>
-<li><a href="#_deploy_cloud_native_spring_to_pivotal_cloud_foundry">Deploy <em>cloud-native-spring</em> to Pivotal Cloud Foundry</a></li>
+</ul>
+</li>
+<li><a href="#_deploy_cloud_native_spring_to_pivotal_cloud_foundry">Deploy <em>cloud-native-spring</em> to Pivotal Cloud Foundry</a>
+<ul class="sectlevel2">
 <li><a href="#_exploring_actuator_in_apps_manager">Exploring actuator in Apps Manager</a></li>
 </ul>
 </li>
@@ -1996,7 +1999,7 @@ Date: Tue, 27 May 2014 20:38:32 GMT
 <p>Now let&#8217;s run the database in docker:</p>
 </div>
 <div class="paragraph">
-<p><code>docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw -d --net mynet mysql</code></p>
+<p><code>docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw -d --net mynet mysql:5.7</code></p>
 </div>
 <div class="paragraph">
 <p>The default user for this image is <code>root</code>. This is the first sign that the defaults are not production ready, because you&#8217;d rarely run your database as root. Also, the image would run the container but does not take into account responsibilities such as upgrading, backups, auditing etc. These are your responsiblity.</p>
@@ -2012,6 +2015,9 @@ Date: Tue, 27 May 2014 20:38:32 GMT
 </div>
 <div class="paragraph">
 <p><code>mysql -p</code></p>
+</div>
+<div class="paragraph">
+<p>Enter the password frmo above (<code>my-secret-pw</code>)</p>
 </div>
 <div class="paragraph">
 <p>Now that we are in the cli, we can create our schema:</p>
@@ -2080,7 +2086,10 @@ Query OK, 1 row affected (0.00 sec)</code></pre>
 <p><code>./gradlew build</code></p>
 </div>
 <div class="paragraph">
-<p>We can see another problem: our unit tests now use our "production" database, which is not desired. Also, if our MySQL database is not running, our tests will fail. We&#8217;d like to keep using our H2 database for tests. We can do that by adding a different <code>application.yml</code> under <code>src/test/resources</code>. Anything that we&#8217;ll put in this file will <em>override</em> the default configuration for tests only.</p>
+<p>We can see another problem: our unit tests now use our "production" database, which is not desirable. Also, if our MySQL database is not running, our tests will fail. run <code>docker stop mysql</code> and try builing the application again - the tests would fail.</p>
+</div>
+<div class="paragraph">
+<p>We&#8217;d like to keep using our H2 database for tests. We can do that by adding a different <code>application.yml</code> under <code>src/test/resources</code>. Anything that we&#8217;ll put in this file will <em>override</em> the default configuration onyl when tests are running.</p>
 </div>
 <div class="paragraph">
 <p>Create the file <code>src/test/resources/application.yml</code> and populate the following for H2 Database:</p>
@@ -2102,13 +2111,13 @@ Query OK, 1 row affected (0.00 sec)</code></pre>
 <p>Build the Docker image for our app again:</p>
 </div>
 <div class="paragraph">
-<p><code>docker build -t cloud-native-spring .</code></p>
+<p><code>docker build -t &lt;my-id&gt;/cloud-native-spring .</code></p>
 </div>
 <div class="paragraph">
 <p>And run it (notice the use of <code>--net</code> to allow us to communicate between two containers):</p>
 </div>
 <div class="paragraph">
-<p><code>docker run -p 8080:8080 --net mynet -e MYSQL_HOST=mysql cloud-native-spring</code></p>
+<p><code>docker run -p 8080:8080 --net mynet -e MYSQL_HOST=mysql &lt;my-id&gt;/cloud-native-spring</code></p>
 </div>
 <div class="paragraph">
 <p>&#8594; Interesting point: If you used a base OS called <code>openjdk</code>, its going to use Java 11. If your local machine&#8217;s JDK for compilation is JDK 8, the startup would fail. Make sure you have the correct pipeline of Java versions (or any other language for that matter).</p>
@@ -2406,8 +2415,11 @@ cf apps</code></pre>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
-<div class="sect2">
-<h3 id="_deploy_cloud_native_spring_to_pivotal_cloud_foundry">Deploy <em>cloud-native-spring</em> to Pivotal Cloud Foundry</h3>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_deploy_cloud_native_spring_to_pivotal_cloud_foundry">Deploy <em>cloud-native-spring</em> to Pivotal Cloud Foundry</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>We&#8217;ve built and run the application locally.  Now we&#8217;ll deploy it to Cloud Foundry.</p>
 </div>
@@ -2475,7 +2487,6 @@ applications:
 <p>How fast would it be to change one line in our code and have it running in production?</p>
 </li>
 </ol>
-</div>
 </div>
 <div class="sect2">
 <h3 id="_exploring_actuator_in_apps_manager">Exploring actuator in Apps Manager</h3>
