@@ -2,12 +2,23 @@
 
 We've built and run the application locally.  Now we'll deploy it to Cloud Foundry.
 
+. Our application needs to use a MySQL database. How will we deploy one to PCF? Simple, we'll use the marketplace:
+. Run the following command to review the various services availble in the marketplace:
+`cf marketplace`
+. Review the various plans that are available for the `mysql` service:
+`cf marketplace -s p.mysql`
+. Let's create a small MySQL Database:
+`cf create-service p.mysql db-small my-database`
+. Our database is being created. You can check its status by running:
+`cf service my-database`
+
+-> All of these can also be done directly from the Apps Manager GUI. Go to the Marketplace link on the left-hand side.
+-> Who was responsible for creating this database? It was the IT Department, and they probably added the service from the Pivotal Marketplace. The MySQL service in this case is a supported service from Pivotal. It also handles upgrades, backups, self-healing, monitoring with Healthwatch, auditing, and many other tasks that are not immediatly obvious.
+
 . Create an application manifest in the root folder _devops-workshop/labs/my_work/cloud-native-spring_
-+
-  touch manifest.yml
+`touch manifest.yml`
 
 . Add application metadata, using a text editor (of choice)
-+
 [source,bash]
 ---------------------------------------------------------------------
 ---
@@ -17,6 +28,8 @@ applications:
   path: ./build/libs/cloud-native-spring-1.0-SNAPSHOT.jar
   buildpacks:
   - java_buildpack_offline   #(This can be automatically detected, but faster if provided)
+  services:
+  - my-database
 ---------------------------------------------------------------------
 +
 The above manifest entries will work with Java Buildpack 4.x series and JDK 8.  If you built the app with JDK 11 and want to deploy it you will need to make an additional entry in your manifest, just under `buildpacks`, addand environment variable:
@@ -26,6 +39,7 @@ The above manifest entries will work with Java Buildpack 4.x series and JDK 8.  
   env:
     JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+ } }'
 ---------------------------------------------------------------------
+-> Notice the service in the `manifest.yml`? It's the service we just created. *That's all you need to do to make the connection between the application and the service*. Remember how much work that required in Kubernetes?
 
 . Push application into Cloud Foundry
 +
