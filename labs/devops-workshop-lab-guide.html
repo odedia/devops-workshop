@@ -502,11 +502,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_setting_up_the_database_docker_container">Setting up the database docker container</a></li>
 <li><a href="#_setting_up_the_application">Setting up the application</a></li>
-<li><a href="#_running_with_persistence_in_kubernetes">Running with persistence in Kubernetes</a></li>
-<li><a href="#_source_of_database">Source of Database</a></li>
 </ul>
 </li>
+<li><a href="#_07_running_with_persistence_in_kubernetes">07. Running with persistence in Kubernetes</a>
+<ul class="sectlevel2">
+<li><a href="#_source_of_database">Source of Database</a></li>
+<li><a href="#_setting_up_a_database">Setting up a database</a></li>
 <li><a href="#_the_bottom_line">The bottom line</a></li>
+</ul>
+</li>
 <li><a href="#_introduction_to_cf_cli">Introduction to CF CLI</a>
 <ul class="sectlevel2">
 <li><a href="#_open_apps_manager">Open Apps Manager</a></li>
@@ -2142,12 +2146,11 @@ Sun Feb 02 12:24:01 IST 2020 WARN: Establishing SSL connection without server's 
 </div>
 <div style="page-break-after: always;"></div>
 </div>
-<div class="sect2">
-<h3 id="_running_with_persistence_in_kubernetes">Running with persistence in Kubernetes</h3>
-<div class="paragraph">
-<p>For the sake of time, we&#8217;ll skip deploying the app again to Kubernetes, but think about the various considerations you&#8217;d have to make:</p>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_07_running_with_persistence_in_kubernetes">07. Running with persistence in Kubernetes</h2>
+<div class="sectionbody">
 <div class="sect2">
 <h3 id="_source_of_database">Source of Database</h3>
 <div class="paragraph">
@@ -2156,13 +2159,13 @@ Sun Feb 02 12:24:01 IST 2020 WARN: Establishing SSL connection without server's 
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>We can install a database directly as an image like we just did locally, but that would present issues for upgrades, auditing etc.</p>
+<p>We can install a database directly as an image like we just did locally, but that would present issues for upgrades, monitoring etc.</p>
 </li>
 <li>
-<p>We can use helm charts. Who would be responsible for upgrading them?</p>
+<p>We can use helm charts that wrap images with some recommended values and best practices. Who would be responsible for upgrading them?</p>
 </li>
 <li>
-<p>We can purchase database solutions based on Kubernetes operators / CRDs from a well-known vendor. The amount of production ready solutions is still low (Confluent, Greenplum, MongoDB).</p>
+<p>We can purchase database solutions based on Kubernetes operators / CRDs from a well-known vendor. The amount of production ready solutions is still low (Confluent Kafka, Greenplum, MongoDB Enterprise).</p>
 </li>
 </ol>
 </div>
@@ -2172,7 +2175,7 @@ Sun Feb 02 12:24:01 IST 2020 WARN: Establishing SSL connection without server's 
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>We need to make sure that <em>only</em> our application can access the database and no other pods. This requires Kubernetes <em>taint</em> commands using labels.</p>
+<p>We need to make sure that <em>only</em> our application can access the database and no other pods. This requires Kubernetes <em>network policies</em> to be in place.</p>
 </li>
 <li>
 <p>We need to update our application to point to the new database URL, username and password.</p>
@@ -2186,27 +2189,264 @@ Sun Feb 02 12:24:01 IST 2020 WARN: Establishing SSL connection without server's 
 </ol>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_setting_up_a_database">Setting up a database</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>For the sake of speed, you&#8217;ll be preseted with the final Kubernetes yaml files. However, as you can image, defining all of the from scratch is not easy or trivial.</p>
+</li>
+<li>
+<p>We need to setup a Persistent Volume (PV) to hold our stateful database files. For example:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: standard
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+  persistentVolumeReclaimPolicy: Delete</pre>
 </div>
 </div>
-<div class="sect1">
-<h2 id="_the_bottom_line">The bottom line</h2>
-<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>We need to define a Persistent Volume Claim (PVC) that would provision such PVs for us:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>We need to define a network policy that would only allow access from specific pods with specific labels:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: db-allow
+spec:
+  podSelector:
+    matchLabels:
+      app: mysql
+  ingress:
+  - from:
+      - podSelector:
+          matchLabels:
+            type: backend-app</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Finally, we can define a deployment yaml for our database. Note that we use the password as a clear-text environment variable here. For real production use, we should have used a Kubernetes secret backed by a real encryption store such as Vault.</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yml" data-lang="yml">apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - image: mysql:5.7
+        name: mysql
+        env:
+          # Use secret in real usage
+        - name: MYSQL_ROOT_PASSWORD
+          value: my-secret-pw
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pv-claim</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>We also need to define a Kubernetes service to expose our database. Since we only have one pod running, we can define <code>clusterIP</code> as <code>None</code> for better performance.</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+spec:
+  ports:
+  - port: 3306
+  selector:
+    app: mysql
+  clusterIP: None</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>We&#8217;ll also need to update our application&#8217;s deployment yaml to override the MYSQL_HOST from the default set in <code>application.yml</code> to the service in our namespace:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>        env:
+          # Use secret in real usage
+        - name: MYSQL_HOST
+          value: mysql.default.svc.cluster.local #replace default with your actual namespace name!</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Here&#8217;s the full application deployment.yml for reference:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: cloud-native-spring
+    type: backend-app
+  name: cloud-native-spring
+  #namespace: instructor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: cloud-native-spring
+  strategy:
+    rollingUpdate:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: cloud-native-spring
+        type: backend-app
+    spec:
+      containers:
+      - image: odedia/cloud-native-spring
+        env:
+          # Use secret in real usage
+        - name: MYSQL_HOST
+          value: mysql.default.svc.cluster.local
+        imagePullPolicy: Always
+        name: cloud-native-spring
+        ports:
+        - containerPort: 8080
+          protocol: TCP</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Some considerations for "code smells": Our application&#8217;s deployment yaml is not portable, since it hardcodes the value of the target MySQL host. It&#8217;s better to define a ConfigMap or another Kubernetes component to manage the value. Also, the password for the database is set both in our <code>application.yml</code> and in the database&#8217;s deployment yaml file. We&#8217;re also still using <code>latest</code> as the version of our application, which is not a good idea. It&#8217;s better to manage real versions in our docker registry and update the deployment yaml every time to the newer version. For now, our best option is to delete the delpoymenta and run <code>kubectl apply</code> again.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Check the value of the EXTERNAL IP for the service <code>cloud-native-spring</code>. Open the URL and check if you can see data in <code>https://&lt;external-ip&gt;/cities</code></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_bottom_line">The bottom line</h3>
+<div class="paragraph">
+<p>Congradulations! We were able to deploy a very simple app with a database to Kubernetes! However, as we saw along the way, getting something to work and getting something to be production ready are two different things.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>We haven&#8217;t configured an external DNS, and are only using an external IP address.</p>
+</li>
+<li>
+<p>Our docker image is not optimized. Every build pushes+pulls the entire 70+mb jar file layer.</p>
+</li>
+<li>
+<p>Our start command is simple and works, but not optimized or tuned with the many JVM options.</p>
+</li>
+<li>
+<p>We don&#8217;t have aggregated logging, advanced monitoring solution, management UI or any of the items discussed in the previous Kubernetes exercise.</p>
+</li>
+<li>
+<p>Our database exposes the password and does not handle auditing, upgrades, migrations etc.</p>
+</li>
+<li>
+<p>We have <strong>a lot</strong> of yaml files to manage. We need to configure <em>everything</em>, there are no assumptions or conventions for our deployments.</p>
+</li>
+</ol>
+</div>
 <div class="paragraph">
 <p><strong>If you got all of the requirements above working in a production-ready manner, congradulations - you built your own platform on top of Kubernetes</strong>!</p>
 </div>
-<div class="paragraph">
-<p>+
-image::images/k8s1.jpg[]</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/k8s1.jpg" alt="k8s1" width="600" height="480">
 </div>
-<div class="paragraph">
-<p>+
-image::images/k8s2.jpg[]</p>
 </div>
-<div class="paragraph">
-<p>+
-image::images/k8s3.jpg[]</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/k8s2.jpg" alt="k8s2" width="600" height="480">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/k8s3.jpg" alt="k8s3" width="600" height="480">
+</div>
 </div>
 <div style="page-break-after: always;"></div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -2509,6 +2749,26 @@ The above manifest entries will work with Java Buildpack 4.x series and JDK 8.  
 </div>
 </li>
 <li>
+<p>Check the <code>start command</code> at the end of the log deployment:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">start command:   JAVA_OPTS="-agentpath:$PWD/.java-buildpack/open_jdk_jre/bin/jvmkill-1.16.0_RELEASE=printHeapHistogram=1 -Djava.io.tmpdir=$TMPDIR -XX:ActiveProcessorCount=$(nproc)
+                 -Djava.ext.dirs=$PWD/.java-buildpack/container_security_provider:$PWD/.java-buildpack/open_jdk_jre/lib/ext
+                 -Djava.security.properties=$PWD/.java-buildpack/java_security/java.security $JAVA_OPTS" &amp;&amp;
+                 CALCULATED_MEMORY=$($PWD/.java-buildpack/open_jdk_jre/bin/java-buildpack-memory-calculator-3.13.0_RELEASE -totMemory=$MEMORY_LIMIT -loadedClasses=16787
+                 -poolType=metaspace -stackThreads=250 -vmOptions="$JAVA_OPTS") &amp;&amp; echo JVM Memory Configuration: $CALCULATED_MEMORY &amp;&amp; JAVA_OPTS="$JAVA_OPTS $CALCULATED_MEMORY" &amp;&amp;
+                 MALLOC_ARENA_MAX=2 SERVER_PORT=$PORT eval exec $PWD/.java-buildpack/open_jdk_jre/bin/java $JAVA_OPTS -cp $PWD/. org.springframework.boot.loader.JarLauncher</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The reason for this long start command is that PCF optimizes the container and the JVM for production use. That includes running a memory calculator as part of the deployment to understand the optimal memory settings for the JVM, along with other fine-tuning. As you recall, our start command in the Dockerfile was simply <code>java -jar app.jar</code>. Notice how many things need to be taken into consideration when you need to be production ready!</p>
+</li>
+<li>
 <p>Find the URL created for your app in the health status report. Browse to your app&#8217;s <code>/hello</code> endpoint.</p>
 </li>
 <li>
@@ -2525,7 +2785,7 @@ The above manifest entries will work with Java Buildpack 4.x series and JDK 8.  
 </ol>
 </div>
 <div class="paragraph">
-<p>&#8594; Wait a minute! How did this even work?! We didn&#8217;t update the properties under <code>src/main/resources/application.yml</code>, yet somehow we were able to create the <code>city</code> table and populate it on startup. More so - we didn&#8217;t even need to create a schema manually! How is that possible? That&#8217;s the power of the Open Service Broker API (OSBAPI).</p>
+<p>Wait a minute! How did this even work?! We didn&#8217;t update the properties under <code>src/main/resources/application.yml</code>, yet somehow we were able to create the <code>city</code> table and populate it on startup. Not only that - we didn&#8217;t even need to create a schema manually! How is that possible? That&#8217;s the power of the Open Service Broker API (OSBAPI).</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -2534,13 +2794,13 @@ The above manifest entries will work with Java Buildpack 4.x series and JDK 8.  
 <code>cf env cloud-native-spring</code></p>
 </li>
 <li>
-<p>Notice the <code>p.mysql</code> entry under <code>VCAP_SERVICES</code>? That was injected when we told our application that we&#8217;d like to <code>bind</code> our app to the <code>my-database</code> service. It provides all the environment variables needed to connect to the database. Even more impressive - Spring (and .NET with Steeltoe) knows how to autoconfigure itself and bind to this new database auto-magically. The parameters injected by the platform will override the settings in your <code>application.yml</code>, so your code will always remain portable. Tomorrow you would move to a production environment and bind to a different database instance called <code>my-database</code>, but that&#8217;s ok - all the parameters would be injected again, no code changes required.</p>
+<p>Notice the <code>p.mysql</code> entry under <code>VCAP_SERVICES</code>? That was injected when we told our application that we&#8217;d like to <strong>bind</strong> our app to the <code>my-database</code> service. Binding provides all the environment variables needed to connect to the database (or any other service, such as a message broker). Even more impressive - Spring (and .NET with Steeltoe) knows how to autoconfigure itself and bind to this new database auto-magically. The parameters injected by the platform will override the settings in your <code>application.yml</code>, so your code will always remain portable. Eventially you&#8217;ll move to a production environment and bind to a different database instance called <code>my-database</code>, but that&#8217;s ok - all the parameters would be injected again, no code changes or recompile is required.</p>
 </li>
 <li>
-<p>Perhaps even more important - you no longer have passwords all over your code and your environment. <strong>only</strong> users that are authoried to access this particular space and app will have the option to view the parameters of the database that includes the password. You can also leverage a PCF service called <em>Credhub</em>, which is an encrypted database for properties. If you were to use Credhub, you wouldn&#8217;t even see the parameters when running <code>cf env</code>. <strong>Only</strong> the application&#8217;s PID process would be able to automatically fetch the parameters on container startup.</p>
+<p>Perhaps even more important - you no longer have passwords scattered all over your code and your environment. <strong>Only</strong> users that are authoried to access this particular space and app will have the option to view the parameters of the database that includes the password. You can also leverage a PCF service called <em>Credhub</em>, which is an encrypted database for properties. If you were to use Credhub, you wouldn&#8217;t even see the parameters when running <code>cf env</code>. <strong>Only</strong> the application&#8217;s PID process would be able to automatically fetch the parameters on container startup.</p>
 </li>
 <li>
-<p>How fast would it be to change one line in our code and have it running with a routable URL? Let&#8217;s change <code>GreetingController.java</code> to greet us with <code>Hello VMware on PCF!</code>. All that&#8217;s left to do is:</p>
+<p>How fast would it be to change one line in our code and have it running in "production"? Let&#8217;s change <code>GreetingController.java</code> to greet us with <code>Hello VMware on PCF!</code>. All that&#8217;s left to do is:</p>
 </li>
 </ol>
 </div>
@@ -2555,7 +2815,7 @@ The above manifest entries will work with Java Buildpack 4.x series and JDK 8.  
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>When running a Spring Boot application on Pivotal Cloud Foundry with the actuator endpoints enabled, you can visualize actuator management information on the Applications Manager app dashboard.</p>
+<p>When running a Spring Boot (or .NET with Steeltoe) application on Pivotal Cloud Foundry with the actuator endpoints enabled, you can visualize actuator management information in the Apps Manager dashboard.</p>
 </li>
 <li>
 <p>Visit the route created for your app and append /actuator/health to see the health status report. See the same details in the Apps Manager UI:</p>
@@ -2568,7 +2828,7 @@ The above manifest entries will work with Java Buildpack 4.x series and JDK 8.  
 </ol>
 </div>
 <div class="paragraph">
-<p>The Logs tab provides an <strong>*aggregated</strong> view of all logs from all instances on our application. You can also change the logging level per class/package at runtime without having to restart:</p>
+<p>The Logs tab provides an <strong>aggregated</strong> view of all logs from all instances on our application. You can also change the logging level per class/package at runtime without having to restart:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -2600,7 +2860,7 @@ The above manifest entries will work with Java Buildpack 4.x series and JDK 8.  
 </div>
 </div>
 <div class="paragraph">
-<p><strong>Congratulations!</strong> You’ve just learned how to add health and metrics to any Spring Boot application.</p>
+<p><strong>Congratulations!</strong> You’ve just deployed a full-blown application to PCF along with a supporting database!</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>

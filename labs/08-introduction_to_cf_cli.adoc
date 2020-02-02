@@ -1,5 +1,7 @@
 = Introduction to CF CLI
 
+So far we discussed Java, but Cloud Foundry supports all the modern, cloud-native languages. Let's deploy some simple sample apps in various languages.
+
 - Change the working directory to be _devops-workshop/labs/samples_
 +
 Note the sub-directories present..

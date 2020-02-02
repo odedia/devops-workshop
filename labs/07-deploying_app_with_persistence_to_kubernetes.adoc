@@ -1,32 +1,193 @@
-== Running with persistence in Kubernetes
-
-For the sake of time, we'll skip deploying the app again to Kubernetes, but think about the various considerations you'd have to make:
+= 07. Running with persistence in Kubernetes
 
 == Source of Database
 
 How will we install our database in Kubernetes?
 
-. We can install a database directly as an image like we just did locally, but that would present issues for upgrades, auditing etc.
-. We can use helm charts. Who would be responsible for upgrading them?
-. We can purchase database solutions based on Kubernetes operators / CRDs from a well-known vendor. The amount of production ready solutions is still low (Confluent, Greenplum, MongoDB).
+. We can install a database directly as an image like we just did locally, but that would present issues for upgrades, monitoring etc.
+. We can use helm charts that wrap images with some recommended values and best practices. Who would be responsible for upgrading them?
+. We can purchase database solutions based on Kubernetes operators / CRDs from a well-known vendor. The amount of production ready solutions is still low (Confluent Kafka, Greenplum, MongoDB Enterprise).
 
 Regardless of the solution, we need to think of the following:
 
-. We need to make sure that _only_ our application can access the database and no other pods. This requires Kubernetes _taint_ commands using labels.
+. We need to make sure that _only_ our application can access the database and no other pods. This requires Kubernetes _network policies_ to be in place.
 . We need to update our application to point to the new database URL, username and password.
 . We need to do this every time we move to other environments (such as other namespaces or Kubernetes clusters).
 . We need to store password in a well-encrypted store. The default kubernetes secret management uses base64 encoding *which is not an encryption solution*
 
-= The bottom line
+== Setting up a database
+
+. For the sake of speed, you'll be preseted with the final Kubernetes yaml files. However, as you can image, defining all of the from scratch is not easy or trivial.
+. We need to setup a Persistent Volume (PV) to hold our stateful database files. For example:
+[source,yml]
+---------------------------------------------------------------------
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: standard
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+  persistentVolumeReclaimPolicy: Delete
+---------------------------------------------------------------------
+. We need to define a Persistent Volume Claim (PVC) that would provision such PVs for us:
+[source,yml]
+---------------------------------------------------------------------
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---------------------------------------------------------------------
+. We need to define a network policy that would only allow access from specific pods with specific labels:
+[source,yml]
+---------------------------------------------------------------------
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: db-allow
+spec:
+  podSelector:
+    matchLabels:
+      app: mysql
+  ingress:
+  - from:
+      - podSelector:
+          matchLabels:
+            type: backend-app
+---------------------------------------------------------------------
+. Finally, we can define a deployment yaml for our database. Note that we use the password as a clear-text environment variable here. For real production use, we should have used a Kubernetes secret backed by a real encryption store such as Vault.
+
+[source,yml]
+---------------------------------------------------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - image: mysql:5.7
+        name: mysql
+        env:
+          # Use secret in real usage
+        - name: MYSQL_ROOT_PASSWORD
+          value: my-secret-pw
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pv-claim
+---------------------------------------------------------------------
+. We also need to define a Kubernetes service to expose our database. Since we only have one pod running, we can define `clusterIP` as `None` for better performance.
+[source,yml]
+---------------------------------------------------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+spec:
+  ports:
+  - port: 3306
+  selector:
+    app: mysql
+  clusterIP: None
+---------------------------------------------------------------------
+. We'll also need to update our application's deployment yaml to override the MYSQL_HOST from the default set in `application.yml` to the service in our namespace:
+[source,yml]
+---------------------------------------------------------------------
+        env:
+          # Use secret in real usage
+        - name: MYSQL_HOST
+          value: mysql.default.svc.cluster.local #replace default with your actual namespace name!
+---------------------------------------------------------------------
+. Here's the full application deployment.yml for reference:
+[source,yml]
+---------------------------------------------------------------------
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: cloud-native-spring
+    type: backend-app
+  name: cloud-native-spring
+  #namespace: instructor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: cloud-native-spring
+  strategy:
+    rollingUpdate:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: cloud-native-spring
+        type: backend-app
+    spec:
+      containers:
+      - image: odedia/cloud-native-spring
+        env:
+          # Use secret in real usage
+        - name: MYSQL_HOST
+          value: mysql.default.svc.cluster.local
+        imagePullPolicy: Always
+        name: cloud-native-spring
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+---------------------------------------------------------------------
+
+. Some considerations for "code smells": Our application's deployment yaml is not portable, since it hardcodes the value of the target MySQL host. It's better to define a ConfigMap or another Kubernetes component to manage the value. Also, the password for the database is set both in our `application.yml` and in the database's deployment yaml file. We're also still using `latest` as the version of our application, which is not a good idea. It's better to manage real versions in our docker registry and update the deployment yaml every time to the newer version. For now, our best option is to delete the delpoymenta and run `kubectl apply` again.
+
+Check the value of the EXTERNAL IP for the service `cloud-native-spring`. Open the URL and check if you can see data in `https://<external-ip>/cities`
+
+== The bottom line
+Congradulations! We were able to deploy a very simple app with a database to Kubernetes! However, as we saw along the way, getting something to work and getting something to be production ready are two different things.
+
+. We haven't configured an external DNS, and are only using an external IP address.
+. Our docker image is not optimized. Every build pushes+pulls the entire 70+mb jar file layer.
+. Our start command is simple and works, but not optimized or tuned with the many JVM options.
+. We don't have aggregated logging, advanced monitoring solution, management UI or any of the items discussed in the previous Kubernetes exercise.
+. Our database exposes the password and does not handle auditing, upgrades, migrations etc.
+. We have *a lot* of yaml files to manage. We need to configure _everything_, there are no assumptions or conventions for our deployments.
 
 *If you got all of the requirements above working in a production-ready manner, congradulations - you built your own platform on top of Kubernetes*!
 
-+
-image::images/k8s1.jpg[]
-+
-image::images/k8s2.jpg[]
-+
-image::images/k8s3.jpg[]
+
+image::images/k8s1.jpg[width=600,height=480]
+
+image::images/k8s2.jpg[width=600,height=480]
+
+image::images/k8s3.jpg[width=600,height=480]
 
 
 

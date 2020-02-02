@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: cloud-native-spring
+    type: backend-app
+  name: cloud-native-spring
+  #namespace: instructor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: cloud-native-spring
+  strategy:
+    rollingUpdate:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: cloud-native-spring
+        type: backend-app
+    spec:
+      containers:
+      - image: odedia/cloud-native-spring
+        env:
+          # Use secret in real usage
+        - name: MYSQL_HOST
+          value: mysql.default.svc.cluster.local
+        imagePullPolicy: Always
+        name: cloud-native-spring
+        ports:
+        - containerPort: 8080
+          protocol: TCP
