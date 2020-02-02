@@ -15,19 +15,20 @@ samples
 +
 -> If you want to be able to deploy these samples you must have _Go_, _Node_, _.Net Core_, and _Python_ installed.
 
+== Open Apps Manager
+
+Go to the URL https://apps.run.pcfone.io and login with the credentials provided by your instructor.
+
 == How to target a foundation and login
 
 . Open a Terminal (e.g., _cmd_ or _bash_ shell)
 
 . Target a foundation and login
-+
-*PCFOne*
-+
 ----
 $ cf login -a https://api.run.pcfone.io
 ----
 +
-Enter your account username and password, then select an org and space.
+Enter your account username and password, then select an org and space unless those were chosen for you automatically.
 
 == How to deploy an application
 
@@ -49,34 +50,48 @@ Enter your account username and password, then select an org and space.
   cf push -c "node server.js"
 +
 
-Notice that PCF also _built_ the application for you before creating the container and running the app. You can also build your application locally and just provide the final artifact to PCF:
+Notice that PCF also _built_ the application for you before creating the container and running the app. You can also build your application locally (if you have `yarn` installed), and just provide the final artifact to PCF:
 +
-  yarn config set yarn-offline-mirror ./npm-packages-offline-cache
-  cp ~/.yarnrc .
-  rm -rf node_modules/ yarn.lock
-  yarn install
+[source,bash]
+----------------------------------------
+yarn config set yarn-offline-mirror ./npm-packages-offline-cache
+cp ~/.yarnrc .
+rm -rf node_modules/ yarn.lock
+yarn install
 
-  cf push -c "node server.js"
-
+cf push -c "node server.js"
+----------------------------------------
 
 . Next, let's try deploying a Python app. Note that again, PCF builds the application for you:
 +
-  cd ../python-sample
-  cf push my_pyapp
+[source,bash]
+----------------------------------------
+cd ../python-sample
+cf push my_pyapp
+----------------------------------------
 
 . Rinse and repeat for .Net Core (again, built during deployment):
 +
-  cd ../dotnet-core-sample
-  cf push
+[source,bash]
+----------------------------------------
+cd ../dotnet-core-sample
+cf push
+----------------------------------------
 
 . Now let's push a Go app. Notice there's no _manifest.yml_ in this directory. How did PCF know it's a Go app?
 +
-  cd ../go-sample
-  cf push awesome-go-app -m 64M --random-route
+[source,bash]
+----------------------------------------
+cd ../go-sample
+cf push awesome-go-app -m 64M --random-route
+----------------------------------------
 
 . Check what applications have been deployed so far
 +
+[source,bash]
+----------------------------------------
   cf apps
+----------------------------------------
 +
 -> Take some time to visit each of the applications you've just deployed.
 
@@ -84,23 +99,35 @@ Open Apps Manager and review your applications from the UI:
 
 https://apps.run.pcfone.io
 
+Click the "View App" link on the top right side of each app's overview screen.
+
 . Let's scale an app
 +
-  cf scale cf-nodejs -i 3
-  cf apps
+[source,bash]
+----------------------------------------
+cf scale cf-nodejs -i 3
+cf apps
+----------------------------------------
 +
+
 Refresh the App's URL and see how _INSTANCE INDEX_ changes with each refresh.
 
 . Let's stop an app, then check that it has indeed been stopped
 +
-  cf stop cf-nodejs
-  cf apps
+[source,bash]
+----------------------------------------
+cf stop cf-nodejs
+cf apps
+----------------------------------------
 
 == How to cleanup after yourself
 
 . Finally, let's delete an app
 +
+[source,bash]
+----------------------------------------
   cf delete cf-nodejs
+----------------------------------------
 +
 -> Repeat `cf delete` for each app you deployed.
 

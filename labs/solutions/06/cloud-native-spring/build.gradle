@@ -38,6 +38,7 @@ dependencies {
     implementation('org.springframework.data:spring-data-rest-hal-browser')
     implementation('org.springframework.boot:spring-boot-starter-web')
     runtime('com.h2database:h2')
+    runtime('mysql:mysql-connector-java')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     implementation('org.flywaydb:flyway-core:5.2.4')
     implementation('com.zaxxer:HikariCP:3.3.0')

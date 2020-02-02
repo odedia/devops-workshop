@@ -1,3 +1,98 @@
-:compat-mode:
 = 06. Running with persistence in Docker
+
+So far we use the in-memory H2 database which is good for unit testing, but it's not feasible for production use - all our data will be gone whenever we restart the application.
+
+
+== Setting up the database docker container
+
+First, we'll need to run a database. We'll use MySQL in our example. Searching Dockerhub, it seems that the default _mysql_ image is the best option. Let's run the database in docker:
+
+`docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw -d --net mynet mysql`
+
+The default user for this image is `root`. This is the first sign that the defaults are not production ready, because you'd rarely run your database as root. Also, the image would run the container but does not take into account responsibilities such as upgrading, backups, auditing etc. These are your responsiblity.
+
+Also, the image doesn't create any schemas other than the internal `sys` schema which we cannot use for our application. We'll need to create a new schema first. Let's ssh into our container:
+
+`docker exec -it mysql bash`
+
+Once in the container, we need to run the mysql cli (it would default to _localhost:3306_ which is what we want):
+
+`mysql -p`
+
+Now that we are in the cli, we can create our schema:
+
+[source,bash]
+---------------------------------------------------------------------
+mysql> create schema my_db;
+Query OK, 1 row affected (0.00 sec)
+---------------------------------------------------------------------
+
+type `exit` twice to return to the host.
+
+
+== Setting up the application
+
+We now need to add the MySQL JDBC (Java Database Connectivity) driver to our application. Add the following to `build.gradle` under `dependencies`:
+
+[source,bash]
+---------------------------------------------------------------------
+runtime('mysql:mysql-connector-java')
+---------------------------------------------------------------------
+
+We now have two drivers in our application: H2 and MySQL. How will Spring know which database I want to use?
+
+Like everything else in Spring, it uses _convention over configuration_ and common sense. If you didn't provide connection parameters to MySQL, it would fallback to H2 since that's the default, testable database it can use.
+
+
+Let's now define the connection parameters for our MySQL database. Update the `spring:database` section in `application.yml` so it would look like this:
+
+[source,bash]
+---------------------------------------------------------------------
+spring:
+  datasource:
+    hikari:
+      connection-timeout: 60000
+      maximum-pool-size: 5
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/my_db?useSSL=false
+    username: root
+    password: my-secret-pw
+---------------------------------------------------------------------
+
+We can immediatly see another issue - our password is written in clear text in our configuration file. We can think of various ways to overcome this:
+
+. Using a Spring Cloud Config Server
+. Using environment variables when starting the server
+. Managing secrets when runing on Kubernetes (although remember - the default secret plugin is not encypted so it makes no difference!)
+
+Compilethe updated application:
+
+`./gradlew bootRun`
+
+
+Build the Docker image for our app again:
+
+`docker build -t cloud-native-spring .`
+
+And run it (notice the use of `--net` to allow us to communicate between two containers):
+
+`docker run -p 8080:8080 --net mynet -e MYSQL_HOST=mysql cloud-native-spring`
+
+-> Interesting point: If you used a base OS called `openjdk`, its going to use Java 11. If your local machine's JDK for compilation is JDK 8, the startup would fail. Make sure you have the correct pipeline of Java versions (or any other language for that matter).
+
+
+See the log output to confirm you are connected to the new MySQL Database:
+
+[source,bash]
+---------------------------------------------------------------------
+2020-02-02 12:24:01.154  INFO 7228 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+Sun Feb 02 12:24:01 IST 2020 WARN: Establishing SSL connection without server's identity verification is not recommended. According to MySQL 5.5.45+, 5.6.26+ and 5.7.6+ requirements SSL connection must be established by default if explicit option isn't set. For compliance with existing applications not using SSL the verifyServerCertificate property is set to 'false'. You need either to explicitly disable SSL by setting useSSL=false, or set useSSL=true and provide truststore for server certificate verification.
+2020-02-02 12:24:01.704  INFO 7228 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-02-02 12:24:01.707  INFO 7228 --- [           main] o.f.c.internal.database.DatabaseFactory  : Database: jdbc:mysql://localhost:3306/my_db (MySQL 8.0)
+2020-02-02 12:24:03.028  INFO 7228 --- [           main] o.f.core.internal.command.DbValidate     : Successfully validated 2 migrations (execution time 00:01.269s)
+2020-02-02 12:24:03.056  INFO 7228 --- [           main] o.f.core.internal.command.DbMigrate      : Current version of schema `my_db`: 1.0
+2020-02-02 12:24:03.059  INFO 7228 --- [           main] o.f.core.internal.command.DbMigrate      : Migrating schema `my_db` to version 1.1 - seed data
+2020-02-02 12:25:51.336  INFO 7228 --- [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 1 migration to schema `my_db` (execution time 01:48.294s)
+---------------------------------------------------------------------
+
+Verify you still get a response from `http://localhost:8080/cities`.
 

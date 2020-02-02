@@ -1,0 +1,16 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  ​endpoint:
+    ​health:
+      ​show-details: always
+spring:
+  datasource:
+    hikari:
+      connection-timeout: 60000
+      maximum-pool-size: 5
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/my_db?useSSL=false
+    username: root
+    password: my-secret-pw
