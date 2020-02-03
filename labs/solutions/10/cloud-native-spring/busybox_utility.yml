@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busybox
+spec:
+  selector:
+    matchLabels:
+      app: busybox
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: busybox
+    spec:
+      containers:
+      - image: busybox
+        command:
+        - sleep
+        - "3600"
+        name: busybox
+        env:
+          # Use secret in real usage
+        - name: MYSQL_ROOT_PASSWORD
+          value: my-secret-pw
+        ports:
+        - containerPort: 3306
+          name: busybox
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pv-claim

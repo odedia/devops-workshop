@@ -511,7 +511,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_the_bottom_line">The bottom line</a></li>
 </ul>
 </li>
-<li><a href="#_introduction_to_cf_cli">Introduction to CF CLI</a>
+<li><a href="#_08_introduction_to_cf_cli">08. Introduction to CF CLI</a>
 <ul class="sectlevel2">
 <li><a href="#_open_apps_manager">Open Apps Manager</a></li>
 <li><a href="#_how_to_target_a_foundation_and_login">How to target a foundation and login</a></li>
@@ -520,12 +520,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_where_to_go_for_more_help">Where to go for more help</a></li>
 </ul>
 </li>
-<li><a href="#_deploy_cloud_native_spring_to_pivotal_cloud_foundry">Deploy <em>cloud-native-spring</em> to Pivotal Cloud Foundry</a>
+<li><a href="#_09_deploy_app_with_persistence_to_pivotal_cloud_foundry">09. Deploy app with persistence to Pivotal Cloud Foundry</a>
 <ul class="sectlevel2">
 <li><a href="#_exploring_actuator_in_apps_manager">Exploring actuator in Apps Manager</a></li>
 </ul>
 </li>
-<li><a href="#_adding_spring_cloud_config_to_boot_application">Adding Spring Cloud Config to Boot Application</a>
+<li><a href="#_10_adding_spring_cloud_config_to_boot_application">10. Adding Spring Cloud Config to Boot Application</a>
 <ul class="sectlevel2">
 <li><a href="#_update_hello_rest_service">Update <em>Hello</em> REST service</a></li>
 <li><a href="#_run_the_cloud_native_spring_application_and_verify_dynamic_config_is_working">Run the <em>cloud-native-spring</em> Application and verify dynamic config is working</a></li>
@@ -533,7 +533,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_deploy_and_test_application">Deploy and test application</a></li>
 </ul>
 </li>
-<li><a href="#_adding_service_registration_and_discovery_with_spring_cloud">Adding Service Registration and Discovery with Spring Cloud</a>
+<li><a href="#_11_adding_service_registration_and_discovery_with_spring_cloud">11. Adding Service Registration and Discovery with Spring Cloud</a>
 <ul class="sectlevel2">
 <li><a href="#_update_cloud_native_spring_boot_application_to_register_with_eureka">Update <em>Cloud-Native-Spring</em> Boot Application to Register with Eureka</a></li>
 <li><a href="#_create_spring_cloud_service_registry_instance_and_deploy_application">Create Spring Cloud Service Registry instance and deploy application</a></li>
@@ -2430,19 +2430,19 @@ spec:
 <div class="paragraph">
 <p><strong>If you got all of the requirements above working in a production-ready manner, congradulations - you built your own platform on top of Kubernetes</strong>!</p>
 </div>
-<div class="imageblock">
+<div class="imageblock text-center">
 <div class="content">
-<img src="images/k8s1.jpg" alt="k8s1" width="600" height="480">
+<img src="images/k8s1.jpg" alt="k8s1" width="500">
 </div>
 </div>
-<div class="imageblock">
+<div class="imageblock text-center">
 <div class="content">
-<img src="images/k8s2.jpg" alt="k8s2" width="600" height="480">
+<img src="images/k8s2.jpg" alt="k8s2" width="500">
 </div>
 </div>
-<div class="imageblock">
+<div class="imageblock text-center">
 <div class="content">
-<img src="images/k8s3.jpg" alt="k8s3" width="600" height="480">
+<img src="images/k8s3.jpg" alt="k8s3" width="500">
 </div>
 </div>
 <div style="page-break-after: always;"></div>
@@ -2450,8 +2450,11 @@ spec:
 </div>
 </div>
 <div class="sect1">
-<h2 id="_introduction_to_cf_cli">Introduction to CF CLI</h2>
+<h2 id="_08_introduction_to_cf_cli">08. Introduction to CF CLI</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>So far we discussed Java, but Cloud Foundry supports all the modern, cloud-native languages. Let&#8217;s deploy some simple sample apps in various languages.</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
@@ -2658,68 +2661,71 @@ cf apps</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_deploy_cloud_native_spring_to_pivotal_cloud_foundry">Deploy <em>cloud-native-spring</em> to Pivotal Cloud Foundry</h2>
+<h2 id="_09_deploy_app_with_persistence_to_pivotal_cloud_foundry">09. Deploy app with persistence to Pivotal Cloud Foundry</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>We&#8217;ve built and run the application locally.  Now we&#8217;ll deploy it to Cloud Foundry.</p>
+<p>We&#8217;ve built and run the application locally.
+We deployed our application to Kubernetes.
+Now we&#8217;ll deploy it to Cloud Foundry.
+Our application needs to use a MySQL database. How will we deploy one to PCF? Simple, we&#8217;ll use the marketplace:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Our application needs to use a MySQL database. How will we deploy one to PCF? Simple, we&#8217;ll use the marketplace:</p>
+<p>Run the following command to review the various services availble in the marketplace:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">cf marketplace</code></pre>
+</div>
+</div>
 </li>
 <li>
-<p>Run the following command to review the various services availble in the marketplace:
-<code>cf marketplace</code></p>
+<p>Review the various plans that are available for the <code>mysql</code> service:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">cf marketplace -s p.mysql</code></pre>
+</div>
+</div>
 </li>
 <li>
-<p>Review the various plans that are available for the <code>mysql</code> service:
-<code>cf marketplace -s p.mysql</code></p>
+<p>Let&#8217;s create a small MySQL Database:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">cf create-service p.mysql db-small my-database</code></pre>
+</div>
+</div>
 </li>
 <li>
-<p>Let&#8217;s create a small MySQL Database:
-<code>cf create-service p.mysql db-small my-database</code></p>
-</li>
-<li>
-<p>Our database is being created. You can check its status by running:
-<code>cf service my-database</code></p>
-</li>
-</ol>
+<p>Our database is being created. You can check its status by running:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">cf service my-database</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>&#8594; All of these can also be done directly from the Apps Manager GUI. Go to the Marketplace link on the left-hand side.
-&#8594; Who was responsible for creating this database? It was the IT Department, and they probably added the service from the Pivotal Marketplace. The MySQL service in this case is a supported service from Pivotal. It also handles upgrades, backups, self-healing, monitoring with Healthwatch, auditing, and many other tasks that are not immediatly obvious.</p>
+&#8594; Who was responsible for creating this database? It the operations team, not the development team. They added the service from the Pivotal Marketplace. The MySQL service in this case is a supported service from Pivotal. It also handles upgrades, backups, self-healing, monitoring with Healthwatch, auditing, and many other tasks that are not immediatly obvious.</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>Create an application manifest in the root folder <em>devops-workshop/labs/my_work/cloud-native-spring</em>
 <code>touch manifest.yml</code></p>
 </li>
 <li>
 <p>Add application metadata, using a text editor (of choice)</p>
-</li>
-</ol>
-</div>
 <div class="listingblock">
 <div class="content">
-<pre>---
+<pre class="highlight"><code class="language-bash" data-lang="bash">---
 applications:
 - name: cloud-native-spring
   random-route: true
   path: ./build/libs/cloud-native-spring-1.0-SNAPSHOT.jar
-  buildpacks:
-  - java_buildpack_offline   #(This can be automatically detected, but faster if provided)
   services:
-  - my-database</pre>
+  - my-database</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>+
-The above manifest entries will work with Java Buildpack 4.x series and JDK 8.  If you built the app with JDK 11 and want to deploy it you will need to make an additional entry in your manifest, just under <code>buildpacks</code>, addand environment variable:</p>
-</div>
-<div class="paragraph">
-<p>+</p>
+<p>The above manifest entries will work with Java Buildpack 4.x series and JDK 8.  If you built the app with JDK 11 and want to deploy it you will need to make an additional entry in your manifest, just under <code>buildpacks</code>, add an environment variable:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2728,10 +2734,12 @@ The above manifest entries will work with Java Buildpack 4.x series and JDK 8.  
 </div>
 </div>
 <div class="paragraph">
+<p>&#8594; Notice the simplifed configuration file? We reduced 133 lines in Kubernetes to just 5 lines in PCF.</p>
+</div>
+<div class="paragraph">
 <p>&#8594; Notice the service in the <code>manifest.yml</code>? It&#8217;s the service we just created. <strong>That&#8217;s all you need to do to make the connection between the application and the service</strong>. Remember how much work that required in Kubernetes?</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>Push application into Cloud Foundry</p>
 <div class="listingblock">
@@ -2744,27 +2752,23 @@ The above manifest entries will work with Java Buildpack 4.x series and JDK 8.  
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">  cf push -f my-other-manifest.yml -b java_buildpack</code></pre>
+<pre class="highlight"><code class="language-bash" data-lang="bash">cf push -f my-other-manifest.yml -b java_buildpack</code></pre>
 </div>
 </div>
 </li>
 <li>
 <p>Check the <code>start command</code> at the end of the log deployment:</p>
-</li>
-</ol>
-</div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">start command:   JAVA_OPTS="-agentpath:$PWD/.java-buildpack/open_jdk_jre/bin/jvmkill-1.16.0_RELEASE=printHeapHistogram=1 -Djava.io.tmpdir=$TMPDIR -XX:ActiveProcessorCount=$(nproc)
-                 -Djava.ext.dirs=$PWD/.java-buildpack/container_security_provider:$PWD/.java-buildpack/open_jdk_jre/lib/ext
-                 -Djava.security.properties=$PWD/.java-buildpack/java_security/java.security $JAVA_OPTS" &amp;&amp;
-                 CALCULATED_MEMORY=$($PWD/.java-buildpack/open_jdk_jre/bin/java-buildpack-memory-calculator-3.13.0_RELEASE -totMemory=$MEMORY_LIMIT -loadedClasses=16787
-                 -poolType=metaspace -stackThreads=250 -vmOptions="$JAVA_OPTS") &amp;&amp; echo JVM Memory Configuration: $CALCULATED_MEMORY &amp;&amp; JAVA_OPTS="$JAVA_OPTS $CALCULATED_MEMORY" &amp;&amp;
-                 MALLOC_ARENA_MAX=2 SERVER_PORT=$PORT eval exec $PWD/.java-buildpack/open_jdk_jre/bin/java $JAVA_OPTS -cp $PWD/. org.springframework.boot.loader.JarLauncher</code></pre>
+<pre class="highlight"><code class="language-bash" data-lang="bash">JAVA_OPTS="-agentpath:$PWD/.java-buildpack/open_jdk_jre/bin/jvmkill-1.16.0_RELEASE=printHeapHistogram=1 -Djava.io.tmpdir=$TMPDIR -XX:ActiveProcessorCount=$(nproc)
+  -Djava.ext.dirs=$PWD/.java-buildpack/container_security_provider:$PWD/.java-buildpack/open_jdk_jre/lib/ext
+  -Djava.security.properties=$PWD/.java-buildpack/java_security/java.security $JAVA_OPTS" &amp;&amp;
+  CALCULATED_MEMORY=$($PWD/.java-buildpack/open_jdk_jre/bin/java-buildpack-memory-calculator-3.13.0_RELEASE -totMemory=$MEMORY_LIMIT -loadedClasses=16787
+   -poolType=metaspace -stackThreads=250 -vmOptions="$JAVA_OPTS") &amp;&amp; echo JVM Memory Configuration: $CALCULATED_MEMORY &amp;&amp; JAVA_OPTS="$JAVA_OPTS $CALCULATED_MEMORY" &amp;&amp;
+   MALLOC_ARENA_MAX=2 SERVER_PORT=$PORT eval exec $PWD/.java-buildpack/open_jdk_jre/bin/java $JAVA_OPTS -cp $PWD/. org.springframework.boot.loader.JarLauncher</code></pre>
 </div>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+</li>
 <li>
 <p>The reason for this long start command is that PCF optimizes the container and the JVM for production use. That includes running a memory calculator as part of the deployment to understand the optimal memory settings for the JVM, along with other fine-tuning. As you recall, our start command in the Dockerfile was simply <code>java -jar app.jar</code>. Notice how many things need to be taken into consideration when you need to be production ready!</p>
 </li>
@@ -2780,15 +2784,9 @@ The above manifest entries will work with Java Buildpack 4.x series and JDK 8.  
 </div>
 </li>
 <li>
-<p>Check the <code>/cities</code> endpoint by going to <code>https://&lt;your-specific-route&gt;/cities</code>.</p>
+<p>Check the <code>/cities</code> endpoint by going to <code>https://&lt;your-specific-route&gt;/cities</code>.
+Wait a minute! How did this even work?! We didn&#8217;t update the properties under <code>src/main/resources/application.yml</code>, yet somehow our app created the <code>city</code> table and populated it on startup using flyway. Not only that - we didn&#8217;t even need to create a schema manually! How is that possible? That&#8217;s the power of the Open Service Broker API (OSBAPI).</p>
 </li>
-</ol>
-</div>
-<div class="paragraph">
-<p>Wait a minute! How did this even work?! We didn&#8217;t update the properties under <code>src/main/resources/application.yml</code>, yet somehow we were able to create the <code>city</code> table and populate it on startup. Not only that - we didn&#8217;t even need to create a schema manually! How is that possible? That&#8217;s the power of the Open Service Broker API (OSBAPI).</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
 <li>
 <p>To fully understand this magic, run the following command:
 <code>cf env cloud-native-spring</code></p>
@@ -2867,7 +2865,7 @@ The above manifest entries will work with Java Buildpack 4.x series and JDK 8.  
 </div>
 </div>
 <div class="sect1">
-<h2 id="_adding_spring_cloud_config_to_boot_application">Adding Spring Cloud Config to Boot Application</h2>
+<h2 id="_10_adding_spring_cloud_config_to_boot_application">10. Adding Spring Cloud Config to Boot Application</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>In this lab we&#8217;ll utilize Spring Boot and Spring Cloud to configure our application from a configuration dynamically retrieved from a Git repository. We&#8217;ll then deploy it to Pivotal Cloud Foundry and auto-provision an instance of a configuration server using Pivotal Spring Cloud Services.</p>
@@ -3220,7 +3218,7 @@ applications:
 </div>
 </div>
 <div class="sect1">
-<h2 id="_adding_service_registration_and_discovery_with_spring_cloud">Adding Service Registration and Discovery with Spring Cloud</h2>
+<h2 id="_11_adding_service_registration_and_discovery_with_spring_cloud">11. Adding Service Registration and Discovery with Spring Cloud</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>In this lab we&#8217;ll utilize Spring Boot and Spring Cloud to configure our application register itself with a Service Registry.  To do this we&#8217;ll also need to provision an instance of a Eureka service registry using Pivotal Cloud Foundry Spring Cloud Services.  We&#8217;ll also add a simple client application that looks up our application from the service registry and makes requests to our Cities service.</p>

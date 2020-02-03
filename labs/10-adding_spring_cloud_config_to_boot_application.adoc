@@ -1,19 +1,25 @@
-= Adding Spring Cloud Config to Boot Application
+= 10. Adding Spring Cloud Config to Boot Application
 
 In this lab we'll utilize Spring Boot and Spring Cloud to configure our application from a configuration dynamically retrieved from a Git repository. We'll then deploy it to Pivotal Cloud Foundry and auto-provision an instance of a configuration server using Pivotal Spring Cloud Services.
 
+== Why Spring Cloud Config?
+
+In the Kubernetes world, we have the concept of ConfigMaps. They work well, but are mostly for simple key-value pairs. Spring have a framework called Spring Cloud Kubernetes that lets you load configuration paramters from a ConfigMap, but it is out of scope for this workshop.
+The main advantage of Spring Cloud Config (beyond the ability ot change configuration with zero downtime or recompile), is auditing. Spring Cloud Config uses a git repository as the source of truth, and git audits the users that made changes including history and the ability to roll back changes in case there's an issue.
+Spring Cloud Config also lets you build hierarcies of configuration where a specific configuration would override a generic configuration, making it more rebust for large and complex projects.
+
 == Update _Hello_ REST service
 
-These features are added by adding _spring-cloud-services-starter-config-client_ to the classpath.  
+These features are added by adding _spring-cloud-services-starter-config-client_ to the classpath.
 
-. Delete your exisiting Gradle build file, found here: */cloud-native-spring/build.gradle*.  We're going to make a few changes. Create a new */cloud-native-spring/build.gradle* then cut-and-paste the content below into it and save. 
+. Delete your exisiting Gradle build file, found here: */cloud-native-spring/build.gradle*.  We're going to make a few changes. Create a new */cloud-native-spring/build.gradle* then cut-and-paste the content below into it and save.
 +
 Adding a dependency management plugin and other miscellaneous configuration.
 +
 [source,groovy]
 ---------------------------------------------------------------------
 plugins {
-    id 'com.gorylenko.gradle-git-properties' version '2.0.0'
+    id 'com.gorylenko.gradle-git-properties' version '2.2.0'
     id 'org.springframework.boot' version '2.0.9.RELEASE'
     id 'io.spring.dependency-management' version '1.0.7.RELEASE'
     id 'java'
@@ -197,25 +203,25 @@ image::images/config-scs1.jpg[]
 image::images/config-scs2.jpg[]
 
 . We now need to update the service instance with our GIT repository information.
-+ 
-Create a file named `config-server.json` and update its contents to be
++
+Create a file named `config.json` and update its contents to be
 +
 [source,json]
 ---------------------------------------------------------------------
 {
-  "git": { 
+  "git": {
     "uri": "https://github.com/pacphi/config-repo"
   }
 }
 ---------------------------------------------------------------------
 +
-Note: If you choose to replace the value of `"uri"` above with another Git repository that you have commit privileges to, you should make a copy of the `cloud-native-spring.yml` file. Then, as you update configuration in that file, you can test a POST request to the `cloud-native-spring` application's `/refresh` end-point to see the new configuration take effect without restarting the application! 
+Note: If you choose to replace the value of `"uri"` above with another Git repository that you have commit privileges to, you should make a copy of the `cloud-native-spring.yml` file. Then, as you update configuration in that file, you can test a POST request to the `cloud-native-spring` application's `/refresh` end-point to see the new configuration take effect without restarting the application!
 +
 Using the Cloud Foundry CLI execute the following update service command:
 +
 [source,bash]
 ---------------------------------------------------------------------
-cf update-service config-server -c config-server.json
+cf create-service p.config-server standard my-config -c config.json
 ---------------------------------------------------------------------
 
 . Refresh you Config Server management page and you will see the following message.  Wait until the screen refreshes and the service is reintialized:
@@ -241,7 +247,7 @@ applications:
   memory: 1024M
   instances: 1
   path: ./target/cloud-native-spring-1.0-SNAPSHOT.jar
-  buildpacks: 
+  buildpacks:
   - java_buildpack_offline
   stack: cflinuxfs3
   timeout: 180
@@ -272,7 +278,7 @@ cf push
 Ohai World!
 +
 *What just happened??*
-+ 
++
 -> A Spring component within the Spring Cloud Starter Config Client module called a _service connector_ automatically detected that there was a Cloud Config service bound into the application.  The service connector configured the application automatically to connect to the Cloud Config Server and downloaded the configuration and wired it into the application
 
 . If you navigate to the Git repo we specified for our configuration, https://github.com/pacphi/config-repo, you'll see a file named _cloud-native-spring.yml_.  This filename is the same as our _spring.application.name_ value for our Boot application.  The configuration is read from this file, in our case the following property:
@@ -281,5 +287,5 @@ Ohai World!
 ---------------------------------------------------------------------
 greeting: Ohai
 ---------------------------------------------------------------------
-
+-- Loading order of properties: https://docs.spring.io/spring-boot/docs/1.0.1.RELEASE/reference/html/boot-features-external-config.html
 . Next we'll learn how to register our service with a Service Registry and load balance requests using Spring Cloud components.

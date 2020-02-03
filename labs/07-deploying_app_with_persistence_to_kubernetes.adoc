@@ -171,6 +171,7 @@ spec:
 Check the value of the EXTERNAL IP for the service `cloud-native-spring`. Open the URL and check if you can see data in `https://<external-ip>/cities`
 
 == The bottom line
+
 Congradulations! We were able to deploy a very simple app with a database to Kubernetes! However, as we saw along the way, getting something to work and getting something to be production ready are two different things.
 
 . We haven't configured an external DNS, and are only using an external IP address.
@@ -183,11 +184,11 @@ Congradulations! We were able to deploy a very simple app with a database to Kub
 *If you got all of the requirements above working in a production-ready manner, congradulations - you built your own platform on top of Kubernetes*!
 
 
-image::images/k8s1.jpg[width=600,height=480]
+image::images/k8s1.jpg[width=500,align=center]
 
-image::images/k8s2.jpg[width=600,height=480]
+image::images/k8s2.jpg[width=500,align=center]
 
-image::images/k8s3.jpg[width=600,height=480]
+image::images/k8s3.jpg[width=500,align=center]
 
 
 

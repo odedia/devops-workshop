@@ -1,0 +1,8 @@
+---
+applications:
+  - name: my-dockerized-app
+    memory: 256M
+    random-route: true
+    docker:
+      image: tutum/hello-world
+

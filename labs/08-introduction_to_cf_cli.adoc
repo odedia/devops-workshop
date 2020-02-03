@@ -1,4 +1,4 @@
-= Introduction to CF CLI
+= 08. Introduction to CF CLI
 
 So far we discussed Java, but Cloud Foundry supports all the modern, cloud-native languages. Let's deploy some simple sample apps in various languages.
 
@@ -85,14 +85,23 @@ cf push
 [source,bash]
 ----------------------------------------
 cd ../go-sample
-cf push awesome-go-app -m 64M --random-route
+cf push awesome-go-sample
 ----------------------------------------
+
+. So far we let the platform create our container images during delpoyment. But what about docker images that were already built? We can deploy those too.
++
+[source,bash]
+----------------------------------------
+cd ../docker-sample
+cf push
+----------------------------------------
+
 
 . Check what applications have been deployed so far
 +
 [source,bash]
 ----------------------------------------
-  cf apps
+cf apps
 ----------------------------------------
 +
 -> Take some time to visit each of the applications you've just deployed.
@@ -128,7 +137,7 @@ cf apps
 +
 [source,bash]
 ----------------------------------------
-  cf delete cf-nodejs
+cf delete cf-nodejs
 ----------------------------------------
 +
 -> Repeat `cf delete` for each app you deployed.
