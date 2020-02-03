@@ -1,5 +1,5 @@
 = DevOps Workshop
-= Original workshop is available at: https://github.com/Pivotal-Field-Engineering/devops-workshop.git
+== Original workshop is available at: https://github.com/Pivotal-Field-Engineering/devops-workshop.git
 
 image:https://travis-ci.org/Pivotal-Field-Engineering/devops-workshop.svg?branch=master[link="https://travis-ci.org/Pivotal-Field-Engineering/devops-workshop"]
 
