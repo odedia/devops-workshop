@@ -4,7 +4,7 @@ Welcome to the lab! Here you will find a collection of exercises and accompanyin
 
 == Overview
 
-This workshop contains a number of lab folders meant to be worked through in numerical order - as each exercise builds upon the last. There is also a _samples_ directory, containing completed applications that can be pushed to Cloud Foundry at any time.
+This workshop contains a number of lab folders meant to be worked through in numerical order - as each exercise builds upon the last. There is also a _samples_ directory, containing completed applications.
 
 Your workspace is the *my_work* folder. If you get stuck implementing any of the labs, *solutions* are available for your perusal.
 
@@ -16,9 +16,19 @@ This workshop assumes participants will be interacting with PCF One.  Depending 
 
 . If you do not have an account yet, please ask the instructor for one.
 
-=== Target the Environment
+== installations
 
-. If you haven't already, download the latest release of the Cloud Foundry CLI from https://github.com/cloudfoundry/cli/releases for your operating system and install it.
+The following tools are needed for the labs:
+
+cf cli: https://github.com/cloudfoundry/cli/releases
+Docker: https://docs.docker.com/docker-for-mac/install/
+kubectl: https://network.pivotal.io/products/pivotal-container-service
+pks cli: https://network.pivotal.io/products/pivotal-container-service
+OpenJDK 11: `brew cask install adoptopenjdk11`
+InteliJ Community Edition: https://www.jetbrains.com/idea/download
+Lombok plugin for InteliJ: https://plugins.jetbrains.com/plugin/6317-lombok
+
+=== Target the Environment
 
 . Set the API target for the CLI (set appropriate end point for your environment) and login:
 +

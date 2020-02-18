@@ -1,2 +1,0 @@
-backend:
-  endpoint: http://cloud-native-spring.apps.internal:8080
