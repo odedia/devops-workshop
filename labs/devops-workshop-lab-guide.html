@@ -445,7 +445,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <span id="author" class="author">Christopher Phillipson, Additional enhancements by Kobi Shamama and Oded Shopen</span><br>
 <span id="email" class="email"><a href="mailto:cphillipson@pivotal.io">cphillipson@pivotal.io</a>, Additional enhancements by <a href="mailto:oshopen@pivotal.io">oshopen@pivotal.io</a> and <a href="mailto:kshamama@pivotal.io">kshamama@pivotal.io</a></span><br>
 <span id="revnumber">version 3.0,</span>
-<span id="revdate">2020-02-01</span>
+<span id="revdate">2020-02-02</span>
 </div>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
@@ -527,6 +527,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_10_adding_spring_cloud_config_to_boot_application">10. Adding Spring Cloud Config to Boot Application</a>
 <ul class="sectlevel2">
+<li><a href="#_why_spring_cloud_config">Why Spring Cloud Config?</a></li>
 <li><a href="#_update_hello_rest_service">Update <em>Hello</em> REST service</a></li>
 <li><a href="#_run_the_cloud_native_spring_application_and_verify_dynamic_config_is_working">Run the <em>cloud-native-spring</em> Application and verify dynamic config is working</a></li>
 <li><a href="#_create_spring_cloud_config_server_instance">Create Spring Cloud Config Server instance</a></li>
@@ -2578,7 +2579,16 @@ cf push</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-bash" data-lang="bash">cd ../go-sample
-cf push awesome-go-app -m 64M --random-route</code></pre>
+cf push awesome-go-sample</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>So far we let the platform create our container images during delpoyment. But what about docker images that were already built? We can deploy those too.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">cd ../docker-sample
+cf push</code></pre>
 </div>
 </div>
 </li>
@@ -2586,7 +2596,7 @@ cf push awesome-go-app -m 64M --random-route</code></pre>
 <p>Check what applications have been deployed so far</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">  cf apps</code></pre>
+<pre class="highlight"><code class="language-bash" data-lang="bash">cf apps</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2638,7 +2648,7 @@ cf apps</code></pre>
 <p>Finally, let&#8217;s delete an app</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">  cf delete cf-nodejs</code></pre>
+<pre class="highlight"><code class="language-bash" data-lang="bash">cf delete cf-nodejs</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2785,7 +2795,7 @@ applications:
 </li>
 <li>
 <p>Check the <code>/cities</code> endpoint by going to <code>https://&lt;your-specific-route&gt;/cities</code>.
-Wait a minute! How did this even work?! We didn&#8217;t update the properties under <code>src/main/resources/application.yml</code>, yet somehow our app created the <code>city</code> table and populated it on startup using flyway. Not only that - we didn&#8217;t even need to create a schema manually! How is that possible? That&#8217;s the power of the Open Service Broker API (OSBAPI).</p>
+Wait a minute! How did this even work?! We didn&#8217;t update the properties under <code>src/main/resources/application.yml</code>, yet somehow our app created the <code>city</code> table and populated it on startup using flyway. Not only that - we didn&#8217;t even need to create a schema manually! How is that possible? That&#8217;s the power of the <strong>Open Service Broker API (OSBAPI)</strong>.</p>
 </li>
 <li>
 <p>To fully understand this magic, run the following command:
@@ -2871,6 +2881,14 @@ Wait a minute! How did this even work?! We didn&#8217;t update the properties un
 <p>In this lab we&#8217;ll utilize Spring Boot and Spring Cloud to configure our application from a configuration dynamically retrieved from a Git repository. We&#8217;ll then deploy it to Pivotal Cloud Foundry and auto-provision an instance of a configuration server using Pivotal Spring Cloud Services.</p>
 </div>
 <div class="sect2">
+<h3 id="_why_spring_cloud_config">Why Spring Cloud Config?</h3>
+<div class="paragraph">
+<p>In the Kubernetes world, we have the concept of ConfigMaps. They work well, but are mostly for simple key-value pairs. Spring have a framework called Spring Cloud Kubernetes that lets you load configuration paramters from a ConfigMap, but it is out of scope for this workshop.
+The main advantage of Spring Cloud Config (beyond the ability ot change configuration with zero downtime or recompile), is auditing. Spring Cloud Config uses a git repository as the source of truth, and git audits the users that made changes including history and the ability to roll back changes in case there&#8217;s an issue.
+Spring Cloud Config also lets you build hierarcies of configuration where a specific configuration would override a generic configuration, making it more rebust for large and complex projects.</p>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_update_hello_rest_service">Update <em>Hello</em> REST service</h3>
 <div class="paragraph">
 <p>These features are added by adding <em>spring-cloud-services-starter-config-client</em> to the classpath.</p>
@@ -2885,7 +2903,7 @@ Wait a minute! How did this even work?! We didn&#8217;t update the properties un
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-groovy" data-lang="groovy">plugins {
-    id 'com.gorylenko.gradle-git-properties' version '2.0.0'
+    id 'com.gorylenko.gradle-git-properties' version '2.2.0'
     id 'org.springframework.boot' version '2.0.9.RELEASE'
     id 'io.spring.dependency-management' version '1.0.7.RELEASE'
     id 'java'
@@ -3103,7 +3121,7 @@ public class GreetingController {
 <li>
 <p>We now need to update the service instance with our GIT repository information.</p>
 <div class="paragraph">
-<p>Create a file named <code>config-server.json</code> and update its contents to be</p>
+<p>Create a file named <code>config.json</code> and update its contents to be</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3122,7 +3140,7 @@ public class GreetingController {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">cf update-service config-server -c config-server.json</code></pre>
+<pre class="highlight"><code class="language-bash" data-lang="bash">cf create-service p.config-server standard my-config -c config.json</code></pre>
 </div>
 </div>
 </li>
@@ -3206,6 +3224,9 @@ applications:
 <div class="content">
 <pre class="highlight"><code class="language-yml" data-lang="yml">greeting: Ohai</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>&#8201;&#8212;&#8201;Loading order of properties: <a href="https://docs.spring.io/spring-boot/docs/1.0.1.RELEASE/reference/html/boot-features-external-config.html" class="bare">https://docs.spring.io/spring-boot/docs/1.0.1.RELEASE/reference/html/boot-features-external-config.html</a></p>
 </div>
 </li>
 <li>
@@ -3659,7 +3680,7 @@ applications:
 <div id="footer">
 <div id="footer-text">
 Version 3.0<br>
-Last updated 2020-02-01 14:28:55 +0200
+Last updated 2020-02-02 11:31:09 +0200
 </div>
 </div>
 </body>
