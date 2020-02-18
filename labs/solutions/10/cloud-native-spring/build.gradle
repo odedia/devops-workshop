@@ -1,5 +1,5 @@
 plugins {
-    id 'com.gorylenko.gradle-git-properties' version '2.2.0'
+    id 'com.gorylenko.gradle-git-properties' version '2.0.0'
     id 'org.springframework.boot' version '2.0.9.RELEASE'
     id 'io.spring.dependency-management' version '1.0.7.RELEASE'
     id 'java'
@@ -8,7 +8,7 @@ plugins {
 gitProperties {
     dateFormat = "yyyy-MM-dd'T'HH:mmZ"
     dateFormatTimeZone = "UTC"
-    dotGitDirectory = "${project.rootDir}/../../.."
+    dotGitDirectory = "${project.rootDir}/../../../.."
 }
 
 import org.apache.tools.ant.filters.*
@@ -44,11 +44,13 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-hateoas')
     implementation('org.springframework.data:spring-data-rest-hal-browser')
     implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation('org.springframework.cloud:spring-cloud-starter-openfeign')
+    implementation('org.springframework.cloud:spring-cloud-starter-netflix-ribbon')
     implementation('org.springframework.boot:spring-boot-starter-security')
     implementation('io.pivotal.spring.cloud:spring-cloud-services-starter-config-client')
+    implementation('io.pivotal.spring.cloud:spring-cloud-services-starter-service-registry')
     implementation('org.flywaydb:flyway-core:5.2.4')
     implementation('com.zaxxer:HikariCP:3.3.0')
-    implementation('org.springframework.security:spring-security-config')
     runtime('com.h2database:h2')
     runtime('mysql:mysql-connector-java:8.0.15')
     testImplementation('org.springframework.boot:spring-boot-starter-test')

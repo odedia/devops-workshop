@@ -17,7 +17,7 @@ Regardless of the solution, we need to think of the following:
 
 == Setting up a database
 
-. For the sake of speed, you'll be preseted with the final Kubernetes yaml files. However, as you can image, defining all of the from scratch is not easy or trivial.
+. For the sake of speed, you'll be preseted with the final Kubernetes yaml files. However, as you can image, defining all of them from scratch is not easy or trivial.
 . We need to setup a Persistent Volume (PV) to hold our stateful database files. For example:
 [source,yml]
 ---------------------------------------------------------------------
@@ -180,17 +180,6 @@ Congradulations! We were able to deploy a very simple app with a database to Kub
 . We don't have aggregated logging, advanced monitoring solution, management UI or any of the items discussed in the previous Kubernetes exercise.
 . Our database exposes the password and does not handle auditing, upgrades, migrations etc.
 . We have *a lot* of yaml files to manage. We need to configure _everything_, there are no assumptions or conventions for our deployments.
-
-*If you got all of the requirements above working in a production-ready manner, congradulations - you built your own platform on top of Kubernetes*!
-
-
-image::images/k8s1.jpg[width=500,align=center]
-
-image::images/k8s2.jpg[width=500,align=center]
-
-image::images/k8s3.jpg[width=500,align=center]
-
-
 
 
 

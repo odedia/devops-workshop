@@ -15,7 +15,6 @@ samples
 ├── python-sample
 ---------------------------------------------------------------------
 +
--> If you want to be able to deploy these samples you must have _Go_, _Node_, _.Net Core_, and _Python_ installed.
 
 == Open Apps Manager
 

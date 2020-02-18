@@ -3,8 +3,12 @@ applications:
 - name: cloud-native-spring
   random-route: true
   path: ./build/libs/cloud-native-spring-solution-1.0-SNAPSHOT.jar
+  timeout: 180
   buildpacks: 
   - java_buildpack_offline
   services:
   - my-database
   - my-config
+  env:
+    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+ } }'
+

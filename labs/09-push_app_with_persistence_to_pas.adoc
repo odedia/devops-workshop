@@ -50,18 +50,11 @@ applications:
   path: ./build/libs/cloud-native-spring-1.0-SNAPSHOT.jar
   services:
   - my-database
----------------------------------------------------------------------
-+
-The above manifest entries will work with Java Buildpack 4.x series and JDK 8.  If you built the app with JDK 11 and want to deploy it you will need to make an additional entry in your manifest, just under `buildpacks`, add an environment variable:
-
-+
-[source,bash]
----------------------------------------------------------------------
   env:
     JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+ } }'
 ---------------------------------------------------------------------
 +
--> Notice the simplifed configuration file? We reduced 133 lines in Kubernetes to just 5 lines in PCF.
+-> Notice the simplifed configuration file? We reduced 133 lines in Kubernetes to just 8 lines in PCF.
 +
 -> Notice the service in the `manifest.yml`? It's the service we just created. *That's all you need to do to make the connection between the application and the service*. Remember how much work that required in Kubernetes?
 

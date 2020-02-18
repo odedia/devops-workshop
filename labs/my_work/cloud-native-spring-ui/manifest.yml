@@ -1,0 +1,11 @@
+---
+applications:
+- name: cloud-native-spring-ui
+  random-route: true
+  path: ./build/libs/cloud-native-spring-ui-1.0-SNAPSHOT.jar
+  services:
+  - my-database
+  env:
+    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+ } }'
+  services:
+  - service-registry

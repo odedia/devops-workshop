@@ -4,7 +4,7 @@
 
 Spring Boot includes a number of additional features to help you monitor and manage your application when it’s pushed to production. These features are added by adding _spring-boot-starter-actuator_ to the classpath.  Our initial project setup already included it as a dependency.
 
-. Verify the Spring Boot Actuator dependency the in following file: *cloud-native-spring/build.gradle* You should see the following dependency in the list:
+. Verify the Spring Boot Actuator dependency is in following file: *cloud-native-spring/build.gradle* You should see the following dependency in the list:
 +
 [source,groovy]
 ---------------------------------------------------------------------
@@ -108,7 +108,7 @@ The effect of all this configuration is that the _gradle-git-properties_ plugin 
 
 . Run the _cloud-native-spring_ application:
 +
-  gradle clean bootRun
+  ./gradle clean bootRun
 
 . Let's verify that Git commit information is now included
 +

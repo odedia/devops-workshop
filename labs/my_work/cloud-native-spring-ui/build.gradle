@@ -9,7 +9,7 @@ plugins {
 gitProperties {
     dateFormat = "yyyy-MM-dd'T'HH:mmZ"
     dateFormatTimeZone = "UTC"
-    dotGitDirectory = "${project.rootDir}/../../.."
+    dotGitDirectory = "${project.rootDir}/../../../.."
 }
 
 dependencyManagement {
@@ -32,6 +32,12 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-actuator')
     implementation('org.springframework.boot:spring-boot-starter-web')
     implementation('org.springframework.boot:spring-boot-starter-hateoas')
+    implementation('org.springframework.boot:spring-boot-starter-security')
+    implementation('io.pivotal.spring.cloud:spring-cloud-services-starter-service-registry')
+    implementation('org.springframework.cloud:spring-cloud-starter-openfeign')
+    implementation('org.springframework.cloud:spring-cloud-starter-netflix-ribbon')
+    implementation('io.pivotal.spring.cloud:spring-cloud-services-starter-circuit-breaker')
+    implementation('org.hibernate:hibernate-core:5.4.1.Final')
     implementation vaadin.bom()
     implementation vaadin.platform()
     implementation vaadin.lumoTheme()

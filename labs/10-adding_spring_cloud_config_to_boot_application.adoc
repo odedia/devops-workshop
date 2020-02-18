@@ -181,7 +181,7 @@ spring:
 +
 [source,bash]
 ---------------------------------------------------------------------
-gradle clean bootRun
+./gradlew clean bootRun
 ---------------------------------------------------------------------
 
 . Browse to http://localhost:8080/hello and verify you now see your new greeting.
@@ -190,21 +190,11 @@ gradle clean bootRun
 
 == Create Spring Cloud Config Server instance
 
-. Now that our application is ready to read its config from a Cloud Config server, we need to deploy one!  This can be done through Cloud Foundry using the services Marketplace.  Browse to the Marketplace in Pivotal Cloud Foundry Apps Manager, navigate to the Space you have been using to push your app, and select Config Server:
+. Now that our application is ready to read its config from a Cloud Config server, we need to deploy one!  This can be done through Cloud Foundry using the services Marketplace (see image below), however we'll use the command line.
 +
 image::images/config-scs.jpg[]
 
-. In the resulting details page, select the _trial_, single tenant plan.  Name the instance *config-server*, select the Space that you've been using to push all your applications.  At this time you don't need to select an application to bind to the service:
-+
-image::images/config-scs1.jpg[]
-
-. After we create the service instance you'll be redirected to your _Space_ landing page that lists your apps and services.  The config server is deployed on-demand and will take a few moments to deploy.  Once the messsage _The Service Instance is Initializing_ disappears click on the service you provisioned.  Select the Manage link towards the top of the resulting screen to view the instance id and a JSON document with a single element, count, which validates that the instance provisioned correctly:
-+
-image::images/config-scs2.jpg[]
-
-. We now need to update the service instance with our GIT repository information.
-+
-Create a file named `config.json` and update its contents to be
+. Create a file named `config.json` and update its contents to be
 +
 [source,json]
 ---------------------------------------------------------------------
@@ -215,8 +205,6 @@ Create a file named `config.json` and update its contents to be
 }
 ---------------------------------------------------------------------
 +
-Note: If you choose to replace the value of `"uri"` above with another Git repository that you have commit privileges to, you should make a copy of the `cloud-native-spring.yml` file. Then, as you update configuration in that file, you can test a POST request to the `cloud-native-spring` application's `/refresh` end-point to see the new configuration take effect without restarting the application!
-+
 Using the Cloud Foundry CLI execute the following update service command:
 +
 [source,bash]
@@ -224,7 +212,7 @@ Using the Cloud Foundry CLI execute the following update service command:
 cf create-service p.config-server standard my-config -c config.json
 ---------------------------------------------------------------------
 
-. Refresh you Config Server management page and you will see the following message.  Wait until the screen refreshes and the service is reintialized:
+. You can see the config server management dashboard under the "Services" tab.
 +
 image::images/config-scs3.jpg[]
 
@@ -243,18 +231,14 @@ Complete:
 ---
 applications:
 - name: cloud-native-spring
-  host: cloud-native-spring-${random-word}
-  memory: 1024M
-  instances: 1
-  path: ./target/cloud-native-spring-1.0-SNAPSHOT.jar
-  buildpacks:
-  - java_buildpack_offline
-  stack: cflinuxfs3
+  random-route: true
+  path: ./build/libs/cloud-native-spring-1.0-SNAPSHOT.jar
   timeout: 180
-  env:
-    JAVA_OPTS: -Djava.security.egd=file:///dev/urandom
   services:
+  - my-database
   - config-server
+  env:
+    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+ } }'
 ---------------------------------------------------------------------
 
 == Deploy and test application
@@ -263,7 +247,7 @@ applications:
 +
 [source,bash]
 ---------------------------------------------------------------------
-gradle clean build
+./gradlew clean build
 ---------------------------------------------------------------------
 
 . Push application into Cloud Foundry

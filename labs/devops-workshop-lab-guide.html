@@ -454,6 +454,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_overview">Overview</a></li>
 <li><a href="#_pcf_environment_access">PCF Environment Access</a></li>
+<li><a href="#_installations">installations</a></li>
 <li><a href="#_apps_manager_ui">Apps Manager UI</a></li>
 </ul>
 </li>
@@ -513,7 +514,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_08_introduction_to_cf_cli">08. Introduction to CF CLI</a>
 <ul class="sectlevel2">
-<li><a href="#_open_apps_manager">Open Apps Manager</a></li>
 <li><a href="#_how_to_target_a_foundation_and_login">How to target a foundation and login</a></li>
 <li><a href="#_how_to_deploy_an_application">How to deploy an application</a></li>
 <li><a href="#_how_to_cleanup_after_yourself">How to cleanup after yourself</a></li>
@@ -583,13 +583,25 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ol>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_installations">installations</h3>
+<div class="paragraph">
+<p>The following tools are needed for the labs:</p>
+</div>
+<div class="paragraph">
+<p>cf cli: <a href="https://github.com/cloudfoundry/cli/releases" class="bare">https://github.com/cloudfoundry/cli/releases</a>
+Docker: <a href="https://docs.docker.com/docker-for-mac/install/" class="bare">https://docs.docker.com/docker-for-mac/install/</a>
+kubectl: <a href="https://network.pivotal.io/products/pivotal-container-service" class="bare">https://network.pivotal.io/products/pivotal-container-service</a>
+pks cli: <a href="https://network.pivotal.io/products/pivotal-container-service" class="bare">https://network.pivotal.io/products/pivotal-container-service</a>
+OpenJDK 11: <code>brew cask install adoptopenjdk11</code>
+InteliJ Community Edition: <a href="https://www.jetbrains.com/idea/download" class="bare">https://www.jetbrains.com/idea/download</a>
+Lombok plugin for InteliJ: <a href="https://plugins.jetbrains.com/plugin/6317-lombok" class="bare">https://plugins.jetbrains.com/plugin/6317-lombok</a></p>
+</div>
 <div class="sect3">
 <h4 id="_target_the_environment">Target the Environment</h4>
 <div class="olist arabic">
 <ol class="arabic">
-<li>
-<p>If you haven&#8217;t already, download the latest release of the Cloud Foundry CLI from <a href="https://github.com/cloudfoundry/cli/releases" class="bare">https://github.com/cloudfoundry/cli/releases</a> for your operating system and install it.</p>
-</li>
 <li>
 <p>Set the API target for the CLI (set appropriate end point for your environment) and login:</p>
 <div class="listingblock">
@@ -890,7 +902,7 @@ public class GreetingController {
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Verify the Spring Boot Actuator dependency the in following file: <strong>cloud-native-spring/build.gradle</strong> You should see the following dependency in the list:</p>
+<p>Verify the Spring Boot Actuator dependency is in following file: <strong>cloud-native-spring/build.gradle</strong> You should see the following dependency in the list:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-groovy" data-lang="groovy">dependencies {
@@ -1039,7 +1051,7 @@ The effect of all this configuration is that the <em>gradle-git-properties</em> 
 <p>Run the <em>cloud-native-spring</em> application:</p>
 <div class="literalblock">
 <div class="content">
-<pre>gradle clean bootRun</pre>
+<pre>./gradle clean bootRun</pre>
 </div>
 </div>
 </li>
@@ -1285,6 +1297,17 @@ The effect of all this configuration is that the <em>gradle-git-properties</em> 
 </div>
 <div class="paragraph">
 <p>&#8594; Hint: Use the <code>ENTRYPOINT</code> command at the end of your Dockerfile to run the app.</p>
+</div>
+<div class="paragraph">
+<p>Here&#8217;s a base Dockerfile you can use with missing parameters:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">FROM &lt;???&gt;
+COPY build/libs/cloud-native-spring-solution-1.0-SNAPSHOT.jar /app.jar
+EXPOSE 8080
+ENTRYPOINT ["&lt;???&gt;", "&lt;???&gt;", "&lt;???&gt;"]</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>Let&#8217;s build the docker image:</p>
@@ -1684,7 +1707,7 @@ implementation('com.zaxxer:HikariCP:3.3.0')</code></pre>
 <p>Run the application</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">gradle clean bootRun</code></pre>
+<pre class="highlight"><code class="language-bash" data-lang="bash">./gradlew clean bootRun</code></pre>
 </div>
 </div>
 </li>
@@ -1745,7 +1768,7 @@ Date: Thu, 28 Apr 2016 14:44:06 GMT
 <p>Restart the application.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">gradle clean bootRun</code></pre>
+<pre class="highlight"><code class="language-bash" data-lang="bash">./gradlew clean bootRun</code></pre>
 </div>
 </div>
 </li>
@@ -1863,7 +1886,7 @@ Page&lt;City&gt; findByStateCode(@Param("stateCode") String stateCode, Pageable 
 <p>Run the application</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">gradle clean bootRun</code></pre>
+<pre class="highlight"><code class="language-bash" data-lang="bash">./gradlew clean bootRun</code></pre>
 </div>
 </div>
 </li>
@@ -1963,7 +1986,7 @@ Date: Tue, 27 May 2014 20:38:32 GMT
 </div>
 </li>
 <li>
-<p>Try a few of these endpoints in <a href="https://www.getpostman.com">Postman</a>. Feel free to substitute your own values for the parameters.</p>
+<p>Try a few of these endpoints. Feel free to substitute your own values for the parameters.</p>
 <div class="paragraph">
 <p><a href="http://localhost:8080/cities/search/postalCode?q=01229" class="bare">http://localhost:8080/cities/search/postalCode?q=01229</a></p>
 </div>
@@ -2022,7 +2045,7 @@ Date: Tue, 27 May 2014 20:38:32 GMT
 <p><code>mysql -p</code></p>
 </div>
 <div class="paragraph">
-<p>Enter the password frmo above (<code>my-secret-pw</code>)</p>
+<p>Enter the password from above (<code>my-secret-pw</code>)</p>
 </div>
 <div class="paragraph">
 <p>Now that we are in the cli, we can create our schema:</p>
@@ -2116,16 +2139,13 @@ Query OK, 1 row affected (0.00 sec)</code></pre>
 <p>Build the Docker image for our app again:</p>
 </div>
 <div class="paragraph">
-<p><code>docker build -t &lt;my-id&gt;/cloud-native-spring .</code></p>
+<p><code>docker build -t cloud-native-spring .</code></p>
 </div>
 <div class="paragraph">
 <p>And run it (notice the use of <code>--net</code> to allow us to communicate between two containers):</p>
 </div>
 <div class="paragraph">
-<p><code>docker run -p 8080:8080 --net mynet -e MYSQL_HOST=mysql &lt;my-id&gt;/cloud-native-spring</code></p>
-</div>
-<div class="paragraph">
-<p>&#8594; Interesting point: If you used a base OS called <code>openjdk</code>, its going to use Java 11. If your local machine&#8217;s JDK for compilation is JDK 8, the startup would fail. Make sure you have the correct pipeline of Java versions (or any other language for that matter).</p>
+<p><code>docker run -p 8080:8080 --net mynet -e MYSQL_HOST=mysql cloud-native-spring</code></p>
 </div>
 <div class="paragraph">
 <p>See the log output to confirm you are connected to the new MySQL Database:</p>
@@ -2195,7 +2215,7 @@ Sun Feb 02 12:24:01 IST 2020 WARN: Establishing SSL connection without server's 
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>For the sake of speed, you&#8217;ll be preseted with the final Kubernetes yaml files. However, as you can image, defining all of the from scratch is not easy or trivial.</p>
+<p>For the sake of speed, you&#8217;ll be preseted with the final Kubernetes yaml files. However, as you can image, defining all of them from scratch is not easy or trivial.</p>
 </li>
 <li>
 <p>We need to setup a Persistent Volume (PV) to hold our stateful database files. For example:</p>
@@ -2428,24 +2448,6 @@ spec:
 </li>
 </ol>
 </div>
-<div class="paragraph">
-<p><strong>If you got all of the requirements above working in a production-ready manner, congradulations - you built your own platform on top of Kubernetes</strong>!</p>
-</div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="images/k8s1.jpg" alt="k8s1" width="500">
-</div>
-</div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="images/k8s2.jpg" alt="k8s2" width="500">
-</div>
-</div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="images/k8s3.jpg" alt="k8s3" width="500">
-</div>
-</div>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -2473,16 +2475,13 @@ spec:
 </div>
 </div>
 <div class="paragraph">
-<p>&#8594; If you want to be able to deploy these samples you must have <em>Go</em>, <em>Node</em>, <em>.Net Core</em>, and <em>Python</em> installed.</p>
+<p>== Open Apps Manager</p>
 </div>
 </li>
 </ul>
 </div>
-<div class="sect2">
-<h3 id="_open_apps_manager">Open Apps Manager</h3>
 <div class="paragraph">
 <p>Go to the URL <a href="https://apps.run.pcfone.io" class="bare">https://apps.run.pcfone.io</a> and login with the credentials provided by your instructor.</p>
-</div>
 </div>
 <div class="sect2">
 <h3 id="_how_to_target_a_foundation_and_login">How to target a foundation and login</h3>
@@ -2731,20 +2730,13 @@ applications:
   random-route: true
   path: ./build/libs/cloud-native-spring-1.0-SNAPSHOT.jar
   services:
-  - my-database</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The above manifest entries will work with Java Buildpack 4.x series and JDK 8.  If you built the app with JDK 11 and want to deploy it you will need to make an additional entry in your manifest, just under <code>buildpacks</code>, add an environment variable:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">  env:
+  - my-database
+  env:
     JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+ } }'</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>&#8594; Notice the simplifed configuration file? We reduced 133 lines in Kubernetes to just 5 lines in PCF.</p>
+<p>&#8594; Notice the simplifed configuration file? We reduced 133 lines in Kubernetes to just 8 lines in PCF.</p>
 </div>
 <div class="paragraph">
 <p>&#8594; Notice the service in the <code>manifest.yml</code>? It&#8217;s the service we just created. <strong>That&#8217;s all you need to do to make the connection between the application and the service</strong>. Remember how much work that required in Kubernetes?</p>
@@ -3077,7 +3069,7 @@ public class GreetingController {
 <p>Run the application</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">gradle clean bootRun</code></pre>
+<pre class="highlight"><code class="language-bash" data-lang="bash">./gradlew clean bootRun</code></pre>
 </div>
 </div>
 </li>
@@ -3095,7 +3087,7 @@ public class GreetingController {
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Now that our application is ready to read its config from a Cloud Config server, we need to deploy one!  This can be done through Cloud Foundry using the services Marketplace.  Browse to the Marketplace in Pivotal Cloud Foundry Apps Manager, navigate to the Space you have been using to push your app, and select Config Server:</p>
+<p>Now that our application is ready to read its config from a Cloud Config server, we need to deploy one!  This can be done through Cloud Foundry using the services Marketplace (see image below), however we&#8217;ll use the command line.</p>
 <div class="imageblock">
 <div class="content">
 <img src="images/config-scs.jpg" alt="config scs">
@@ -3103,26 +3095,7 @@ public class GreetingController {
 </div>
 </li>
 <li>
-<p>In the resulting details page, select the <em>trial</em>, single tenant plan.  Name the instance <strong>config-server</strong>, select the Space that you&#8217;ve been using to push all your applications.  At this time you don&#8217;t need to select an application to bind to the service:</p>
-<div class="imageblock">
-<div class="content">
-<img src="images/config-scs1.jpg" alt="config scs1">
-</div>
-</div>
-</li>
-<li>
-<p>After we create the service instance you&#8217;ll be redirected to your <em>Space</em> landing page that lists your apps and services.  The config server is deployed on-demand and will take a few moments to deploy.  Once the messsage <em>The Service Instance is Initializing</em> disappears click on the service you provisioned.  Select the Manage link towards the top of the resulting screen to view the instance id and a JSON document with a single element, count, which validates that the instance provisioned correctly:</p>
-<div class="imageblock">
-<div class="content">
-<img src="images/config-scs2.jpg" alt="config scs2">
-</div>
-</div>
-</li>
-<li>
-<p>We now need to update the service instance with our GIT repository information.</p>
-<div class="paragraph">
 <p>Create a file named <code>config.json</code> and update its contents to be</p>
-</div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-json" data-lang="json">{
@@ -3131,9 +3104,6 @@ public class GreetingController {
   }
 }</code></pre>
 </div>
-</div>
-<div class="paragraph">
-<p>Note: If you choose to replace the value of <code>"uri"</code> above with another Git repository that you have commit privileges to, you should make a copy of the <code>cloud-native-spring.yml</code> file. Then, as you update configuration in that file, you can test a POST request to the <code>cloud-native-spring</code> application&#8217;s <code>/refresh</code> end-point to see the new configuration take effect without restarting the application!</p>
 </div>
 <div class="paragraph">
 <p>Using the Cloud Foundry CLI execute the following update service command:</p>
@@ -3145,7 +3115,7 @@ public class GreetingController {
 </div>
 </li>
 <li>
-<p>Refresh you Config Server management page and you will see the following message.  Wait until the screen refreshes and the service is reintialized:</p>
+<p>You can see the config server management dashboard under the "Services" tab.</p>
 <div class="imageblock">
 <div class="content">
 <img src="images/config-scs3.jpg" alt="config scs3">
@@ -3168,18 +3138,12 @@ public class GreetingController {
 <pre class="highlight"><code class="language-yml" data-lang="yml">---
 applications:
 - name: cloud-native-spring
-  host: cloud-native-spring-${random-word}
-  memory: 1024M
-  instances: 1
-  path: ./target/cloud-native-spring-1.0-SNAPSHOT.jar
-  buildpacks:
-  - java_buildpack_offline
-  stack: cflinuxfs3
-  timeout: 180
-  env:
-    JAVA_OPTS: -Djava.security.egd=file:///dev/urandom
+  random-route: true
+  path: ./build/libs/cloud-native-spring-1.0-SNAPSHOT.jar
   services:
-  - config-server</code></pre>
+  - my-database
+  env:
+    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+ } }'</code></pre>
 </div>
 </div>
 </li>
@@ -3194,7 +3158,7 @@ applications:
 <p>Build the application</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">gradle clean build</code></pre>
+<pre class="highlight"><code class="language-bash" data-lang="bash">./gradlew clean build</code></pre>
 </div>
 </div>
 </li>
@@ -3280,7 +3244,7 @@ public class CloudNativeSpringApplication {</code></pre>
 <p>Now that our application is ready to registr with an Eureka instance, we need to deploy one!  This can be done through Cloud Foundry using the services Marketplace.  Previously we did this through the Marketplace UI. This time around we will use the Cloud Foundry CLI:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ cf create-service p-service-registry trial service-registry</code></pre>
+<pre class="highlight"><code class="language-bash" data-lang="bash">cf create-service p-service-registry standard service-registry</code></pre>
 </div>
 </div>
 </li>
@@ -3313,7 +3277,7 @@ public class CloudNativeSpringApplication {</code></pre>
 <p>Build the application</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">gradle build</code></pre>
+<pre class="highlight"><code class="language-bash" data-lang="bash">./gradlew build</code></pre>
 </div>
 </div>
 </li>
@@ -3353,238 +3317,8 @@ public class CloudNativeSpringApplication {</code></pre>
 <p>Change the working directory to be <em>devops-workshop/labs/my_work/cloud-native-spring-ui</em></p>
 <div class="literalblock">
 <div class="content">
-<pre>cd /devops-workshop/labs/my_work/cloud-native-spring-ui</pre>
-</div>
-</div>
-</li>
-<li>
-<p>Open this project in your editor/IDE of choice.</p>
-<div class="paragraph">
-<p><strong><em>STS Import Help</em></strong></p>
-</div>
-<div class="paragraph">
-<p>Select <em>File &gt; Import…</em>. In the susequent dialog choose <em>Gradle &gt; Existing Gradle Project</em> then click the <em>Next</em> button. In the <em>Import Gradle Project</em> dialog browse to the <em>cloud-native-spring</em> directory (e.g. <em>devops-workshop/labs/my_work/cloud-native-spring-ui</em>) then click the <em>Open</em> button, then click the <em>Finish</em> button.</p>
-</div>
-</li>
-<li>
-<p>As before, we need to add <em>spring-cloud-services-starter-service-registry</em> and some collaborating dependencies to the classpath.  Add this to your <em>build.gradle</em>:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-groovy" data-lang="groovy">dependencies {
-	 // add these dependencies
-	 implementation('io.pivotal.spring.cloud:spring-cloud-services-starter-service-registry')
-   implementation('org.springframework.cloud:spring-cloud-starter-openfeign')
-   implementation('org.springframework.cloud:spring-cloud-starter-netflix-ribbon')
-   implementation('org.hibernate:hibernate-core:5.4.1.Final')
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Next, we&#8217;re going to add some annotations to enable service discovery and hypermedia support.  In addition, we&#8217;re going to embed configuration and implementation for handling marshalling/unmarshalling of <a href="http://stateless.co/hal_specification.html">hal+json</a>.
-Finally, we&#8217;ll override security behavior just as we did in  <code>cloud-native-spring</code>, adding exceptions for static resources provided by Vaadin.</p>
-</div>
-<div class="paragraph">
-<p>Open <strong>cloud-native-spring-ui/src/main/java/io/pivotal/CloudNativeSpringUiApplication.java</strong> for editing and make sure the contents look like so</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">@SpringBootApplication
-@EnableDiscoveryClient
-@EnableFeignClients
-@EnableHypermediaSupport(type = EnableHypermediaSupport.HypermediaType.HAL)
-public class CloudNativeSpringUiApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(CloudNativeSpringUiApplication.class, args);
-    }
-
-    @Configuration
-    static class ClientConfig implements WebMvcConfigurer {
-
-        @Autowired
-        private HalHttpMessageConverter halHttpMessageConverter;
-
-        @Override
-        public void configureMessageConverters(List&lt;HttpMessageConverter&lt;?&gt;&gt; converters) {
-            converters.add(halHttpMessageConverter);
-        }
-    }
-
-	@Configuration
-	static class ApplicationSecurityOverride extends WebSecurityConfigurerAdapter {
-
-    @Override
-    public void configure(HttpSecurity web) throws Exception {
-      web.csrf().disable();
-      web.authorizeRequests().antMatchers("/**").permitAll();
-    }
-
-		@Override
-    	public void configure(WebSecurity web) throws Exception {
-			  web.ignoring().antMatchers(
-          // Vaadin Flow static resources
-          "/VAADIN/**",
-
-          // the standard favicon URI
-          "/favicon.ico",
-
-          // the robots exclusion standard
-          "/robots.txt",
-
-          // web application manifest
-          "/manifest.webmanifest",
-          "/sw.js",
-          "/offline-page.html",
-
-          // (development mode) static resources
-          "/frontend/**",
-
-          // (development mode) webjars
-          "/webjars/**",
-
-          // (production mode) static resources
-          "/frontend-es5/**", "/frontend-es6/**");
-    	}
-	}
-
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Don&#8217;t forget to adjust the imports!</p>
-</div>
-</li>
-<li>
-<p>Since this UI is going to consume REST services it&#8217;s an awesome opportunity to use Feign.  Feign will handle <strong>ALL</strong> the work of invoking our services and marshalling/unmarshalling JSON into domain objects.  We&#8217;ll add a Feign Client interface into our app.  Take note of how Feign references the downstream service; it&#8217;s only the name of the service it will lookup from Eureka Service Registry.  Create a new interface that resides in the same package as <em>CloudNativeSpringUiApplication</em>:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">package io.pivotal;
-
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.hateoas.Resources;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import io.pivotal.domain.City;
-
-@FeignClient(name = "https://cloud-native-spring")
-public interface CityClient {
-
-  @GetMapping(value = "/cities")
-  Resources&lt;City&gt; findAll(@RequestParam("page") int page, @RequestParam("size") int limit);
-
-  @PostMapping(value = "/cities")
-  City add(@RequestBody City company);
-
-  @PutMapping(value = "/cities/{id}")
-  City update(@PathVariable("id") Long id, @RequestBody City city);
-
-  @DeleteMapping(value = "/cities/{id}")
-  void delete(@PathVariable("id") Long id);
-}</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Next we&#8217;ll create a <a href="https://vaadin.com/docs/flow/Overview.html">Vaadin Flow</a> UI for rendering our data.  The point of this workshop isn&#8217;t to go into detail on creating UIs; for now suffice to say that Vaadin is a great tool for quickly creating User Interfaces.  Our UI will consume our Feign client we just created.  Create the class <em>io.pivotal.AppUi</em> (/cloud-native-spring-ui/src/main/java/io/pivotal/AppUi.java) and into it paste the following code:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">package io.pivotal;
-
-import java.util.Collection;
-import java.util.Collections;
-
-import javax.annotation.PostConstruct;
-
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.PWA;
-import com.vaadin.flow.theme.Theme;
-import com.vaadin.flow.theme.material.Material;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Resources;
-import org.vaadin.crudui.crud.impl.GridCrud;
-
-import io.pivotal.domain.City;
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
-@Route(value = "")
-@Theme(Material.class)
-@PWA(name = "Cities UI, Vaadin Flow with Spring", shortName = "Cities UI")
-public class CitiesUI extends VerticalLayout {
-
-    private static final long serialVersionUID = 1L;
-
-    private final CityClient client;
-    private final GridCrud&lt;City&gt; crud;
-
-    @Autowired
-    public CitiesUI(CityClient client) {
-        this.client = client;
-        this.crud = new GridCrud&lt;&gt;(City.class);
-    }
-
-    @PostConstruct
-    protected void init() {
-        H2 title = new H2("Cities");
-        crud.getGrid().setColumns("id", "name", "county", "stateCode", "postalCode", "latitude", "longitude");
-        crud.getCrudFormFactory().setVisibleProperties("name", "county", "stateCode", "postalCode", "latitude", "longitude");
-        crud.getCrudFormFactory().setUseBeanValidation(true);
-        crud.setFindAllOperation(this::getCities);
-        crud.setAddOperation(this::addCity);
-        crud.setUpdateOperation(this::updateCity);
-        crud.setDeleteOperation(this::deleteCity);
-        add(title, crud);
-        setSizeFull();
-    }
-
-    private Collection&lt;City&gt; getCities() {
-        Resources&lt;City&gt; resources = client.findAll(0, 500);
-        Collection&lt;City&gt; cities = Collections.emptyList();
-        if (resources != null) {
-            log.trace(resources.toString());
-            cities = resources.getContent();
-            log.debug("Fetched {} cities.", cities.size());
-            if (!cities.isEmpty()) {
-                crud.getGrid().setHeightByRows(true);
-            }
-        }
-        return cities;
-    }
-
-    private City addCity(City city) {
-        log.trace("City to be added is {}", city.toString());
-        return client.add(city);
-    }
-
-    private City updateCity(City city) {
-        log.trace("City to be updated is {}", city.toString());
-        return client.update(city.getId(), city);
-    }
-
-    private void deleteCity(City city) {
-        log.trace("City to be deleted", city.toString());
-        client.delete(city.getId());
-    }
-}</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>We&#8217;ll also want to give our UI App a name so that it can register properly with Eureka and potentially use cloud config in the future.  Add the following configuration to <strong>/cloud-native-spring-ui/src/main/resources/bootstrap.yml</strong>:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-yml" data-lang="yml">spring:
-  application:
-    name: cloud-native-spring-ui</code></pre>
+<pre>cd devops-workshop/labs/my_work/cloud-native-spring-ui
+idea .</pre>
 </div>
 </div>
 </li>
@@ -3599,7 +3333,7 @@ public class CitiesUI extends VerticalLayout {
 <p>Build the application.  We have to skip the tests otherwise we may fail because of having 2 spring boot apps on the classpath</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">gradle build -x test</code></pre>
+<pre class="highlight"><code class="language-bash" data-lang="bash">./gradlew build -x test</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3618,17 +3352,13 @@ public class CitiesUI extends VerticalLayout {
 <div class="content">
 <pre class="highlight"><code class="language-bash" data-lang="bash">---
 applications:
-- name: cloud-native-spring-ui
-  memory: 1024M
+- name: cloud-native-spring
   random-route: true
-  instances: 1
   path: ./build/libs/cloud-native-spring-ui-1.0-SNAPSHOT.jar
-  buildpacks:
-  - java_buildpack_offline
-  stack: cflinuxfs3
-  timeout: 180 # to give time for the data to import
+  services:
+  - my-database
   env:
-    JAVA_OPTS: -Djava.security.egd=file:///dev/urandom
+    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+ } }'
   services:
   - service-registry</code></pre>
 </div>
@@ -3648,26 +3378,6 @@ applications:
 <div class="content">
 <img src="images/ui.jpg" alt="ui">
 </div>
-</div>
-</li>
-<li>
-<p>From a commandline stop the cloud-native-spring microservice (the original City service, not the new UI)</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">cf stop cloud-native-spring</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Refresh the UI app.</p>
-<div class="paragraph">
-<p><strong>What happens?</strong></p>
-</div>
-<div class="paragraph">
-<p>Now you get a nasty error that is not very user friendly!</p>
-</div>
-<div class="paragraph">
-<p>&#8594; Next we&#8217;ll learn how to make our UI Application more resilient in the case that our downstream services are unavailable.</p>
 </div>
 </li>
 </ol>

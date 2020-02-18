@@ -20,6 +20,17 @@ java -jar <file-name>.jar
 
 -> Hint: Use the `ENTRYPOINT` command at the end of your Dockerfile to run the app.
 
+Here's a base Dockerfile you can use with missing parameters:
+
+[source,bash]
+---------------------------------------------------------------------
+FROM <???>
+COPY build/libs/cloud-native-spring-solution-1.0-SNAPSHOT.jar /app.jar
+EXPOSE 8080
+ENTRYPOINT ["<???>", "<???>", "<???>"]
+---------------------------------------------------------------------
+
+
 Let's build the docker image:
 
 [source,bash]
